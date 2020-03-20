@@ -1,0 +1,27 @@
+body
+{
+    display: flex;
+    flex-direction: column;
+}
+main
+{
+    display: flex;
+    flex-direction: row;
+}
+
+#filter-section
+{
+
+}
+#graphs-section
+{
+
+}
+.main-graph
+{
+
+}
+.secondary-graph
+{
+
+}
