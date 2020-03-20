@@ -1,27 +1,38 @@
 <html>
-    <head>
-        
-        
-    </head>
 
-    <body>
-        <nav>
+<head>
+    <link rel="stylesheet" href="./statistics.css" type="text/css">
+</head>
 
-        </nav>
-        <main>
-            <section id="filter-section">
-                <form>
-                    
-                </form>
-            </section>
-            <section id="graphs-section">
-                <div class="main-graph"></div>
-                <div class="secondary-graph"></div>
-                <div class="secondary-graph"></div>
-            </section>
-        </main>
-        <footer>
+<body>
+    <nav>
 
-        </footer>
-    </body>
+    </nav>
+    <main>
+        <section id="filter-section">
+            <form>
+                <input type="text">
+            </form>
+            <button>Export</button>
+        </section>
+        <section id="graphs-section">
+            <div class="main-graph">
+                <canvas id="chart1"></canvas>
+            </div>
+            <div class="secondary-graphs">
+                <div class="secondary-graph">
+                    <canvas id="chart2"></canvas>
+                </div>
+                <div class="separator"></div>
+                <div class="secondary-graph">
+                    <canvas id="chart3"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+
 </html>

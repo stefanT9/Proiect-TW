@@ -8,20 +8,81 @@ main
     display: flex;
     flex-direction: row;
 }
+form
+{
+    display: flex;
+    flex-direction: column;
+    color: #9C27B0;
+
+}
+
+input
+{
+    background-color: Transparent;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;      
+    border: #00BCD4;
+    border-radius: 4pt;  
+    border-style: solid;
+}
 
 #filter-section
 {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    padding: 10pt;
+    margin: 10pt;
+    border: #00BCD4;
 
+    border: #00BCD4;
+    border-radius: 4pt;  
+    border-style: solid;
 }
 #graphs-section
 {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 10pt;
+    padding: 10pt;
+    
+    border: #00BCD4;
+    border-radius: 4pt;  
+    border-style: solid;
+}
 
+.secondary-graphs
+{
+    display: flex;
+    flex-direction: row;
+    height: 50%;
 }
 .main-graph
 {
-
+    display: flex;
+    width: 100%;
+    height: 50%;
+    background-color: #00BCD4;
 }
 .secondary-graph
 {
+    display: flex;
+    width: 50%;
+    background-color: #9C27B0;
+}
+.separator
+{
+    margin: 10pt;
+}
 
+button {     
+    background-color: Transparent;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;      
+    border: #00BCD4;
+    border-radius: 4pt;  
+    border-style: solid;
 }
