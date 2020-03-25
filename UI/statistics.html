@@ -1,7 +1,12 @@
-<html>
+<!DOCTYPE html>
+
+<html lang="ro">
 
 <head>
+    <title>Statistacs</title>
     <link rel="stylesheet" href="./statistics.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
@@ -18,22 +23,27 @@
     </nav>
     <main>
         <section id="filter-section">
+            <h2>Filters</h2>
             <div class="form-filter">
                 <form>
-                    Criteria 1
+                    <label>Criteria 1</label>
                     <input type="text">
-                    Criteria 2
+                    <label>Criteria 1</label>
                     <input type="text">
-                    Criteria 3
+                    <label>Criteria 1</label>
                     <input type="text">
-                    Criteria 4
+                    <label>Criteria 1</label>
                     <input type="text">
                 </form>
             </div>
-            <button>Export</button>
+            <button>
+                Export
+            </button>
         </section>
 
         <section id="graphs-section">
+            <h2>Representations</h2>
+
             <div class="main-graph">
                 <canvas id="chart1"></canvas>
             </div>
@@ -45,9 +55,21 @@
                     <canvas id="chart3"></canvas>
                 </div>
             </div>
+            <div class="main-graph">
+                <canvas id="chart4"></canvas>
+            </div>
+            <div class="secondary-graphs">
+                <div class="secondary-graph">
+                    <canvas id="chart5"></canvas>
+                </div>
+                <div class="secondary-graph">
+                    <canvas id="chart6"></canvas>
+                </div>
+            </div>
         </section>
-    
+
     </main>
 </body>
+<script src="./statistics.js"></script>
 
 </html>
