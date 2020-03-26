@@ -1,6 +1,7 @@
 var charts = ['chart1', 'chart2', 'chart3', 'chart4', 'chart5', 'chart6']
 for (var ch in charts) {
     console.log(ch);
+    console.log(charts[ch])
     var ctx = document.getElementById(charts[ch]).getContext('2d');
     console.log(ctx);
     var myChart = new Chart(ctx, {
