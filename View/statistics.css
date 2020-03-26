@@ -81,6 +81,20 @@ form input
     border-style: solid;
     color: #9C27B0;
 }
+.selected-navigation-button
+{
+    color: #9C27B0;
+}
+.navigation-button
+{
+    color: #00BCD4;
+}
+
+.navigation-button:hover
+{
+    color: white;
+    cursor: pointer;
+}
 
 button {     
     margin: 20pt;

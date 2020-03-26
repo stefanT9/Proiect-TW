@@ -11,12 +11,12 @@ for (var ch in charts) {
                 label: `scores in year ${2010+parseInt(ch)}`,
                 data: [Math.floor(300+Math.random()*300),Math.floor(300+Math.random()*300),Math.floor(300+Math.random()*300),Math.floor(300+Math.random()*300),Math.floor(300+Math.random()*300),Math.floor(300+Math.random()*300)],
                 backgroundColor: [
-                    'rgba(100, 100, 100, 0.2)',
-                    'rgba(100, 100, 100, 0.2)',
-                    'rgba(100, 100, 100, 0.2)',
-                    'rgba(100, 100, 100, 0.2)',
-                    'rgba(100, 100, 100, 0.2)',
-                    'rgba(100, 100, 100, 0.2)',
+                    'rgba(100, 143, 200, 0.2)',
+                    'rgba(143, 100, 100, 0.2)',
+                    'rgba(100, 143, 200, 0.2)',
+                    'rgba(100, 200, 143, 0.2)',
+                    'rgba(200, 143, 100, 0.2)',
+                    'rgba(143, 200, 100, 0.2)',
                 ],
                 borderColor: [
                     'rgba(100, 100, 100, 0.2)',
