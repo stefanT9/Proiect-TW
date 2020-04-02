@@ -22,26 +22,25 @@
         </div>
     </nav>
     <main>
-        <section id="filter-section">
+        <div id="fieldsPopUpForm">
+            <div class="fieldsWrapper"></div>
+            <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="closePopUp()">done</button>
+        </div>
+        <div id="invisibleBackground" onclick="closePopUp()"></div>
+        <section id="filterSection">
             <h2>Filters</h2>
             <div class="form-filter">
-                <form>
-                    <label>Criteria 1</label>
-                    <input type="text">
-                    <label>Criteria 1</label>
-                    <input type="text">
-                    <label>Criteria 1</label>
-                    <input type="text">
-                    <label>Criteria 1</label>
-                    <input type="text">
-                </form>
+
             </div>
+            <button id="addFieldsButton" onclick="choseNewFields()">
+                Add fields
+            </button>
             <button>
                 Export
             </button>
         </section>
 
-        <section id="graphs-section">
+        <section id="graphsSection">
             <h2>Representations</h2>
 
             <div class="main-graph">
@@ -55,19 +54,7 @@
                     <canvas id="chart3"></canvas>
                 </div>
             </div>
-            <div class="main-graph">
-                <canvas id="chart4"></canvas>
-            </div>
-            <div class="secondary-graphs">
-                <div class="secondary-graph">
-                    <canvas id="chart5"></canvas>
-                </div>
-                <div class="secondary-graph">
-                    <canvas id="chart6"></canvas>
-                </div>
-            </div>
         </section>
-
     </main>
 </body>
 <script src="statistics.js"></script>
