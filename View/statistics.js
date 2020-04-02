@@ -1,29 +1,42 @@
-var availableFields= ['field1','field2', 'field3'];
+var availableFields= ['field1','field2', 'field3','asdasdas','asdsad asdas a f af','a sffwefeafsdfa','asdfa','teleenciclopedie'];
 var chosenFields = [];
 
 function getAvailableFields(){
-    availableFields= ['field1','field2', 'field3'];
+    availableFields= ['field1','field2', 'field3','asdasdas','asdsad asdas a f af','a sffwefeafsdfa','asdfa','teleenciclopedie'];
 }
 
 function updateFilterSection() {
     var filterSection=document.getElementsByClassName('form-filter')[0];
     filterSection.innerHTML='';
-    for (var idx in chosenFields)
+    for (let idx in chosenFields)
     {
-        var newChild=document.createElement('button');
+        var newChild=document.createElement('div');
         newChild.textContent=chosenFields[idx];
+        newChild.className='selected-field';
         filterSection.appendChild(newChild);
     }
 }
 
 function closePopUp() {
     document.getElementById('fieldsPopUpForm').style.opacity='0';
-    document.getElementById('invisibleBackground').style.zIndex='0';
+    document.getElementById('invisibleBackground').style.zIndex='-1';
     document.getElementById('invisibleBackground').style.opacity='0';
     document.getElementById('fieldsPopUpForm').style.zIndex='-1';
+    document.body.style.overflow='visible';
 
     updateFilterSection();
     fillChartsWithDummyData();
+}
+
+function openPopUp() {
+
+    document.getElementById('fieldsPopUpForm').style.zIndex='2';
+    document.getElementById('fieldsPopUpForm').style.opacity='1';
+    document.getElementById('invisibleBackground').style.zIndex='1';
+    document.getElementById('invisibleBackground').style.backgroundColor='#808080';
+    document.getElementById('invisibleBackground').style.opacity='0.7';
+    document.body.style.overflow='hidden';
+
 }
 function loadFields() {
     const fieldsWrapper=$('.fieldsWrapper')[0];
@@ -49,21 +62,12 @@ function loadFields() {
     }
 }
 
-function choseNewFields() {
-    document.getElementById('fieldsPopUpForm').style.opacity='1';
-    document.getElementById('invisibleBackground').style.zIndex='1';
-    document.getElementById('invisibleBackground').style.backgroundColor='#808080';
-    document.getElementById('invisibleBackground').style.opacity='0.7';
-    document.getElementById('fieldsPopUpForm').style.zIndex='2';
-}
-
 function fillChartsWithDummyData() {
     var charts = ['chart1', 'chart2', 'chart3'];
     var type   = ['bar','line','horizontalBar'];
     for (var ch in charts) {
-        var ctx = document.getElementById(charts[ch]).getContext('2d');
-        console.log(ctx);
-        var myChart = new Chart(ctx, {
+        let chart = document.getElementById(charts[ch]);
+        var myChart = new Chart(chart.getContext('2d'), {
             type: type[ch],
             data: {
                 labels: ['Italia', 'Franta', 'Romania', 'Japonia', 'China', 'Taiwan'],
@@ -106,21 +110,23 @@ function fillChartsWithRealData()
 
 }
 
-try {
-    fillChartsWithDummyData();
-}
-catch (e) {
-    
-}
-try{
-    getAvailableFields();
-}
-catch (e) {
-    
-}
-try {
-    loadFields();
-}
-catch (e) {
-    
-}
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        fillChartsWithDummyData();
+    }
+    catch (e) {
+
+    }
+    try{
+        getAvailableFields();
+    }
+    catch (e) {
+
+    }
+    try {
+        loadFields();
+    }
+    catch (e) {
+
+    }
+}, false);
