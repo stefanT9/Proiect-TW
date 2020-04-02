@@ -1,2 +1,4 @@
 Statistics/
 node_modules/
+.*
+!/.gitignore
