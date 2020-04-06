@@ -1,0 +1,28 @@
+{
+  "name": "proiect-tw",
+  "version": "1.0.0",
+  "description": "PiRo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefanT9/Proiect-TW.git"
+  },
+  "keywords": [
+    "pisa",
+    "test",
+    "data",
+    "visualization"
+  ],
+  "author": "Stefan Tomsa, Radu Tudorica, Daniel Rusu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stefanT9/Proiect-TW/issues"
+  },
+  "homepage": "https://github.com/stefanT9/Proiect-TW#readme",
+  "dependencies": {
+    "mongoose": "^5.9.7"
+  }
+}

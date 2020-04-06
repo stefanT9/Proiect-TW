@@ -3,39 +3,42 @@
 <html lang="ro">
 
 <head>
-    <title>Statistacs</title>
+    <title>Statistics</title>
     <link rel="stylesheet" href="statistics.css" type="text/css">
+    <link rel="stylesheet" href="navbar.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="statistics.js"></script>
 </head>
 
 <body>
-    <nav>
-        <div class="logo">
-            PiRo
-        </div>
-        <div class="navigation-buttons-container">
-            <div class="navigation-button"> Home</div>
-            <div class="navigation-button"> Scores</div>
-            <div class="navigation-button"> Results</div>
-            <div class="selected-navigation-button"> Statistics</div>
-        </div>
-    </nav>
+    <div class="topNav" id="TopNavId">
+        <a href="index.html">Home</a>
+        <a href="#"> Scores</a>
+        <a href="#"> Results </a>
+        <a href="statistics.html" class="active"> Statistics </a>
+        <a href="javascript:void(0);" class="icon" onclick="makeResponsive()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
     <main>
-        <section id="filter-section">
+        <div id="fieldsPopUpForm">
+            <div class="fieldsWrapper"></div>
+            <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="closePopUp()">done</button>
+        </div>
+        <div id="invisibleBackground" onclick="closePopUp()"></div>
+        <section id="filterSection">
             <h2>Filters</h2>
-            <div id="fields-wrapper" class="form-filter">
-
-            </div>
-            <button class="floating-button">
-                New fields
+            <div class="form-filter"></div>
+            <button id="addFieldsButton" onclick="openPopUp()">
+                Add fields
             </button>
             <button>
                 Export
             </button>
         </section>
 
-        <section id="graphs-section">
+        <section id="graphsSection">
             <h2>Representations</h2>
 
             <div class="main-graph">
@@ -49,21 +52,8 @@
                     <canvas id="chart3"></canvas>
                 </div>
             </div>
-            <div class="main-graph">
-                <canvas id="chart4"></canvas>
-            </div>
-            <div class="secondary-graphs">
-                <div class="secondary-graph">
-                    <canvas id="chart5"></canvas>
-                </div>
-                <div class="secondary-graph">
-                    <canvas id="chart6"></canvas>
-                </div>
-            </div>
         </section>
-
     </main>
 </body>
-<script src="fillChartsWithData.js"></script>
 
 </html>
