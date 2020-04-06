@@ -102,12 +102,11 @@ button {
     margin: 20pt;
     background-color: Transparent;
     cursor:pointer;
-    overflow: hidden;      
-    border: #00BCD4;
+    overflow: hidden;
     color: #9C27B0;
     font-size: xx-large;
-    border-radius: 10pt;  
-    border-style: solid;
+    border-radius: 10pt;
+    border: solid #00BCD4;
 }
 
 #filterSection
@@ -119,9 +118,8 @@ button {
     width: 18%;
     margin: 10pt;
     height: 100%;
-    border: #00BCD4;
-    border-radius: 10pt;  
-    border-style: solid;
+    border-radius: 10pt;
+    border: solid #00BCD4;
 }
 
 #graphsSection
@@ -131,9 +129,8 @@ button {
     width: 78%;
     height: 100%;
     margin: 10pt;
-    border: #00BCD4;
-    border-radius: 10pt;  
-    border-style: solid;
+    border-radius: 10pt;
+    border: solid #00BCD4;
 }
 
 .secondary-graphs
@@ -210,8 +207,7 @@ button {
     margin: 5px;
     padding: 5px;
     color: #9C27B0;
-    border: #00BCD4;
-    border-style: solid;
+    border: solid #00BCD4;
     border-radius: 20%;
 }
 .fieldsWrapper
