@@ -170,7 +170,7 @@ button {
 .form-filter{
     position: inherit;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     height: 80%;
     padding-bottom: 50px;
@@ -178,8 +178,8 @@ button {
 #invisibleBackground
 {
     position: absolute;
+    top: auto;
     opacity: 0;
-    top: 10%;
     width: 100%;
     height: 100%;
     z-index: -1;
@@ -216,6 +216,22 @@ button {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+}
+
+.selected-categorical-field
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: initial;
+}
+
+.selected-continuous-field
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: initial;
 }
 
 @media only screen and (max-width: 1000px){
