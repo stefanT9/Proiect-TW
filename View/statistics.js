@@ -1,18 +1,57 @@
-let availableFields = ['field1', 'field2', 'field3', 'asdasdas', 'asdsad asdas a f af', 'a sffwefeafsdfa', 'asdfa', 'teleenciclopedie']
-const chosenFields = []
+var availableFields = [
+  {
+    'name' : 'field1',
+    'type' : 'categorical',
+    'values' : [1,2,3,4]
+  }, 
+  {
+    'name' : 'field2',
+    'type' : 'categorical',
+    'values' : [1,2,3,4]
+  },
+  {
+    'name' : 'field3',
+    'type' : 'continuous',
+    'min' : 0,
+    'max' : 100
+  },
+]
+
+var chosenFields = []
 
 function getAvailableFields () {
-  availableFields = ['field1', 'field2', 'field3', 'asdasdas', 'asdsad asdas a f af', 'a sffwefeafsdfa', 'asdfa', 'teleenciclopedie']
+  // TODO => set the value for availableFields using an api call
 }
+function addCategoricalField(filterSection, field)
+{
+  const newChild = document.createElement('div')
+  newChild.textContent = field['name']
 
+  newChild.className = 'selected-categorical-field'
+
+  filterSection.appendChild(newChild)
+}
+function addContinuosField(filterSection,field)
+{
+  const newChild = document.createElement('div')
+  newChild.textContent = field['name']
+
+  newChild.className = 'selected-categorical-field'
+
+  filterSection.appendChild(newChild)
+}
 function updateFilterSection () {
   const filterSection = document.getElementsByClassName('form-filter')[0]
   filterSection.innerHTML = ''
   for (const idx in chosenFields) {
-    const newChild = document.createElement('div')
-    newChild.textContent = chosenFields[idx]
-    newChild.className = 'selected-field'
-    filterSection.appendChild(newChild)
+    if( chosenFields[idx].type === 'categorical')
+    {
+      addCategoricalField(filterSection, chosenFields[idx])
+    }
+    else
+    {
+      addContinuosField(filterSection,chosenFields[idx])
+    }
   }
 }
 
@@ -40,18 +79,23 @@ function loadFields () {
   for (const idx in availableFields) {
     const el = document.createElement('button')
     el.className = 'deselected-field-wrapper'
+    el.textContent = availableFields[idx]['name']
+
+     
+
     el.addEventListener('click', ev => {
+
+      const ref = availableFields.find( o => o.name === el.textContent.toString() )
       if (el.className === 'selected-field-wrapprer') {
-        const index = chosenFields.indexOf(el.textContent)
+        const index = chosenFields.indexOf(ref)
         if (index !== -1) chosenFields.splice(index, 1)
 
         el.className = 'deselected-field-wrapper'
       } else if (el.className === 'deselected-field-wrapper') {
-        chosenFields.push(el.textContent)
+        chosenFields.push(ref)
         el.className = 'selected-field-wrapprer'
       }
     })
-    el.textContent = availableFields[idx]
     fieldsWrapper.appendChild(el)
     console.log(fieldsWrapper)
   }
