@@ -1,5 +1,4 @@
-//const bcrypt=require('bcrypt')
-const {db} = require('../Data/index')
+const bcrypt=require('bcrypt')
 
 function login (req, res) {
     try{
