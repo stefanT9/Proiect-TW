@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/stefanT9/Proiect-TW#readme",
   "dependencies": {
+    "bcrypt": "^4.0.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.7",
     "standard": "*"
   }
