@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="ro">
+
+<head>
+    <title>Results</title>
+    <link rel="stylesheet" href="results.css" type="text/css">
+    <link rel="stylesheet" href="navbar.css" type="text/css">
+    <script src="statistics.js"></script>
+</head>
+
+<body>
+    <div id="invisibleBackground" onclick="closePopUp()"></div>
+    <div class="topNav" id="TopNavId">
+        <a href="index.html">Home</a>
+        <a href="#"> Scores</a>
+        <a href="results.html#" class="active"> Results </a>
+        <a href="statistics.html"> Statistics </a>
+        <a href="javascript:void(0);" class="icon" onclick="makeResponsive()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <main>
+        <div id="fieldsPopUpForm">
+            <div class="fieldsWrapper"></div>
+            <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="closePopUp()">done</button>
+        </div>
+        <section id="filterSection">
+            <h2>Filters</h2>
+            <div class="form-filter"></div>
+            <button id="addFieldsButton" onclick="openPopUp()">
+                Add fields
+            </button>
+            <button>
+                Export
+            </button>
+        </section>
+
+        <section id="resultsTableSection">
+            <table id="resultsTable">
+                <thead>
+                    <tr id="resultsTableHeadingRow">
+                        <th class="resultsTableHeadhing">Heading 1</th>
+                        <th class="resultsTableHeadhing">Heading 2</th>
+                        <th class="resultsTableHeadhing">Heading 3</th>
+                        <th class="resultsTableHeadhing">Heading 4</th>
+                        <th class="resultsTableHeadhing">Heading 5</th>
+                        <th class="resultsTableHeadhing">Heading 6</th>
+                        <th class="resultsTableHeadhing">Heading 7</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                    <tr class="resultsTableRow">
+                        <td class="resultsTableData">Data 1</td>
+                        <td class="resultsTableData">Data 2</td>
+                        <td class="resultsTableData">Data 3</td>
+                        <td class="resultsTableData">Data 4</td>
+                        <td class="resultsTableData">Data 5</td>
+                        <td class="resultsTableData">Data 6</td>
+                        <td class="resultsTableData">Data 7</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+
+</html>
