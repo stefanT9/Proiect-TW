@@ -1,10 +1,12 @@
 const mongo = require('mongoose')
 
-var Schema = mongoose.Schema;
+var Schema = mongo.Schema;
 
 var userSchema=new Schema({
-    email:  String, // String is shorthand for {type: String}
+    email:  String, 
     password: String
 })
 
-module.exports={userSchema}
+const userModel=mongo.model('User',userSchema)
+
+module.exports={User:userModel}
