@@ -1,25 +1,13 @@
-var availableFields = [{
-        'name': 'field1',
-        'type': 'categorical',
-        'values': [1, 2, 3, 4]
-    },
-    {
-        'name': 'field2',
-        'type': 'categorical',
-        'values': [1, 2, 3, 4]
-    },
-    {
-        'name': 'field3',
-        'type': 'continuous',
-        'min': 0,
-        'max': 100
-    },
-]
-
 var chosenFields = []
+var availableFields = []
 
-function getAvailableFields() {
-    // TODO => set the value for availableFields using an api call
+async function getAvailableFields() {
+    const url = 'http://localhost:3000/filter/all'
+    const res = await fetch(url)
+    .then(data=>{return data.json()})
+    .then(res=>{return res})
+    .catch(err=>{return undefined})
+    return res
 }
 
 function addCategoricalField(filterSection, field) {
@@ -74,15 +62,13 @@ function openPopUp() {
 
 function loadFields() {
     const fieldsWrapper = $('.fieldsWrapper')[0]
+    console.log(availableFields)
     for (const idx in availableFields) {
         const el = document.createElement('button')
         el.className = 'deselected-field-wrapper'
         el.textContent = availableFields[idx]['name']
 
-
-
         el.addEventListener('click', ev => {
-
             const ref = availableFields.find(o => o.name === el.textContent.toString())
             if (el.className === 'selected-field-wrapprer') {
                 const index = chosenFields.indexOf(ref)
@@ -144,23 +130,17 @@ function fillChartsWithDummyData() {
 }
 
 function fillChartsWithRealData() {
-
+    
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     try {
         fillChartsWithDummyData()
     } catch (e) {
-
+        console.log(e)
     }
-    try {
-        getAvailableFields()
-    } catch (e) {
-
-    }
-    try {
-        loadFields()
-    } catch (e) {
-
-    }
+    getAvailableFields()
+    .then(res=>{availableFields=res.columns})
+    .then(columns=>{loadFields()})
+    .catch(e=>{console.log(e)})
 }, false)
