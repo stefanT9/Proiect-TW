@@ -43,11 +43,13 @@ function getIndexHTML (req, res) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
     res.write(indexHTML)
+    res.end()
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
     res.write('Internal server error')
+    res.end()
   }
 }
 function getIndexCSS (req, res) {
@@ -55,11 +57,13 @@ function getIndexCSS (req, res) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
     res.write(indexCSS)
+    res.end()
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/css')
     res.write('Internal server error')
+    res.end()
   }
 }
 function getNavbarCSS (req, res) {
@@ -67,11 +71,13 @@ function getNavbarCSS (req, res) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
     res.write(navBarCSS)
+    res.end()
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/css')
     res.write('Internal server error')
+    res.end()
   }
 }
 function getIndexJS (req, res) {
@@ -79,11 +85,13 @@ function getIndexJS (req, res) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
     res.write(indexJS)
+    res.end()
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
     res.write('Internal server error')
+    res.end()
   }
 }
 module.exports = { getIndexHTML, getIndexCSS, getIndexJS, getNavbarCSS }
