@@ -1,8 +1,7 @@
 const http = require('http')
 const { port } = require('../utils/constants')
 const { db_url } = require('../utils/constants')
-const {MongoClient} = require('mongodb');
-const client = new MongoClient(db_url, { useUnifiedTopology: true });
+const mongoose = require('mongoose')
 
 class WebApp {
   constructor (port, router) {
@@ -14,19 +13,17 @@ class WebApp {
 
   }
 
-  listen () {
+  async listen () {
+    
     var app = this
 
-    //e doar un proof of concept, fa conexiunea doar cand ai nevoie sa umblii la db
-    try{
-	client.connect();
-    } catch (e) {
-        console.error(e);
-    }
-
+    await mongoose.connect(db_url,{
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true
+    })
     var server = http.createServer(function (req, res) {
       app.router.route(req, res)
-      res.end()
     })
     server.listen(port)
     console.log(`app running on PORT: ${port}`)

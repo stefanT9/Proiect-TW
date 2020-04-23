@@ -7,6 +7,4 @@ var userSchema=new Schema({
     password: String
 })
 
-const userModel=mongo.model('User',userSchema)
-
-module.exports={User:userModel}
+module.exports=mongo.model('User',userSchema)
