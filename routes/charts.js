@@ -6,6 +6,7 @@ var router = new Router()
 router.get('', (req, res) => {
   res.writeHead(200, {})
   res.write('service is up')
+  res.end()
 })
 router.get('/bar', getBarChartJSON)
 router.get('/horizontalBar', getHorizontalBarChartJSON)
