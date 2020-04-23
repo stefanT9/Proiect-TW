@@ -30,7 +30,7 @@ fs.readFile(statistics + '.js', 'utf8', function (err, data) {
   statisticsJS = data
 })
 
-function getstatisticsHTML (req, res) {
+async function getstatisticsHTML (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
@@ -46,7 +46,7 @@ function getstatisticsHTML (req, res) {
 
   }
 }
-function getstatisticsCSS (req, res) {
+async function getstatisticsCSS (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -62,7 +62,7 @@ function getstatisticsCSS (req, res) {
 
   }
 }
-function getstatisticsJS (req, res) {
+async function getstatisticsJS (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
