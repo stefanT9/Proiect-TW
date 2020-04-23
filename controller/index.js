@@ -58,6 +58,7 @@ function getIndexCSS (req, res) {
     res.setHeader('Content-Type', 'text/css')
     res.write(indexCSS)
     res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
@@ -72,6 +73,7 @@ function getNavbarCSS (req, res) {
     res.setHeader('Content-Type', 'text/css')
     res.write(navBarCSS)
     res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
@@ -86,6 +88,7 @@ function getIndexJS (req, res) {
     res.setHeader('Content-Type', 'text/javascript')
     res.write(indexJS)
     res.end()
+    
   } catch (e) {
     console.log(e)
     res.statusCode = 500

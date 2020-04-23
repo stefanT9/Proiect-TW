@@ -8,4 +8,4 @@ var countrySeriesSchema=new Schema({
     description: String
 })
 
-module.exports={countrySeriesSchema}
+module.exports=mongo.model('countrySeries',countrySeriesSchema)

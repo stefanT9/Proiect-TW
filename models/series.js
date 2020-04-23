@@ -27,4 +27,4 @@ var seriesSchema=new Schema({
     licenceType: String
 })
 
-module.exports={seriesSchema}
+module.exports=mongo.model('series',seriesSchema)

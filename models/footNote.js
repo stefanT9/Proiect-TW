@@ -9,4 +9,4 @@ var footNoteSchema=new Schema({
     desription: String
 })
 
-module.exports={footNoteSchema}
+module.exports=mongo.model('footNote',footNoteSchema)

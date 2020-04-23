@@ -36,4 +36,4 @@ var countrySchema=new Schema({
     latestWaterWithdrawalData:String,
 })
 
-module.exports={countrySchema}
+module.exports=mongo.model('country',countrySchema)
