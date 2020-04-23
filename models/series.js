@@ -1,6 +1,4 @@
-const mongo = require('mongoose')
-
-var Schema = mongoose.Schema;
+const {Schema,model} = require('mongoose')
 
 var seriesSchema=new Schema({
     email:  String, 
@@ -27,4 +25,4 @@ var seriesSchema=new Schema({
     licenceType: String
 })
 
-module.exports=mongo.model('series',seriesSchema)
+module.exports=model('series',seriesSchema)

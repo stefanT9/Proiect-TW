@@ -1,6 +1,4 @@
-const mongo = require('mongoose')
-
-var Schema = mongoose.Schema;
+const {Schema,model} = require('mongoose')
 
 var countrySeriesSchema=new Schema({
     countryCode: String,
@@ -8,4 +6,4 @@ var countrySeriesSchema=new Schema({
     description: String
 })
 
-module.exports=mongo.model('countrySeries',countrySeriesSchema)
+module.exports=model('countrySeries',countrySeriesSchema)

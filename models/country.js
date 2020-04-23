@@ -1,6 +1,4 @@
-const mongo = require('mongoose')
-
-var Schema = mongoose.Schema;
+const {Schema,model} = require('mongoose')
 
 var countrySchema=new Schema({
     countryCode: String,
@@ -36,4 +34,4 @@ var countrySchema=new Schema({
     latestWaterWithdrawalData:String,
 })
 
-module.exports=mongo.model('country',countrySchema)
+module.exports = model('country',countrySchema)
