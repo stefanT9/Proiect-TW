@@ -27,11 +27,14 @@ function getResultsHTML (req, res) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
     res.write(resultsHTML)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
     res.write('Internal server error')
+    res.end()
   }
 }
 function getResultsCSS (req, res) {
@@ -39,11 +42,15 @@ function getResultsCSS (req, res) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
     res.write(resultsCSS)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/css')
     res.write('Internal server error')
+    res.end()
+
   }
 }
 

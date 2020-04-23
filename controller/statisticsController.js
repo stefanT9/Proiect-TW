@@ -30,40 +30,52 @@ fs.readFile(statistics + '.js', 'utf8', function (err, data) {
   statisticsJS = data
 })
 
-function getstatisticsHTML (req, res) {
+async function getstatisticsHTML (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
     res.write(statisticsHTML)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
     res.write('Internal server error')
+    res.end()
+
   }
 }
-function getstatisticsCSS (req, res) {
+async function getstatisticsCSS (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
     res.write(statisticsCSS)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/css')
     res.write('Internal server error')
+    res.end()
+
   }
 }
-function getstatisticsJS (req, res) {
+async function getstatisticsJS (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
     res.write(statisticsJS)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
     res.write('Internal server error')
+    res.end()
+
   }
 }
 module.exports = { getstatisticsHTML, getstatisticsCSS, getstatisticsJS }

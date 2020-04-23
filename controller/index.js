@@ -38,52 +38,64 @@ fs.readFile(indexPath + '.js', 'utf8', function (err, data) {
   indexJS = data
 })
 
-function getIndexHTML (req, res) {
+async function getIndexHTML (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
     res.write(indexHTML)
+    res.end()
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
     res.write('Internal server error')
+    res.end()
   }
 }
-function getIndexCSS (req, res) {
+async function getIndexCSS (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
     res.write(indexCSS)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/css')
     res.write('Internal server error')
+    res.end()
   }
 }
-function getNavbarCSS (req, res) {
+async function getNavbarCSS (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
     res.write(navBarCSS)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/css')
     res.write('Internal server error')
+    res.end()
   }
 }
-function getIndexJS (req, res) {
+async function getIndexJS (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
     res.write(indexJS)
+    res.end()
+
   } catch (e) {
     console.log(e)
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
     res.write('Internal server error')
+    res.end()
   }
 }
+
 module.exports = { getIndexHTML, getIndexCSS, getIndexJS, getNavbarCSS }

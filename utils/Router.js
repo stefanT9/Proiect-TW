@@ -1,10 +1,10 @@
 class Router {
-  constructor () {
+  constructor() {
     this.getRoutes = {}
     this.postRoutes = {}
   }
 
-  use (url, router) {
+  use(url, router) {
     let el
     for (el in router.getRoutes) {
       this.getRoutes[url + el] = router.getRoutes[el]
@@ -14,36 +14,63 @@ class Router {
     }
   }
 
-  post (url, controller) {
+  post(url, controller) {
     this.postRoutes[url] = controller
   }
 
-  get (url, controller) {
+  get(url, controller) {
     this.getRoutes[url] = controller
   }
 
-  route (req, res) {
+  route(req, res) {
     var url = req.url.split('?')[0]
-    console.log('request at ' + url)
+
     if (req.method === 'GET') {
       if (this.getRoutes[url] !== undefined) {
         try {
-          this.getRoutes[url](req, res)
+          this.getRoutes[url](req,res)
         } catch (e) {
           console.log(e)
         }
+      }
+      else
+      {
+
       }
     }
     if (req.method === 'POST') {
       if (this.postRoutes[url] !== undefined) {
         try {
-          this.postRoutes[url](req, res)
+          collectBody(req,res,this.postRoutes[url])
         } catch (e) {
           console.log(e)
         }
+      }
+      else
+      {
+
       }
     }
   }
 }
 
+function collectBody (req,res,next)
+{
+  try{
+    var data = ''
+    req.on('data', (chunk) => {
+       data += chunk
+    })
+    req.on('end', () => {
+      req.body=JSON.parse(data)
+      next(req,res)
+    })
+  }
+  catch(e)
+  {
+    console.log(e)
+  }
+}
+
 module.exports = { Router }
+
