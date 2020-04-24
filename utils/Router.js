@@ -35,7 +35,9 @@ class Router {
       }
       else
       {
-
+        res.statusCode = 404
+        res.write(JSON.stringify({ success: false, message: 'not found' }))
+        res.end()
       }
     }
     if (req.method === 'POST') {
@@ -48,7 +50,9 @@ class Router {
       }
       else
       {
-
+        res.statusCode = 404
+        res.write(JSON.stringify({ success: false, message: 'not found' }))
+        res.end()
       }
     }
   }
