@@ -14,19 +14,19 @@ class WebApp {
   }
 
   async listen () {
-    
-    var app = this
+    const app = this
 
     await mongoose.connect(db_url,{
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true
     })
-    var server = http.createServer(function (req, res) {
+    const server = http.createServer(function (req, res) {
       app.router.route(req, res)
     })
     server.listen(port)
     console.log(`app running on PORT: ${port}`)
+    console.log(`http://localhost:3000`)
   }
 }
 
