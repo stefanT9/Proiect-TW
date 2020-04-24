@@ -1,6 +1,20 @@
 var chosenFields = []
 var availableFields = []
 
+function getGraphController (chartCanvas){
+    const graphController=document.createElement('div')
+    const deleteButton = document.createElement('button')
+    
+    graphController.classList.add('graphController')
+    graphController.appendChild(deleteButton)
+    graphController.appendChild(chartCanvas)
+    
+    deleteButton.innerText='remove graph'
+    deleteButton.onclick=()=>{console.log('not implemented')}
+
+    return graphController
+}
+
 async function getAvailableFields() {
     const url = 'http://localhost:3000/filter/all'
     const res = await fetch(url)
@@ -10,45 +24,49 @@ async function getAvailableFields() {
     return res
 }
 
-function addCategoricalField(filterSection, field) {
-    const newChild = document.createElement('div')
-    newChild.textContent = field['name']
-
-    newChild.className = 'selected-categorical-field'
-
-    filterSection.appendChild(newChild)
-}
-
-function addContinuosField(filterSection, field) {
-    const newChild = document.createElement('div')
-    newChild.textContent = field['name']
-
-    newChild.className = 'selected-categorical-field'
-
-    filterSection.appendChild(newChild)
-}
-
-function updateFilterSection() {
-    const filterSection = document.getElementsByClassName('form-filter')[0]
-    filterSection.innerHTML = ''
-    for (const idx in chosenFields) {
-        if (chosenFields[idx].type === 'categorical') {
-            addCategoricalField(filterSection, chosenFields[idx])
-        } else {
-            addContinuosField(filterSection, chosenFields[idx])
-        }
-    }
-}
-
 function closePopUp() {
     document.getElementById('invisibleBackground').classList.remove('grayout')
     document.getElementById('fieldsPopUpForm').classList.remove('visible')
     document.body.style.overflow=''
-
-    updateFilterSection()
-    fillChartsWithDummyData()
 }
+function addNewChart()
+{
+    const xLabel='testX'
+    const yLabel='testY'
+    const chartType='bar'
+    const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)]
+    const chartCanvas = document.createElement('canvas')
 
+    var myChart = new Chart(chartCanvas.getContext('2d'), {
+        type: chartType,
+        data: {
+            label: xLabel,
+            datasets: [{
+                label: 'datasetLabel',
+                data: dataArray,
+                backgroundColor: [
+                    'rgba(143, 200, 100, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(100, 100, 100, 0.2)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    })
+
+    document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas))
+    closePopUp()
+}
 function openPopUp() {
     document.getElementById('invisibleBackground').classList.add('grayout')
     document.getElementById('fieldsPopUpForm').classList.add('visible')
@@ -56,76 +74,16 @@ function openPopUp() {
 }
 
 function loadFields() {
-    const fieldsWrapper = $('.fieldsWrapper')[0]
+    const selectors = document.getElementsByTagName('select')
     console.log(availableFields)
     for (const idx in availableFields) {
-        const el = document.createElement('button')
-        el.className = 'deselected-field-wrapper'
+        const el = document.createElement('option')
+        el.value = availableFields[idx]['name']
         el.textContent = availableFields[idx]['name']
 
-        el.addEventListener('click', ev => {
-            const ref = availableFields.find(o => o.name === el.textContent.toString())
-            if (el.className === 'selected-field-wrapprer') {
-                const index = chosenFields.indexOf(ref)
-                if (index !== -1) chosenFields.splice(index, 1)
-
-                el.className = 'deselected-field-wrapper'
-            } else if (el.className === 'deselected-field-wrapper') {
-                chosenFields.push(ref)
-                el.className = 'selected-field-wrapprer'
-            }
-        })
-        fieldsWrapper.appendChild(el)
-        console.log(fieldsWrapper)
+        selectors[0].appendChild(el)
+        selectors[1].appendChild(el.cloneNode(true))
     }
-}
-
-function fillChartsWithDummyData() {
-    var charts = ['chart1', 'chart2', 'chart3']
-    var type = ['bar', 'line', 'horizontalBar']
-    for (var ch in charts) {
-        const chart = document.getElementById(charts[ch])
-        var myChart = new Chart(chart.getContext('2d'), {
-            type: type[ch],
-            data: {
-                labels: ['Italia', 'Franta', 'Romania', 'Japonia', 'China', 'Taiwan'],
-                datasets: [{
-                    label: `scores in year ${2010 + parseInt(ch)}`,
-                    data: [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)],
-                    backgroundColor: [
-                        'rgba(100, 143, 200, 0.2)',
-                        'rgba(143, 100, 100, 0.2)',
-                        'rgba(100, 143, 200, 0.2)',
-                        'rgba(100, 200, 143, 0.2)',
-                        'rgba(200, 143, 100, 0.2)',
-                        'rgba(143, 200, 100, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(100, 100, 100, 0.2)',
-                        'rgba(100, 100, 100, 0.2)',
-                        'rgba(100, 100, 100, 0.2)',
-                        'rgba(100, 100, 100, 0.2)',
-                        'rgba(100, 100, 100, 0.2)',
-                        'rgba(100, 100, 100, 0.2)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        })
-    }
-}
-
-function fillChartsWithRealData() {
-    
 }
 
 document.addEventListener('DOMContentLoaded', function() {

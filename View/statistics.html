@@ -28,14 +28,21 @@
     </div>
     <main>
         <div id="fieldsPopUpForm">
-            <div class="fieldsWrapper"></div>
-            <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="closePopUp()">done</button>
+            <select id="xOfGraph">
+            </select>
+            <select id="yOfGraph">
+            </select>
+            <select id="typeOfGraph">
+                <option value=""></option>
+            </select>
+            <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="addNewChart()">done</button>
+
         </div>
         <section id="filterSection">
             <h2>Filters</h2>
             <div class="form-filter"></div>
             <button id="addFieldsButton" onclick="openPopUp()">
-                Add fields
+                Add Graph
             </button>
             <button>
                 Export
@@ -46,15 +53,7 @@
             <h2>Representations</h2>
 
             <div class="main-graph">
-                <canvas id="chart1"></canvas>
-            </div>
-            <div class="secondary-graphs">
-                <div class="secondary-graph">
-                    <canvas id="chart2"></canvas>
-                </div>
-                <div class="secondary-graph">
-                    <canvas id="chart3"></canvas>
-                </div>
+
             </div>
         </section>
     </main>
