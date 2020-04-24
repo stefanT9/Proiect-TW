@@ -13,12 +13,12 @@
     font-size: 17px;
 }
 
-.topNav a:hover {
+.topNav a:hover:not(#menuBar) {
     background-color: #ddd;
     color: black;
 }
 
-.topNav a.active {
+.topNav a.active:not(#menuBar) {
     background-color: #9C27B0;
     color: white;
 }
@@ -27,7 +27,14 @@
     display: none;
 }
 
+#menuBar {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
+    #menuBar {
+        display: block;
+    }
     .topNav a:not(:first-child) {
         display: none;
     }
@@ -38,6 +45,9 @@
 }
 
 @media screen and (max-width: 600px) {
+    #menuBar {
+        display: block;
+    }
     .topNav.responsive {
         position: relative;
     }
