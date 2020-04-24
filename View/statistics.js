@@ -41,23 +41,18 @@ function updateFilterSection() {
 }
 
 function closePopUp() {
-    document.getElementById('fieldsPopUpForm').style.opacity = '0'
-    document.getElementById('invisibleBackground').style.zIndex = '-1'
-    document.getElementById('invisibleBackground').style.opacity = '0'
-    document.getElementById('fieldsPopUpForm').style.zIndex = '-1'
-    document.body.style.overflow = 'visible'
+    document.getElementById('invisibleBackground').classList.remove('grayout')
+    document.getElementById('fieldsPopUpForm').classList.remove('visible')
+    document.body.style.overflow=''
 
     updateFilterSection()
     fillChartsWithDummyData()
 }
 
 function openPopUp() {
-    document.getElementById('fieldsPopUpForm').style.zIndex = '2'
-    document.getElementById('fieldsPopUpForm').style.opacity = '1'
-    document.getElementById('invisibleBackground').style.zIndex = '1'
-    document.getElementById('invisibleBackground').style.backgroundColor = '#808080'
-    document.getElementById('invisibleBackground').style.opacity = '0.7'
-    document.body.style.overflow = 'hidden'
+    document.getElementById('invisibleBackground').classList.add('grayout')
+    document.getElementById('fieldsPopUpForm').classList.add('visible')
+    document.body.style.overflow='hidden'
 }
 
 function loadFields() {
