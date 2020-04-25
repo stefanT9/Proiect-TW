@@ -1,99 +1,126 @@
-var chosenFields = []
-var availableFields = []
+let availableFields = [];
 
-function getGraphController (chartCanvas){
-    const graphController=document.createElement('div')
-    const deleteButton = document.createElement('button')
-    
-    graphController.classList.add('graphController')
-    graphController.appendChild(deleteButton)
-    graphController.appendChild(chartCanvas)
-    
-    deleteButton.innerText='remove graph'
-    deleteButton.onclick=()=>{console.log('not implemented')}
+function getGraphController (chartCanvas) {
+  const graphController = document.createElement('div');
+  const buttonsWrapper = document.createElement('div');
+  const deleteButton = document.createElement('button');
+  const exportAsCSV = document.createElement('button');
+  const exportAsJPG = document.createElement('button');
+  const exportAsPNG = document.createElement('button');
 
-    return graphController
+  const graphContainer = document.createElement('div');
+
+  buttonsWrapper.classList.add('graph-controller-button-wrapper')
+
+  buttonsWrapper.appendChild(deleteButton);
+  buttonsWrapper.appendChild(exportAsCSV);
+  buttonsWrapper.appendChild(exportAsJPG);
+  buttonsWrapper.appendChild(exportAsPNG);
+
+  graphController.appendChild(buttonsWrapper);
+  graphController.appendChild(graphContainer);
+  graphContainer.appendChild(chartCanvas);
+
+  
+
+  graphContainer.classList.add('graphContainer');
+  graphController.classList.add('graphController');
+
+  deleteButton.innerText = 'remove graph';
+  exportAsJPG.innerText = 'JPG'
+  exportAsCSV.innerText = 'CSV'
+  exportAsPNG.innerText = 'PNG'
+
+  deleteButton.onclick = () => { console.log('not implemented') };
+
+  return graphController
 }
 
-async function getAvailableFields() {
-    const url = 'http://localhost:3000/filter/all'
-    const res = await fetch(url)
-    .then(data=>{return data.json()})
-    .then(res=>{return res})
-    .catch(err=>{return undefined})
-    return res
+async function getAvailableFields () {
+  const url = 'http://localhost:3000/filter/all';
+  return await fetch(url)
+      .then(data => {
+        return data.json()
+      })
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        return undefined
+      })
 }
 
-function closePopUp() {
-    document.getElementById('invisibleBackground').classList.remove('grayout')
-    document.getElementById('fieldsPopUpForm').classList.remove('visible')
-    document.body.style.overflow=''
+function closePopUp () {
+  document.getElementById('invisibleBackground').classList.remove('grayout');
+  document.getElementById('fieldsPopUpForm').classList.remove('visible');
+  document.body.style.overflow = ''
 }
-function addNewChart()
-{
-    const xLabel='testX'
-    const yLabel='testY'
-    const chartType='bar'
-    const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)]
-    const chartCanvas = document.createElement('canvas')
+function addNewChart () {
+  const xLabel = 'testX';
+  const yLabel = 'testY';
+  const chartType = 'line';
+  const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
+  const chartCanvas = document.createElement('canvas');
 
-    var myChart = new Chart(chartCanvas.getContext('2d'), {
-        type: chartType,
-        data: {
-            label: xLabel,
-            datasets: [{
-                label: 'datasetLabel',
-                data: dataArray,
-                backgroundColor: [
-                    'rgba(143, 200, 100, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(100, 100, 100, 0.2)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    })
-
-    document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas))
-    closePopUp()
-}
-function openPopUp() {
-    document.getElementById('invisibleBackground').classList.add('grayout')
-    document.getElementById('fieldsPopUpForm').classList.add('visible')
-    document.body.style.overflow='hidden'
-}
-
-function loadFields() {
-    const selectors = document.getElementsByTagName('select')
-    console.log(availableFields)
-    for (const idx in availableFields) {
-        const el = document.createElement('option')
-        el.value = availableFields[idx]['name']
-        el.textContent = availableFields[idx]['name']
-
-        selectors[0].appendChild(el)
-        selectors[1].appendChild(el.cloneNode(true))
+  const myChart = new Chart(chartCanvas.getContext('2d'), {
+    type: chartType,
+    data: {
+      label: xLabel,
+      datasets: [{
+        label: 'dataset1',
+        data: dataArray,
+        backgroundColor: 'rgba(143, 200, 100, 0.2)',
+        borderColor: 'rgba(143, 200, 100, 0.2)',
+        fill: false
+    },]
+    },
+    options: {
+      responsive:true,
+      title:{
+          display:true,
+          text: `${xLabel} on ${yLabel} using ${chartType} representation`,
+          fontColor: "#333"
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
     }
+  });
+
+  document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
+  closePopUp()
+}
+function openPopUp () {
+  document.getElementById('invisibleBackground').classList.add('grayout');
+  document.getElementById('fieldsPopUpForm').classList.add('visible');
+  document.body.style.overflow = 'hidden'
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    try {
-        fillChartsWithDummyData()
-    } catch (e) {
-        console.log(e)
-    }
-    getAvailableFields()
-    .then(res=>{availableFields=res.columns})
-    .then(columns=>{loadFields()})
-    .catch(e=>{console.log(e)})
-}, false)
+function loadFields () {
+  const selectors = document.getElementsByTagName('select');
+  console.log(availableFields);
+  for (const idx in availableFields) {
+    const el = document.createElement('option');
+    el.value = availableFields[idx].name;
+    el.textContent = availableFields[idx].name;
+
+    selectors[0].appendChild(el);
+    selectors[1].appendChild(el.cloneNode(true))
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    fillChartsWithDummyData()
+  } catch (e) {
+    console.log(e)
+  }
+  getAvailableFields()
+    .then(res => { availableFields = res.columns })
+    .then(columns => { loadFields() })
+    .catch(e => { console.log(e) })
+}, false);
