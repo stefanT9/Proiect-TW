@@ -27,13 +27,20 @@
         </a>
     </div>
     <main>
-        <div id="fieldsPopUpForm">
+        <div id="popUpForm">
             <select id="xOfGraph">
             </select>
             <select id="yOfGraph">
             </select>
             <select id="typeOfGraph">
-                <option value=""></option>
+                <option value="line">line graph</option>
+                <option value="bar">bar graph</option>
+                <option value="radar">radar graph</option>
+                <option value="pie">pie graph</option>
+                <option value="polar">polar graph</option>
+                <option value="scatter">scatter graph</option>
+                <option value="bubble">bubble graph</option>
+                
             </select>
             <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="addNewChart()">done</button>
 
