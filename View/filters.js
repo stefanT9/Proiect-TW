@@ -166,6 +166,7 @@ function getFilters() {
 
     console.log("Final Continous");
     console.log(answersContinous);
+    // TODO: transform to mongoose querry json
 }
 
 module.exports = { appendDiscreteFilter, appendContinuousFilter, getFilters }
