@@ -1,5 +1,5 @@
 const { Router } = require('../utils/Router')
-const { getColumns } = require('../controller/filterController')
+const filterController = require('../controller/filterController')
 
 var router = new Router()
 
@@ -8,6 +8,7 @@ router.get('', (req, res) => {
   res.write('service is up')
   res.end()
 })
-router.get('/all',getColumns)
+router.get('/all',filterController.getColumns)
+router.post('/filter',filterController.filterResults)
 
 module.exports.filter = router
