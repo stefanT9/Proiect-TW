@@ -6,4 +6,4 @@ var countrySeriesSchema=new Schema({
     description: String
 })
 
-module.exports=model('countrySeries',countrySeriesSchema)
+module.exports=model('countrySeries',countrySeriesSchema, 'EdStatsCountrySeries')
