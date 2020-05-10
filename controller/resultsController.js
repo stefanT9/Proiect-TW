@@ -1,5 +1,6 @@
 const fs = require('fs')
 
+const resPath = 'res/results'
 const results = 'view/results'
 let resultsHTML = ''
 let resultsCSS = ''
@@ -13,7 +14,7 @@ fs.readFile(results + '.html', 'utf8', function (err, data) {
 
   resultsHTML = data
 })
-fs.readFile(results + '.css', 'utf8', function (err, data) {
+fs.readFile(resPath + '.css', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)

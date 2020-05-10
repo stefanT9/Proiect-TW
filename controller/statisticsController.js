@@ -1,6 +1,7 @@
 const fs = require('fs')
-
+const resPath="res/statistics"
 const statistics = 'view/statistics'
+
 let statisticsHTML = ''
 let statisticsCSS = ''
 let statisticsJS = ''
@@ -13,7 +14,7 @@ fs.readFile(statistics + '.html', 'utf8', function (err, data) {
 
   statisticsHTML = data
 })
-fs.readFile(statistics + '.css', 'utf8', function (err, data) {
+fs.readFile(resPath + '.css', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)
@@ -21,7 +22,7 @@ fs.readFile(statistics + '.css', 'utf8', function (err, data) {
 
   statisticsCSS = data
 })
-fs.readFile(statistics + '.js', 'utf8', function (err, data) {
+fs.readFile(resPath + '.js', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)

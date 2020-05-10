@@ -1,7 +1,8 @@
 const fs = require('fs')
 
 const indexPath = 'view/index'
-const navBarPath = 'view/navbar'
+const navBarPath = 'res/navbar'
+const resPath = 'res/index'
 let indexHTML = ''
 let indexCSS = ''
 let indexJS = ''
@@ -14,7 +15,7 @@ fs.readFile(indexPath + '.html', 'utf8', function (err, data) {
   }
   indexHTML = data
 })
-fs.readFile(indexPath + '.css', 'utf8', function (err, data) {
+fs.readFile(resPath + '.css', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)
@@ -30,7 +31,7 @@ fs.readFile(navBarPath + '.css', 'utf8', function (err, data) {
   navBarCSS = data
 })
 
-fs.readFile(indexPath + '.js', 'utf8', function (err, data) {
+fs.readFile(resPath + '.js', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)
