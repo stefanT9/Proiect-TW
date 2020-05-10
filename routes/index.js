@@ -4,13 +4,15 @@ const { statistics } = require('./statistics')
 const { auth } = require('./auth')
 const { results } = require('./results')
 const { filter } = require('./filter')
-
+const { images } = require('./images')
 const { getIndexHTML, getIndexCSS, getIndexJS, getNavbarCSS } = require('../controller/index')
 
 var router = new Router()
 router.use('', statistics)
 router.use('', results)
 router.use('/filter', filter)
+router.use('/image', images)
+
 router.get('/', getIndexHTML)
 router.get('/index', getIndexHTML)
 router.get('/index.html', getIndexHTML)
