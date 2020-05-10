@@ -1,31 +1,22 @@
-html ,body
-{
-    width: 100%;
-    margin:0;
-}
-
-.logo
-{    
+.logo {
     width: 78%;
     margin-left: 10px;
     font-size: xx-large;
 }
-section h2
-{
+
+section h2 {
     align-self: center;
     color: #9C27B0;
 }
 
-.navigation-buttons-container
-{
-    display: flex; 
+.navigation-buttons-container {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 20%;
 }
 
-nav
-{
+nav {
     position: sticky;
     top: 0;
     display: flex;
@@ -38,61 +29,38 @@ nav
     align-items: center;
 }
 
-main
-{
+main {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
 }
 
-body
-{
+body {
     width: 100%;
     margin: 0;
-   
 }
 
-.selected-navigation-button:hover
-{
+.selected-navigation-button:hover {
     cursor: pointer;
 }
 
-.navigation-button:hover
-{
+.navigation-button:hover {
     cursor: pointer;
 }
 
-button {     
-    margin: 20pt;
-    background-color: Transparent;
-    cursor:pointer;
-    overflow: hidden;
-    color: #9C27B0;
-    font-size: xx-large;
-    border-radius: 10pt;
-    border: solid #00BCD4;
-}
-
-#graphsSection
-{
+#graphsSection {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;   
+    height: 100%;
 }
 
-.fieldsWrapper
-{
-
-}
-
-.separator
-{
+.separator {
     margin: 10pt;
 }
 
-.form-filter{
+.form-filter {
     position: inherit;
     display: flex;
     flex-direction: column;
@@ -101,18 +69,15 @@ button {
     padding-bottom: 50px;
 }
 
-#invisibleBackground
-{
+#invisibleBackground {
     z-index: -1;
 }
 
-.invisible
-{
+.invisible {
     z-index: -9999!important;
 }
 
-#popUpForm
-{
+#popUpForm {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -122,73 +87,74 @@ button {
     top: 25%;
     left: 20%;
     opacity: 0;
-    z-index:-1;
+    z-index: -1;
 }
 
-.visible{
+.visible {
     z-index: 2 !important;
     opacity: 1 !important;
 }
 
-.hidden-button
-{
+.hidden-button {
     opacity: inherit;
     position: relative;
     float: bottom;
 }
+
+
 /*https://codepen.io/androidcss/pen/yOopGp*/
-.floatingButton
-{
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:40px;
-	right:40px;
-	background-color:#00BCD4;
-	color:#9C27B0;
-	border-radius:50px;
-	text-align:center;
+
+.floatingButton {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #00BCD4;
+    color: #9C27B0;
+    border-radius: 50px;
+    text-align: center;
     box-shadow: 2px 2px 3px #999;
     z-index: 9999;
 }
-.my-float{
-	margin-top:22px;
+
+.my-float {
+    margin-top: 22px;
 }
+
+
 /*----------------------------------------*/
 
-.selected-field
-{
+.selected-field {
     margin: 5px;
     padding: 5px;
     color: #9C27B0;
     border: solid #00BCD4;
     border-radius: 20%;
 }
-.fieldsWrapper
-{
+
+.fieldsWrapper {
     opacity: inherit;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
 }
 
-.selected-categorical-field
-{
+.selected-categorical-field {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     flex-grow: initial;
 }
 
-.selected-continuous-field
-{
+.selected-continuous-field {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     flex-grow: initial;
 }
-.graphContainer
-{
+
+.graphContainer {
     position: relative;
     height: 60vh;
     width: 80vw;
@@ -196,18 +162,17 @@ button {
     float: center;
 }
 
-.controller-button
-{
-    color:#9C27B0;
+.controller-button {
+    color: #9C27B0;
     text-decoration: none;
-	text-align:center;
+    text-align: center;
 }
-.controller-button:hover
-{
+
+.controller-button:hover {
     cursor: pointer;
 }
 
-.graph-controller-button-wrapper{
+.graph-controller-button-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -224,4 +189,4 @@ button {
     background-color: black;
     opacity: 0.5;
     z-index: 1 !important;
- }
+}
