@@ -34,7 +34,6 @@ async function login(req, res) {
             res.end()
         }
     })
-    console.log('test2')
 }
 
 async function register(req, res) {
@@ -67,7 +66,6 @@ async function register(req, res) {
             }
         })
     }
-    console.log('test2')
 }
 
 
