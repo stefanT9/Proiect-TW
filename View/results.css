@@ -1,31 +1,22 @@
-html ,body
-{
-    width: 100%;
-    margin:0;
-}
-
-.logo
-{    
+.logo {
     width: 78%;
     margin-left: 10px;
     font-size: xx-large;
 }
-section h2
-{
+
+section h2 {
     align-self: center;
     color: #9C27B0;
 }
 
-.navigation-buttons-container
-{
-    display: flex; 
+.navigation-buttons-container {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 20%;
 }
 
-nav
-{
+nav {
     position: sticky;
     top: 0;
     display: flex;
@@ -38,79 +29,61 @@ nav
     align-items: center;
 }
 
-main
-{
+main {
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100%;
 }
 
-body
-{
+body {
     width: 100%;
     margin: 0;
-   
 }
-form
-{
+
+form {
     display: flex;
     flex-direction: column;
     color: #9C27B0;
     font-size: x-large;
 }
 
-form label
-{
+form label {
     margin-left: 20pt;
     margin-right: 20pt;
 }
 
-form input
-{
+form input {
     margin-left: 20pt;
     margin-right: 20pt;
     background-color: Transparent;
     border: none;
-    cursor:pointer;
-    overflow: hidden;      
+    cursor: pointer;
+    overflow: hidden;
     border: #00BCD4;
-    border-radius: 10pt;  
+    border-radius: 10pt;
     height: 40%;
     border-style: solid;
     color: #9C27B0;
 }
-.selected-field-wrapprer
-{
+
+.selected-field-wrapprer {
     color: green;
 }
-.deselected-field-wrapper
-{
+
+.deselected-field-wrapper {
     color: red;
 }
-.selected-navigation-button:hover
-{
+
+.selected-navigation-button:hover {
     cursor: pointer;
 }
 
-.navigation-button:hover
-{
+.navigation-button:hover {
     cursor: pointer;
 }
 
-button {     
-    margin: 20pt;
-    background-color: Transparent;
-    cursor:pointer;
-    overflow: hidden;
-    color: #9C27B0;
-    font-size: xx-large;
-    border-radius: 10pt;
-    border: solid #00BCD4;
-}
-
-#filterSection
-{
+#filterSection {
     position: sticky;
     top: 10%;
     display: flex;
@@ -122,8 +95,7 @@ button {
     border: solid #00BCD4;
 }
 
-#resultsTableSection
-{
+#resultsTableSection {
     display: flex;
     flex-direction: column;
     width: 78%;
@@ -131,7 +103,7 @@ button {
     margin: 10pt;
 }
 
-#resultsTable{
+#resultsTable {
     width: 100%;
     height: 100%;
     border-collapse: collapse;
@@ -139,12 +111,11 @@ button {
     overflow: hidden;
 }
 
-
-#resultsTableHeadingRow{
+#resultsTableHeadingRow {
     overflow: hidden;
 }
 
-.resultsTableHeadhing{
+.resultsTableHeadhing {
     font-size: xx-large;
     position: sticky;
     z-index: 2;
@@ -155,8 +126,7 @@ button {
     background-color: #9C27B0;
 }
 
-
-.resultsTableData{
+.resultsTableData {
     font-size: xx-large;
     position: relative;
     padding-top: 5pt;
@@ -164,28 +134,24 @@ button {
     border: solid #00BCD4;
 }
 
-.resultsTableRow{
+.resultsTableRow {
     color: #9C27B0;
     text-align: center;
 }
 
-.resultsTableRow:hover > .resultsTableData{
+.resultsTableRow:hover>.resultsTableData {
     background-color: #9C27B0;
     color: white;
     border: solid #9C27B0;
 }
 
-.fieldsWrapper
-{
+.fieldsWrapper {}
 
-}
-
-.separator
-{
+.separator {
     margin: 10pt;
 }
 
-.form-filter{
+.form-filter {
     position: inherit;
     display: flex;
     flex-direction: column;
@@ -193,8 +159,8 @@ button {
     height: 80%;
     padding-bottom: 50px;
 }
-#invisibleBackground
-{
+
+#invisibleBackground {
     position: absolute;
     top: auto;
     opacity: 0;
@@ -202,8 +168,8 @@ button {
     height: 100%;
     z-index: -1;
 }
-#fieldsPopUpForm
-{
+
+#fieldsPopUpForm {
     background: white;
     position: absolute;
     width: 70%;
@@ -211,62 +177,55 @@ button {
     top: 25%;
     left: 20%;
     opacity: 0;
-    z-index:-1;
+    z-index: -1;
 }
 
-.hidden-button
-{
+.hidden-button {
     opacity: inherit;
     position: relative;
     float: bottom;
 }
-.selected-field
-{
+
+.selected-field {
     margin: 5px;
     padding: 5px;
     color: #9C27B0;
     border: solid #00BCD4;
     border-radius: 20%;
 }
-.fieldsWrapper
-{
+
+.fieldsWrapper {
     opacity: inherit;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
 }
 
-.selected-categorical-field
-{
+.selected-categorical-field {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     flex-grow: initial;
 }
 
-.selected-continuous-field
-{
+.selected-continuous-field {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     flex-grow: initial;
 }
 
-@media only screen and (max-width: 1000px){
-    
-    main{
+@media only screen and (max-width: 1000px) {
+    main {
         flex-direction: column;
     }
-    #filterSection
-    {
+    #filterSection {
         min-width: 100%;
         width: 100%;
         position: unset;
     }
-    #resultsTableSection
-    {
+    #resultsTableSection {
         min-width: 100%;
         width: 100%;
-
     }
-} 
+}
