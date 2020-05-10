@@ -31,7 +31,7 @@ fs.readFile(resPath + '.js', 'utf8', function (err, data) {
   statisticsJS = data
 })
 
-async function getstatisticsHTML (req, res) {
+module.exports.getstatisticsHTML = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
@@ -47,7 +47,7 @@ async function getstatisticsHTML (req, res) {
 
   }
 }
-async function getstatisticsCSS (req, res) {
+module.exports.getstatisticsCSS = async (req, res)=> {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -63,7 +63,7 @@ async function getstatisticsCSS (req, res) {
 
   }
 }
-async function getstatisticsJS (req, res) {
+module.exports.getstatisticsJS = async (req, res) =>{
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
@@ -79,4 +79,3 @@ async function getstatisticsJS (req, res) {
 
   }
 }
-module.exports = { getstatisticsHTML, getstatisticsCSS, getstatisticsJS }

@@ -39,7 +39,7 @@ fs.readFile(resPath + '.js', 'utf8', function (err, data) {
   indexJS = data
 })
 
-async function getIndexHTML (req, res) {
+module.exports.getIndexHTML = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
@@ -53,7 +53,7 @@ async function getIndexHTML (req, res) {
     res.end()
   }
 }
-async function getIndexCSS (req, res) {
+module.exports.getIndexCSS = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -68,7 +68,7 @@ async function getIndexCSS (req, res) {
     res.end()
   }
 }
-async function getNavbarCSS (req, res) {
+module.exports.getNavbarCSS = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -83,7 +83,7 @@ async function getNavbarCSS (req, res) {
     res.end()
   }
 }
-async function getIndexJS (req, res) {
+module.exports.getIndexJS = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
@@ -98,5 +98,3 @@ async function getIndexJS (req, res) {
     res.end()
   }
 }
-
-module.exports = { getIndexHTML, getIndexCSS, getIndexJS, getNavbarCSS }

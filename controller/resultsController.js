@@ -23,7 +23,7 @@ fs.readFile(resPath + '.css', 'utf8', function (err, data) {
   resultsCSS = data
 })
 
-function getResultsHTML (req, res) {
+module.exports.getResultsHTML= async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
@@ -38,7 +38,7 @@ function getResultsHTML (req, res) {
     res.end()
   }
 }
-function getResultsCSS (req, res) {
+module.exports.getResultsCSS = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -54,5 +54,3 @@ function getResultsCSS (req, res) {
 
   }
 }
-
-module.exports = { getResultsHTML, getResultsCSS}
