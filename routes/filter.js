@@ -11,4 +11,4 @@ router.get('', (req, res) => {
 router.get('/all',filterController.getColumns)
 router.post('/filter',filterController.filterResults)
 
-module.exports.filter = router
+module.exports = router

@@ -5,4 +5,4 @@ const router = new Router()
 
 router.get('/background-home.jpg',imagesController.homeBackground)
 
-module.exports={ images:router }
+module.exports = router

@@ -8,4 +8,4 @@ router.get('/statistics.html', getstatisticsHTML)
 router.get('/statistics.css', getstatisticsCSS)
 router.get('/statistics.js', getstatisticsJS)
 
-module.exports = { statistics: router }
+module.exports = router

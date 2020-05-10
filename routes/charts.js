@@ -11,4 +11,4 @@ router.get('', (req, res) => {
 router.get('/bar', getBarChartJSON)
 router.get('/horizontalBar', getHorizontalBarChartJSON)
 router.get('/scatterPlot', getScatterPlotChartJSON)
-module.exports.charts = router
+module.exports = router
