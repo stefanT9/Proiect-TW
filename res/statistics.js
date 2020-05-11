@@ -1,6 +1,39 @@
 let availableFields = [];
 let chartsPallete=['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43' ,'#ffa600']
 
+const lineGraphElement = document.createElement('option')
+lineGraphElement.value='line'
+lineGraphElement.text='line graph'
+
+const barGraphElement = document.createElement('option')
+barGraphElement.value='bar'
+barGraphElement.text='bar graph'
+
+const radarGraphElement = document.createElement('option')
+radarGraphElement.value='radar'
+radarGraphElement.text='radar graph'
+
+const pieGraphElement = document.createElement('option')
+radarGraphElement.value='pie'
+radarGraphElement.text='pie graph'
+
+const polarGraphElement = document.createElement('option')
+radarGraphElement.value='polar'
+radarGraphElement.text='polar graph'
+
+const scatterGraphElement = document.createElement('option')
+radarGraphElement.value='scatter'
+radarGraphElement.text='scatter graph'
+
+const bubbleGraphElement = document.createElement('option')
+radarGraphElement.value='bubble'
+radarGraphElement.text='bubble graph'
+
+const allOptions =[lineGraphElement,barGraphElement,barGraphElement,radarGraphElement,pieGraphElement,polarGraphElement,scatterGraphElement,bubbleGraphElement]
+const ddOptions=[]
+const dcOptions=[]
+const cdOptions=[]
+const ccOptions=[lineGraphElement,]
 function getGraphController (chartCanvas) {
   const graphController = document.createElement('div');
   const buttonsWrapper = document.createElement('div');
@@ -177,22 +210,6 @@ function loadFields () {
 
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  try {
-    fillChartsWithDummyData()
-  } catch (e) {
-    console.log(e)
-  }
-  getAvailableFields()
-    .then(res => { availableFields = res.columns })
-    .then(columns => { loadFields() })
-    .catch(e => { console.log(e) })
-}, false);
-
-
-var totalDiscrete = 0;
-var totalContinous = 0;
-
 function appendDiscreteFilter(question, options) {
     totalDiscrete = totalDiscrete + 1;
     let discreteFilter = document.createElement('div');
@@ -360,3 +377,61 @@ function getFilters() {
     console.log(answersContinous);
     // TODO: transform to mongoose querry json
 }
+function updateAvailableGraphs()
+{
+  var xSelector = document.getElementById('xOfGraph')
+  var ySelector = document.getElementById('yOfGraph')
+  var chartSelector = document.getElementById('typeOfGraph')
+  const xType = availableFields.filter((val) => {return val.name === xSelector.value})[0].type
+  const yType = availableFields.filter((val) => {return val.name === ySelector.value})[0].type
+ 
+  if(xType === 'discrete' && yType === 'discrete')
+  {
+    chartSelector.childNodes=ddOptions
+  }
+  else if(xType === 'discrete' && yType === 'continuous')
+  {
+    chartSelector.childNodes=dcOptions
+  }
+  else if(xType === 'continuous' && yType === 'discrete')
+  {
+    chartSelector.childNodes=cdOptions
+  }
+  else if(xType === 'continuous' && yType === 'continuous')
+  {
+    chartSelector.childNodes=ccOptions
+  }
+  else /// This else is called only on testing dummy data
+  {
+    chartSelector.childNodes=allOptions
+  }
+}
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    fillChartsWithDummyData()
+  } catch (e) {
+    console.log(e)
+  }
+  getAvailableFields()
+    .then(res => { availableFields = res.columns })
+    .then(columns => { loadFields() })
+    .catch(e => { console.log(e) })
+  
+  updateAvailableGraphs()
+
+  xSelector.addEventListener('change', (ev)=>{
+    console.log(xSelector.value)
+    
+    updateAvailableGraphs()
+  })
+
+  ySelector.addEventListener('change', (ev)=>{
+    console.log(ySelector.value)
+    updateAvailableGraphs()
+  })
+    
+  
+}, false)
+
+var totalDiscrete = 0
+var totalContinous = 0
