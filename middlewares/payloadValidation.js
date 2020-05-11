@@ -30,3 +30,21 @@ module.exports.isAuth = (req,res,next) =>{
         res.end()
     }
 }
+
+
+module.exports.collectBody = (req,res,next) => {
+  try{
+    var data = ''
+    req.on('data', (chunk) => {
+       data += chunk
+    })
+    req.on('end', () => {
+      req.body=JSON.parse(data)
+      next[0](req,res,next.slice(1))
+    })
+  }
+  catch(e)
+  {
+    console.log(e)
+  }
+}
