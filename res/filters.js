@@ -20,9 +20,14 @@ function appendDiscreteFilter(question, options) {
         cb.value = options[i];
         cb.id = cb.name;
 
-        discreteFilter.appendChild(cb);
-
         let label = document.createElement('label');
+        label.className = "container";
+        label.appendChild(cb);
+
+        let span = document.createElement('span');
+        span.className = "checkmark";
+
+        label.appendChild(span);
 
         label.for = cb.name;
         label.innerText = options[i];
