@@ -38,6 +38,7 @@ module.exports.getResultsHTML= async (req, res) => {
     res.end()
   }
 }
+
 module.exports.getResultsCSS = async (req, res) => {
   try {
     res.statusCode = 200
@@ -51,6 +52,5 @@ module.exports.getResultsCSS = async (req, res) => {
     res.setHeader('Content-Type', 'text/css')
     res.write('Internal server error')
     res.end()
-
   }
 }
