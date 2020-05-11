@@ -14,51 +14,57 @@ radarGraphElement.value='radar'
 radarGraphElement.text='radar graph'
 
 const pieGraphElement = document.createElement('option')
-radarGraphElement.value='pie'
-radarGraphElement.text='pie graph'
+pieGraphElement.value='pie'
+pieGraphElement.text='pie graph'
 
 const polarGraphElement = document.createElement('option')
-radarGraphElement.value='polar'
-radarGraphElement.text='polar graph'
+polarGraphElement.value='polar'
+polarGraphElement.text='polar graph'
 
 const scatterGraphElement = document.createElement('option')
-radarGraphElement.value='scatter'
-radarGraphElement.text='scatter graph'
+scatterGraphElement.value='scatter'
+scatterGraphElement.text='scatter graph'
 
 const bubbleGraphElement = document.createElement('option')
-radarGraphElement.value='bubble'
-radarGraphElement.text='bubble graph'
+bubbleGraphElement.value='bubble'
+bubbleGraphElement.text='bubble graph'
 
 const allOptions =[lineGraphElement,barGraphElement,barGraphElement,radarGraphElement,pieGraphElement,polarGraphElement,scatterGraphElement,bubbleGraphElement]
 const ddOptions=[]
 const dcOptions=[]
 const cdOptions=[]
 const ccOptions=[lineGraphElement,]
+
 function getGraphController (chartCanvas) {
-  const graphController = document.createElement('div');
-  const buttonsWrapper = document.createElement('div');
 
-  const deleteButton = document.createElement('a');
-  const exportAsCSV = document.createElement('a');
-  const exportAsJPG = document.createElement('a');
-  const exportAsPNG = document.createElement('a');
+  const graphController = document.createElement('div')
+  const buttonsWrapper = document.createElement('div')
 
-  const graphContainer = document.createElement('div');
+  const deleteButton = document.createElement('a')
+  const exportAsCSV = document.createElement('a')
+  const exportAsJPG = document.createElement('a')
+  const exportAsPNG = document.createElement('a')
+  const addMoreData = document.createElement('a')
 
-  buttonsWrapper.appendChild(deleteButton);
-  buttonsWrapper.appendChild(exportAsCSV);
-  buttonsWrapper.appendChild(exportAsJPG);
-  buttonsWrapper.appendChild(exportAsPNG);
+  const graphContainer = document.createElement('div')
+
+  buttonsWrapper.appendChild(deleteButton)
+  buttonsWrapper.appendChild(exportAsCSV)
+  buttonsWrapper.appendChild(exportAsJPG)
+  buttonsWrapper.appendChild(exportAsPNG)
+  buttonsWrapper.appendChild(addMoreData)
 
   deleteButton.classList.add('controller-button')
   exportAsCSV.classList.add('controller-button')
   exportAsJPG.classList.add('controller-button')
   exportAsPNG.classList.add('controller-button')
+  addMoreData.classList.add('controller-button')
   
   deleteButton.href='#'
   exportAsCSV.href='#'
   exportAsJPG.href='#'
   exportAsPNG.href='#'
+  addMoreData.href='#'
 
   graphController.appendChild(buttonsWrapper);
   graphController.appendChild(graphContainer);
@@ -74,6 +80,7 @@ function getGraphController (chartCanvas) {
   exportAsJPG.innerText = 'JPG'
   exportAsCSV.innerText = 'CSV'
   exportAsPNG.innerText = 'PNG'
+  addMoreData.innerText = 'Add more data'
 
   deleteButton.onclick = () => { 
     const wrapper=deleteButton.parentElement.parentElement
@@ -94,6 +101,10 @@ function getGraphController (chartCanvas) {
   exportAsJPG.download='grafic.png'
   exportAsPNG.onclick = () => {
     exportAsJPG.href = chartCanvas.toDataURL("image/png")
+  }
+
+  addMoreData.onclick = () => {
+
   }
 
   return graphController
@@ -379,6 +390,7 @@ function getFilters() {
 }
 function updateAvailableGraphs()
 {
+  console.log("test")
   var xSelector = document.getElementById('xOfGraph')
   var ySelector = document.getElementById('yOfGraph')
   var chartSelector = document.getElementById('typeOfGraph')
@@ -403,9 +415,13 @@ function updateAvailableGraphs()
   }
   else /// This else is called only on testing dummy data
   {
-    chartSelector.childNodes=allOptions
+    console.log(allOptions)
+    allOptions.forEach((val,idx) => {
+      chartSelector.appendChild(val)
+    })
   }
 }
+
 document.addEventListener('DOMContentLoaded', function () {
   try {
     fillChartsWithDummyData()
@@ -415,22 +431,22 @@ document.addEventListener('DOMContentLoaded', function () {
   getAvailableFields()
     .then(res => { availableFields = res.columns })
     .then(columns => { loadFields() })
+    .then( ()=>{
+      var xSelector = document.getElementById('xOfGraph')
+      var ySelector = document.getElementById('yOfGraph')
+    
+      updateAvailableGraphs()
+    
+      xSelector.addEventListener('change', (ev)=>{
+        updateAvailableGraphs()
+      })
+    
+      ySelector.addEventListener('change', (ev)=>{
+        updateAvailableGraphs()
+      })
+    })
     .catch(e => { console.log(e) })
-  
-  updateAvailableGraphs()
 
-  xSelector.addEventListener('change', (ev)=>{
-    console.log(xSelector.value)
-    
-    updateAvailableGraphs()
-  })
-
-  ySelector.addEventListener('change', (ev)=>{
-    console.log(ySelector.value)
-    updateAvailableGraphs()
-  })
-    
-  
 }, false)
 
 var totalDiscrete = 0
