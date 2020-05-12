@@ -8,6 +8,7 @@ const  images  = require('./images')
 const crud = require('./crud')
 
 const indexController = require('../controller/index')
+const resources = require('./res')
 
 var router = new Router()
 router.use('', statistics)
@@ -16,7 +17,8 @@ router.use('/crud',crud)
 router.use('/filter', filter)
 router.use('/image', images)
 router.use('/charts', charts)
-router.use('/auth',auth)
+router.use('/auth', auth)
+router.use('', resources)
 
 router.get('/', indexController.getIndexHTML)
 router.get('/index', indexController.getIndexHTML)

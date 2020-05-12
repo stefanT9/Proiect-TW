@@ -110,114 +110,106 @@ function getGraphController (chartCanvas) {
   return graphController
 }
 
-async function getAvailableFields () {
-  const url = 'http://localhost:3000/filter/all';
-  return await fetch(url)
-      .then(data => {
-        return data.json()
-      })
-      .then(res => {
-        return res  
-      })
-      .catch(err => {
-        return undefined
-      })
+async function getAvailableFields() {
+    const url = 'http://localhost:3000/filter/all';
+    return await fetch(url)
+        .then(data => {
+            return data.json()
+        })
+        .then(res => {
+            return res
+        })
+        .catch(err => {
+            return undefined
+        })
 }
 
-function closePopUp () {
-  document.getElementById('invisibleBackground').classList.remove('grayout');
-  document.getElementById('popUpForm').classList.remove('visible');
-  document.body.style.overflow = ''
-  document.getElementsByClassName('floatingButton')[0].classList.remove('invisible')
+function closePopUp() {
+    document.getElementById('invisibleBackground').classList.remove('grayout');
+    document.getElementById('popUpForm').classList.remove('visible');
+    document.body.style.overflow = ''
+    document.getElementsByClassName('floatingButton')[0].classList.remove('invisible')
 }
-function addNewChart () {
-  const xLabel = document.getElementById('xOfGraph').value
-  const yLabel = document.getElementById('yOfGraph').value
-  const chartType = document.getElementById('typeOfGraph').value;
 
-  const xValues = ['test1','test2','test3','test4','test5','test6','test7','test8','test9','test10','test11']
-  const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
-  const chartCanvas = document.createElement('canvas');
+function addNewChart() {
+    const xLabel = document.getElementById('xOfGraph').value
+    const yLabel = document.getElementById('yOfGraph').value
+    const chartType = document.getElementById('typeOfGraph').value;
 
-  const myChart = new Chart(chartCanvas.getContext('2d'), {
-    type: chartType,
-    data: {
-      labels: xValues,
-      datasets: [{
-        label: yLabel,
-        data: dataArray,
-        backgroundColor: chartsPallete,
-        borderColor: chartsPallete,
-        fill: false
-    },]
-    },
-    options: {
-      responsive:true,
-      maintainAspectRatio: false,
-      title:{
-          display:true,
-          text: `x on y using ${chartType} representation`,
-          fontColor: "#333"
-      },
-      scales: {
-        scaleLabel:{
-          display:true,
-          labelString: 'test123'
+    const xValues = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
+    const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
+    const chartCanvas = document.createElement('canvas');
+
+    const myChart = new Chart(chartCanvas.getContext('2d'), {
+        type: chartType,
+        data: {
+            labels: xValues,
+            datasets: [{
+                label: yLabel,
+                data: dataArray,
+                backgroundColor: chartsPallete,
+                borderColor: chartsPallete,
+                fill: false
+            }, ]
         },
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
-      }
-    }
-  });
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using ${chartType} representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            }
+        }
+    });
 
-  document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
-  closePopUp()
+    document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
+    closePopUp()
 }
-function openPopUp () {
-  document.getElementById('invisibleBackground').classList.add('grayout');
-  document.getElementById('popUpForm').classList.add('visible');
-  document.body.style.overflow = 'hidden'
-  document.getElementsByClassName('floatingButton')[0].classList.add('invisible')
+
+function openPopUp() {
+    document.getElementById('invisibleBackground').classList.add('grayout');
+    document.getElementById('popUpForm').classList.add('visible');
+    document.body.style.overflow = 'hidden'
+    document.getElementsByClassName('floatingButton')[0].classList.add('invisible')
 
 }
 
-function loadFields () {
-  const selectors = document.getElementsByTagName('select');
-  console.log(availableFields);
-  for (const idx in availableFields) {
-    const el = document.createElement('option');
-    el.value = availableFields[idx].name;
-    el.textContent = availableFields[idx].name;
+function loadFields() {
+    const selectors = document.getElementsByTagName('select');
+    console.log(availableFields);
+    for (const idx in availableFields) {
+        const el = document.createElement('option');
+        el.value = availableFields[idx].name;
+        el.textContent = availableFields[idx].name;
 
-    selectors[0].appendChild(el);
-    selectors[1].appendChild(el.cloneNode(true))
-    if(availableFields[idx]['type']=='dummy')
-    {
-      if(Math.random()<0.5)
-      {
-        appendContinuousFilter(availableFields[idx]['name'],0,15,0.1)
-      }
-      else
-      {
-        appendDiscreteFilter(availableFields[idx]['name'],['lol','bol','tzol'])
-      }
+        selectors[0].appendChild(el);
+        selectors[1].appendChild(el.cloneNode(true))
+        if (availableFields[idx]['type'] == 'dummy') {
+            if (Math.random() < 0.5) {
+                appendContinuousFilter(availableFields[idx]['name'], 0, 15, 0.1)
+            } else {
+                appendDiscreteFilter(availableFields[idx]['name'], ['lol', 'bol', 'tzol'])
+            }
+        } else if (availableFields[idx]['type'] == 'discrete') {
+            appendDiscreteFilter(availableFields[idx]['name'], availableFields[idx]['values'])
+        } else if (availableFields[idx]['type'] == 'continuous') {
+            appendContinuousFilter(availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01)
+        } else if (availableFields[idx]['type'] == 'date') {
+            appendContinuousFilter(availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
+        }
     }
-    else if(availableFields[idx]['type']=='discrete')
-    {
-      appendDiscreteFilter(availableFields[idx]['name'],availableFields[idx]['values'])
-    }
-    else if (availableFields[idx]['type']=='continuous')
-    {
-      appendContinuousFilter(availableFields[idx]['name'],availableFields[idx]['min'],availableFields[idx]['max'],0.01)
-    }
-    else if (availableFields[idx]['type']=='date')
-    {
-      appendContinuousFilter(availableFields[idx]['name'],availableFields[idx]['min'],availableFields[idx]['max'],0.01,true)
-    }
-  }
 
 }
 
@@ -240,12 +232,17 @@ function appendDiscreteFilter(question, options) {
         cb.value = options[i];
         cb.id = cb.name;
 
-        discreteFilter.appendChild(cb);
-
         let label = document.createElement('label');
+        label.innerText = options[i];
+        label.className = "container";
+        label.appendChild(cb);
+
+        let span = document.createElement('span');
+        span.className = "checkmark";
+
+        label.appendChild(span);
 
         label.for = cb.name;
-        label.innerText = options[i];
 
         discreteFilter.appendChild(label);
     }
@@ -268,8 +265,10 @@ function appendContinuousFilter(question, min, max, step, isDate) {
     range1.type = (isDate ? "date" : "range");
     range1.min = min;
     range1.max = max;
-    if (!isDate)
+    if (!isDate) {
         range1.step = step;
+        range1.className = "slider";
+    }
 
     range1.value = min;
     range1.name = 'Min_' + String(totalContinous);
@@ -279,8 +278,10 @@ function appendContinuousFilter(question, min, max, step, isDate) {
     range2.type = (isDate ? "date" : "range");
     range2.min = min;
     range2.max = max;
-    if (!isDate)
+    if (!isDate) {
         range2.step = step;
+        range2.className = "slider";
+    }
     range2.value = max;
     range2.name = 'Max_' + String(totalContinous);
     range2.id = 'Max_' + String(totalContinous);
@@ -331,7 +332,7 @@ function appendContinuousFilter(question, min, max, step, isDate) {
 }
 
 function getFilters() {
-    var discreteQuestions = document.querySelectorAll(".questionDivDiscrete > input");
+    var discreteQuestions = document.querySelectorAll(".questionDivDiscrete > label > input");
     var continousQuestions = document.querySelectorAll(".questionDivContinuous > input");
     var countContinuous = document.querySelectorAll(".questionDivContinuous").length;
     var countDiscrete = document.querySelectorAll(".questionDivDiscrete").length;
@@ -362,12 +363,17 @@ function getFilters() {
     let answersContinous = new Array();
 
     for (let i = 0; i < continousQuestions.length; i += 2) {
-        let value1 = parseInt(continousQuestions[i].value);
-        let value2 = parseInt(continousQuestions[i + 1].value);
+        let value1 = parseFloat(continousQuestions[i].value);
+        let value2 = parseFloat(continousQuestions[i + 1].value);
 
         if (isNaN(value1) || isNaN(value2) || continousQuestions[i].type == "date") {
             value1 = continousQuestions[i].value;
             value2 = continousQuestions[i + 1].value;
+        } else {
+            if (continousQuestions[i].type == "date") {
+                value1 = new Date(continousQuestions[i].value);
+                value2 = new Date(continousQuestions[i + 1].value);
+            }
         }
 
         if (value1 > value2) {
