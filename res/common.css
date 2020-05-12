@@ -8,7 +8,6 @@ button {
     margin: 5pt 0pt;
     background-color: Transparent;
     cursor: pointer;
-    overflow: hidden;
     color: #f2f2f2;
     font-size: 1.5vw;
     border-radius: 3pt;
@@ -18,4 +17,8 @@ button {
 button:hover {
     background-color: #ddd;
     color: #333;
+}
+
+.no-click {
+    pointer-events: none;
 }
