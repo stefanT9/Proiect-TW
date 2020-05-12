@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="statistics.css" type="text/css">
     <link rel="stylesheet" href="navbar.css" type="text/css">
     <link rel="stylesheet" href="common.css" type="text/css">
-    <link rel="stylesheet" href="filters.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="statistics.js"></script>
@@ -30,13 +29,13 @@
     </div>
     <main>
         <div id="popUpForm">
-            <select id="xOfGraph">
+            <select id="xOfGraph" disabled>
             </select>
-            <select id="yOfGraph">
+            <select id="yOfGraph" disabled>
             </select>
-            <select id="typeOfGraph">
+            <select id="typeOfGraph" disabled>
             </select>
-            <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="addNewChart()">done</button>
+            <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addNewChart()">Generate</button>
 
         </div>
         <a href='#' class="floatingButton" onclick="openPopUp()">

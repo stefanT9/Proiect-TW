@@ -1,113 +1,113 @@
 let availableFields = [];
-let chartsPallete=['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43' ,'#ffa600']
+let chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
 
 const lineGraphElement = document.createElement('option')
-lineGraphElement.value='line'
-lineGraphElement.text='line graph'
+lineGraphElement.value = 'line'
+lineGraphElement.text = 'line graph'
 
 const barGraphElement = document.createElement('option')
-barGraphElement.value='bar'
-barGraphElement.text='bar graph'
+barGraphElement.value = 'bar'
+barGraphElement.text = 'bar graph'
 
 const radarGraphElement = document.createElement('option')
-radarGraphElement.value='radar'
-radarGraphElement.text='radar graph'
+radarGraphElement.value = 'radar'
+radarGraphElement.text = 'radar graph'
 
 const pieGraphElement = document.createElement('option')
-pieGraphElement.value='pie'
-pieGraphElement.text='pie graph'
+pieGraphElement.value = 'pie'
+pieGraphElement.text = 'pie graph'
 
 const polarGraphElement = document.createElement('option')
-polarGraphElement.value='polar'
-polarGraphElement.text='polar graph'
+polarGraphElement.value = 'polar'
+polarGraphElement.text = 'polar graph'
 
 const scatterGraphElement = document.createElement('option')
-scatterGraphElement.value='scatter'
-scatterGraphElement.text='scatter graph'
+scatterGraphElement.value = 'scatter'
+scatterGraphElement.text = 'scatter graph'
 
 const bubbleGraphElement = document.createElement('option')
-bubbleGraphElement.value='bubble'
-bubbleGraphElement.text='bubble graph'
+bubbleGraphElement.value = 'bubble'
+bubbleGraphElement.text = 'bubble graph'
 
-const allOptions =[lineGraphElement,barGraphElement,barGraphElement,radarGraphElement,pieGraphElement,polarGraphElement,scatterGraphElement,bubbleGraphElement]
-const ddOptions=[]
-const dcOptions=[]
-const cdOptions=[]
-const ccOptions=[lineGraphElement,]
+const allOptions = [lineGraphElement, barGraphElement, barGraphElement, radarGraphElement, pieGraphElement, polarGraphElement, scatterGraphElement, bubbleGraphElement]
+const ddOptions = []
+const dcOptions = []
+const cdOptions = []
+const ccOptions = [lineGraphElement, ]
 
-function getGraphController (chartCanvas) {
+function getGraphController(chartCanvas) {
 
-  const graphController = document.createElement('div')
-  const buttonsWrapper = document.createElement('div')
+    const graphController = document.createElement('div')
+    const buttonsWrapper = document.createElement('div')
 
-  const deleteButton = document.createElement('a')
-  const exportAsCSV = document.createElement('a')
-  const exportAsJPG = document.createElement('a')
-  const exportAsPNG = document.createElement('a')
-  const addMoreData = document.createElement('a')
+    const deleteButton = document.createElement('a')
+    const exportAsCSV = document.createElement('a')
+    const exportAsJPG = document.createElement('a')
+    const exportAsPNG = document.createElement('a')
+    const addMoreData = document.createElement('a')
 
-  const graphContainer = document.createElement('div')
+    const graphContainer = document.createElement('div')
 
-  buttonsWrapper.appendChild(deleteButton)
-  buttonsWrapper.appendChild(exportAsCSV)
-  buttonsWrapper.appendChild(exportAsJPG)
-  buttonsWrapper.appendChild(exportAsPNG)
-  buttonsWrapper.appendChild(addMoreData)
+    buttonsWrapper.appendChild(deleteButton)
+    buttonsWrapper.appendChild(exportAsCSV)
+    buttonsWrapper.appendChild(exportAsJPG)
+    buttonsWrapper.appendChild(exportAsPNG)
+    buttonsWrapper.appendChild(addMoreData)
 
-  deleteButton.classList.add('controller-button')
-  exportAsCSV.classList.add('controller-button')
-  exportAsJPG.classList.add('controller-button')
-  exportAsPNG.classList.add('controller-button')
-  addMoreData.classList.add('controller-button')
-  
-  deleteButton.href='#'
-  exportAsCSV.href='#'
-  exportAsJPG.href='#'
-  exportAsPNG.href='#'
-  addMoreData.href='#'
+    deleteButton.classList.add('controller-button')
+    exportAsCSV.classList.add('controller-button')
+    exportAsJPG.classList.add('controller-button')
+    exportAsPNG.classList.add('controller-button')
+    addMoreData.classList.add('controller-button')
 
-  graphController.appendChild(buttonsWrapper);
-  graphController.appendChild(graphContainer);
-  graphContainer.appendChild(chartCanvas);
+    deleteButton.href = '#'
+    exportAsCSV.href = '#'
+    exportAsJPG.href = '#'
+    exportAsPNG.href = '#'
+    addMoreData.href = '#'
 
-
-  buttonsWrapper.classList.add('graph-controller-button-wrapper')
-  graphContainer.classList.add('graphContainer');
-  graphController.classList.add('graphController');
+    graphController.appendChild(buttonsWrapper);
+    graphController.appendChild(graphContainer);
+    graphContainer.appendChild(chartCanvas);
 
 
-  deleteButton.innerText = 'remove graph';
-  exportAsJPG.innerText = 'JPG'
-  exportAsCSV.innerText = 'CSV'
-  exportAsPNG.innerText = 'PNG'
-  addMoreData.innerText = 'Add more data'
+    buttonsWrapper.classList.add('graph-controller-button-wrapper')
+    graphContainer.classList.add('graphContainer');
+    graphController.classList.add('graphController');
 
-  deleteButton.onclick = () => { 
-    const wrapper=deleteButton.parentElement.parentElement
-    const body= wrapper.parentElement
-    body.removeChild(wrapper)
-  };
 
-  exportAsCSV.download='data.csv'
-  exportAsCSV.onclick = () =>{
-    console.log('not implemented')
-  }
+    deleteButton.innerText = 'remove graph';
+    exportAsJPG.innerText = 'JPG'
+    exportAsCSV.innerText = 'CSV'
+    exportAsPNG.innerText = 'PNG'
+    addMoreData.innerText = 'Add more data'
 
-  exportAsJPG.download='grafic.jpg'
-  exportAsJPG.onclick = () => {
-    exportAsJPG.href = chartCanvas.toDataURL("image/jpg")
-  }
+    deleteButton.onclick = () => {
+        const wrapper = deleteButton.parentElement.parentElement
+        const body = wrapper.parentElement
+        body.removeChild(wrapper)
+    };
 
-  exportAsJPG.download='grafic.png'
-  exportAsPNG.onclick = () => {
-    exportAsJPG.href = chartCanvas.toDataURL("image/png")
-  }
+    exportAsCSV.download = 'data.csv'
+    exportAsCSV.onclick = () => {
+        console.log('not implemented')
+    }
 
-  addMoreData.onclick = () => {
+    exportAsJPG.download = 'grafic.jpg'
+    exportAsJPG.onclick = () => {
+        exportAsJPG.href = chartCanvas.toDataURL("image/jpg")
+    }
 
-  }
+    exportAsPNG.download = 'grafic.png'
+    exportAsPNG.onclick = () => {
+        exportAsJPG.href = chartCanvas.toDataURL("image/png")
+    }
 
-  return graphController
+    addMoreData.onclick = () => {
+
+    }
+
+    return graphController
 }
 
 async function getAvailableFields() {
@@ -129,6 +129,10 @@ function closePopUp() {
     document.getElementById('popUpForm').classList.remove('visible');
     document.body.style.overflow = ''
     document.getElementsByClassName('floatingButton')[0].classList.remove('invisible')
+    document.getElementById('confirmFieldsSelectionButton').classList.add('no-click')
+    document.getElementById('xOfGraph').disabled = true;
+    document.getElementById('yOfGraph').disabled = true;
+    document.getElementById('typeOfGraph').disabled = true;
 }
 
 function addNewChart() {
@@ -183,7 +187,10 @@ function openPopUp() {
     document.getElementById('popUpForm').classList.add('visible');
     document.body.style.overflow = 'hidden'
     document.getElementsByClassName('floatingButton')[0].classList.add('invisible')
-
+    document.getElementById('confirmFieldsSelectionButton').classList.remove('no-click')
+    document.getElementById('xOfGraph').disabled = false;
+    document.getElementById('yOfGraph').disabled = false;
+    document.getElementById('typeOfGraph').disabled = false;
 }
 
 function loadFields() {
@@ -394,64 +401,56 @@ function getFilters() {
     console.log(answersContinous);
     // TODO: transform to mongoose querry json
 }
-function updateAvailableGraphs()
-{
-  console.log("test")
-  var xSelector = document.getElementById('xOfGraph')
-  var ySelector = document.getElementById('yOfGraph')
-  var chartSelector = document.getElementById('typeOfGraph')
-  const xType = availableFields.filter((val) => {return val.name === xSelector.value})[0].type
-  const yType = availableFields.filter((val) => {return val.name === ySelector.value})[0].type
- 
-  if(xType === 'discrete' && yType === 'discrete')
-  {
-    chartSelector.childNodes=ddOptions
-  }
-  else if(xType === 'discrete' && yType === 'continuous')
-  {
-    chartSelector.childNodes=dcOptions
-  }
-  else if(xType === 'continuous' && yType === 'discrete')
-  {
-    chartSelector.childNodes=cdOptions
-  }
-  else if(xType === 'continuous' && yType === 'continuous')
-  {
-    chartSelector.childNodes=ccOptions
-  }
-  else /// This else is called only on testing dummy data
-  {
-    console.log(allOptions)
-    allOptions.forEach((val,idx) => {
-      chartSelector.appendChild(val)
-    })
-  }
+
+function updateAvailableGraphs() {
+    console.log("test")
+    var xSelector = document.getElementById('xOfGraph')
+    var ySelector = document.getElementById('yOfGraph')
+    var chartSelector = document.getElementById('typeOfGraph')
+    const xType = availableFields.filter((val) => { return val.name === xSelector.value })[0].type
+    const yType = availableFields.filter((val) => { return val.name === ySelector.value })[0].type
+
+    if (xType === 'discrete' && yType === 'discrete') {
+        chartSelector.childNodes = ddOptions
+    } else if (xType === 'discrete' && yType === 'continuous') {
+        chartSelector.childNodes = dcOptions
+    } else if (xType === 'continuous' && yType === 'discrete') {
+        chartSelector.childNodes = cdOptions
+    } else if (xType === 'continuous' && yType === 'continuous') {
+        chartSelector.childNodes = ccOptions
+    } else /// This else is called only on testing dummy data
+    {
+        console.log(allOptions)
+        allOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
+    }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  try {
-    fillChartsWithDummyData()
-  } catch (e) {
-    console.log(e)
-  }
-  getAvailableFields()
-    .then(res => { availableFields = res.columns })
-    .then(columns => { loadFields() })
-    .then( ()=>{
-      var xSelector = document.getElementById('xOfGraph')
-      var ySelector = document.getElementById('yOfGraph')
-    
-      updateAvailableGraphs()
-    
-      xSelector.addEventListener('change', (ev)=>{
-        updateAvailableGraphs()
-      })
-    
-      ySelector.addEventListener('change', (ev)=>{
-        updateAvailableGraphs()
-      })
-    })
-    .catch(e => { console.log(e) })
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        fillChartsWithDummyData()
+    } catch (e) {
+        console.log(e)
+    }
+    getAvailableFields()
+        .then(res => { availableFields = res.columns })
+        .then(columns => { loadFields() })
+        .then(() => {
+            var xSelector = document.getElementById('xOfGraph')
+            var ySelector = document.getElementById('yOfGraph')
+
+            updateAvailableGraphs()
+
+            xSelector.addEventListener('change', (ev) => {
+                updateAvailableGraphs()
+            })
+
+            ySelector.addEventListener('change', (ev) => {
+                updateAvailableGraphs()
+            })
+        })
+        .catch(e => { console.log(e) })
 
 }, false)
 
