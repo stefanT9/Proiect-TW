@@ -1,3 +1,5 @@
+const Columns = require('./columns')
+const Values = require('./values')
 const User = require('./user')
 const CountrySeries = require('./contrySeries')
 const Country = require('./country')
@@ -9,6 +11,8 @@ db={
     Country,
     CountrySeries,
     FootNote,
-    Series
+    Series,
+    Columns,
+    Values
 }
 module.exports = db
