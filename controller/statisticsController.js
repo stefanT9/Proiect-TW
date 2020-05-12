@@ -1,6 +1,7 @@
 const fs = require('fs')
-
+const resPath="res/statistics"
 const statistics = 'view/statistics'
+
 let statisticsHTML = ''
 let statisticsCSS = ''
 let statisticsJS = ''
@@ -13,7 +14,7 @@ fs.readFile(statistics + '.html', 'utf8', function (err, data) {
 
   statisticsHTML = data
 })
-fs.readFile(statistics + '.css', 'utf8', function (err, data) {
+fs.readFile(resPath + '.css', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)
@@ -21,7 +22,7 @@ fs.readFile(statistics + '.css', 'utf8', function (err, data) {
 
   statisticsCSS = data
 })
-fs.readFile(statistics + '.js', 'utf8', function (err, data) {
+fs.readFile(resPath + '.js', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)
@@ -30,7 +31,7 @@ fs.readFile(statistics + '.js', 'utf8', function (err, data) {
   statisticsJS = data
 })
 
-async function getstatisticsHTML (req, res) {
+module.exports.getstatisticsHTML = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
@@ -46,7 +47,7 @@ async function getstatisticsHTML (req, res) {
 
   }
 }
-async function getstatisticsCSS (req, res) {
+module.exports.getstatisticsCSS = async (req, res)=> {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -62,7 +63,7 @@ async function getstatisticsCSS (req, res) {
 
   }
 }
-async function getstatisticsJS (req, res) {
+module.exports.getstatisticsJS = async (req, res) =>{
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
@@ -78,4 +79,3 @@ async function getstatisticsJS (req, res) {
 
   }
 }
-module.exports = { getstatisticsHTML, getstatisticsCSS, getstatisticsJS }

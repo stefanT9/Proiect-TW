@@ -1,7 +1,8 @@
 const fs = require('fs')
 
 const indexPath = 'view/index'
-const navBarPath = 'view/navbar'
+const navBarPath = 'res/navbar'
+const resPath = 'res/index'
 let indexHTML = ''
 let indexCSS = ''
 let indexJS = ''
@@ -14,7 +15,7 @@ fs.readFile(indexPath + '.html', 'utf8', function (err, data) {
   }
   indexHTML = data
 })
-fs.readFile(indexPath + '.css', 'utf8', function (err, data) {
+fs.readFile(resPath + '.css', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)
@@ -30,7 +31,7 @@ fs.readFile(navBarPath + '.css', 'utf8', function (err, data) {
   navBarCSS = data
 })
 
-fs.readFile(indexPath + '.js', 'utf8', function (err, data) {
+fs.readFile(resPath + '.js', 'utf8', function (err, data) {
   if (err) {
     console.log(err)
     process.exit(1)
@@ -38,7 +39,7 @@ fs.readFile(indexPath + '.js', 'utf8', function (err, data) {
   indexJS = data
 })
 
-async function getIndexHTML (req, res) {
+module.exports.getIndexHTML = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
@@ -52,7 +53,7 @@ async function getIndexHTML (req, res) {
     res.end()
   }
 }
-async function getIndexCSS (req, res) {
+module.exports.getIndexCSS = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -67,7 +68,7 @@ async function getIndexCSS (req, res) {
     res.end()
   }
 }
-async function getNavbarCSS (req, res) {
+module.exports.getNavbarCSS = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/css')
@@ -82,7 +83,7 @@ async function getNavbarCSS (req, res) {
     res.end()
   }
 }
-async function getIndexJS (req, res) {
+module.exports.getIndexJS = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/javascript')
@@ -97,5 +98,3 @@ async function getIndexJS (req, res) {
     res.end()
   }
 }
-
-module.exports = { getIndexHTML, getIndexCSS, getIndexJS, getNavbarCSS }

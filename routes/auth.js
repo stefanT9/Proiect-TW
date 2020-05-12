@@ -11,4 +11,4 @@ router.get('', (req, res) => {
 router.post('/login',authController.login)
 router.post('/register',authController.register)
 
-module.exports.auth = router
+module.exports = router
