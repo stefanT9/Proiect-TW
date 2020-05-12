@@ -3,16 +3,17 @@
 <html lang="ro">
 
 <head>
-    <title>Statistics</title>
+    <title>Statistics - Filters</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="statistics.css" type="text/css">
+    <link rel="stylesheet" href="" type="text/css">
     <link rel="stylesheet" href="navbar.css" type="text/css">
     <link rel="stylesheet" href="common.css" type="text/css">
+    <link rel="stylesheet" href="filters.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-    <script src="statistics.js"></script>
     <script src="index.js"></script>
+    <script src="filters.js"></script>
 </head>
 
 <body>
@@ -22,30 +23,26 @@
         <a href="index.html">Home</a>
         <a href="#"> Scores</a>
         <a href="results.html"> Results </a>
-        <a href="statistics.html#" class="active"> Statistics </a>
+        <a href="statistics.html" class="active"> Statistics </a>
         <a href="javascript:void(0);" class="icon" onclick="makeResponsive()">
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <main>
-        <div id="popUpForm">
-            <select id="xOfGraph" disabled>
-            </select>
-            <select id="yOfGraph" disabled>
-            </select>
-            <select id="typeOfGraph" disabled>
-            </select>
-            <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addNewChart()">Generate</button>
 
-        </div>
-        <a href='#' class="floatingButton" onclick="openPopUp()">
-            <i class="fa fa-plus my-float"></i>
+    <div class="inlineDiv">
+        <a>
+            <button>
+                < Go Back
+            </button>
         </a>
 
-        <section id="graphsSection">
-            <h2>Representations</h2>
-        </section>
-    </main>
+        <h1 id="lol">
+            Filters
+        </h1>
+    </div>
+
+    <div id="questions"></div>
+
 </body>
 
 </html>

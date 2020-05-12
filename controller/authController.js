@@ -4,7 +4,7 @@ const DB = require('../models/index')
 const constants = require('../utils/constants')
 
 
-async function login(req, res) {
+module.exports.login = async (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     console.log('test')
     DB.User.findOne({ email: req.body.email }, (err, user) => {
@@ -34,10 +34,9 @@ async function login(req, res) {
             res.end()
         }
     })
-    console.log('test2')
 }
 
-async function register(req, res) {
+module.exports.register = async (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     const user = await DB.User.findOne({ email: req.body.email })
     console.log(user)
@@ -67,8 +66,4 @@ async function register(req, res) {
             }
         })
     }
-    console.log('test2')
 }
-
-
-module.exports = { login, register }

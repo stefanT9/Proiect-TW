@@ -25,4 +25,4 @@ var seriesSchema=new Schema({
     licenceType: String
 })
 
-module.exports=model('series',seriesSchema)
+module.exports=model('series',seriesSchema,'EdDataStatSeries')

@@ -1,0 +1,24 @@
+html,
+body {
+    width: 100%;
+    margin: 0;
+}
+
+button {
+    margin: 5pt 0pt;
+    background-color: Transparent;
+    cursor: pointer;
+    color: #f2f2f2;
+    font-size: 1.5vw;
+    border-radius: 3pt;
+    background: #333;
+}
+
+button:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+.no-click {
+    pointer-events: none;
+}

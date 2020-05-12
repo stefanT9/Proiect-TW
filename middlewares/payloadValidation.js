@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt')
 const { secret } = require('../utils/constants')
 const jwt = require('jsonwebtoken')
-const schemas = require('../schemas')
-const httpStatus = require('http-status-codes')
 
 module.exports.isAuth = (req, res, next) => {
     console.log(req._header)

@@ -7,4 +7,4 @@ var footNoteSchema=new Schema({
     desription: String
 })
 
-module.exports = model('footNote',footNoteSchema)
+module.exports = model('footNote', footNoteSchema, 'EdStatFootnote')

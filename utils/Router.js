@@ -1,3 +1,5 @@
+const { isAuth,collectBody } = require('../middlewares/payloadValidation')
+
 class Router {
   constructor() {
     this.getRoutes = {}
@@ -27,11 +29,7 @@ class Router {
 
     if (req.method === 'GET') {
       if (this.getRoutes[url] !== undefined) {
-        try {
-          this.getRoutes[url](req,res)
-        } catch (e) {
-          console.log(e)
-        }
+        isAuth(req,res,[this.getRoutes[url]])
       }
       else
       {
@@ -42,12 +40,8 @@ class Router {
     }
     if (req.method === 'POST') {
       if (this.postRoutes[url] !== undefined) {
-        try {
-          collectBody(req,res,this.postRoutes[url])
-        } catch (e) {
-          console.log(e)
+          collectBody(req,res,[isAuth, this.postRoutes[url]])
         }
-      }
       else
       {
         res.statusCode = 404
@@ -55,24 +49,6 @@ class Router {
         res.end()
       }
     }
-  }
-}
-
-function collectBody (req,res,next)
-{
-  try{
-    var data = ''
-    req.on('data', (chunk) => {
-       data += chunk
-    })
-    req.on('end', () => {
-      req.body=JSON.parse(data)
-      next(req,res)
-    })
-  }
-  catch(e)
-  {
-    console.log(e)
   }
 }
 
