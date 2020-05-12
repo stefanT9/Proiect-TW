@@ -12,13 +12,13 @@ fs.readFile('res/images/background-home.jpg',(err, data)=>{
 
 module.exports.homeBackground = async (req,res) =>{
     try{
-        response.writeHead(200,{'Content-Type':'image/jpg'});
+        res.writeHead(200,{'Content-Type':'image/jpg'});
         res.end(image, 'utf-8');    
     }
     catch(e)
     {
         console.log(e)
-        response.writeHead(500)
+        res.writeHead(500)
         res.write()
         res.end()
     }
