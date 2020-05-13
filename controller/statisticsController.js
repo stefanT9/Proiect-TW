@@ -73,7 +73,7 @@ module.exports.getstatisticsJS = async (req, res) =>{
   } catch (e) {
     console.log(e)
     res.statusCode = 500
-    res.setHeader('Content-Type', 'text/html')
+    res.setHeader('Content-Type', 'text/javascript')
     res.write('Internal server error')
     res.end()
 
