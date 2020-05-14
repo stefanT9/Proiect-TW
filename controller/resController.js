@@ -2,7 +2,7 @@ const fs = require('fs')
 
 module.exports.getCSS = async(req, res) => {
     try{
-        fs.readFile(req.url.substr(1), 'utf8', function(err, data) {
+        fs.readFile('public/'+req.url, 'utf8', function(err, data) {
             if (err) {
                 res.statusCode = 404
                 res.write(`not found at ${req.url}`)
@@ -35,7 +35,7 @@ module.exports.getCSS = async(req, res) => {
 
 module.exports.getHtml = async (req,res) =>{
     try{
-        await fs.readFile(req.url.substr(1), 'utf8', function(err, data) {
+        await fs.readFile('public/'+req.url, 'utf8', function(err, data) {
             if (err) {
                 res.statusCode = 404
                 res.write(`not found at ${req.url}`)
@@ -69,7 +69,7 @@ module.exports.getHtml = async (req,res) =>{
 
 module.exports.getJS = async (req,res) =>{
     try{
-        await fs.readFile(req.url.substr(1), 'utf8', function(err, data) {
+        await fs.readFile('public/'+req.url, 'utf8', function(err, data) {
             if (err) {
                 res.statusCode = 404
                 res.write(`not found at ${req.url}`)
@@ -103,7 +103,7 @@ module.exports.getJS = async (req,res) =>{
 
 module.exports.getPhoto = async (req, res) =>{
     try{
-    fs.readFile(req.url,(err, data)=>{
+    fs.readFile('public/'+req.url,(err, data)=>{
         image=data
         if(err)
         {
