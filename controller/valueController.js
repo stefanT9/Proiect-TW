@@ -14,7 +14,7 @@ module.exports.insert = async(req, res) => {
                     }
                     if(columns[i]["translate"].get(key) !== null){
                         console.log(columns[i]["translate"].get(key))
-                        newValue[key] = columns[i]["translate"].get(key)
+                        newValue[columns[i]["name"]] = columns[i]["translate"].get(key)
                     }else{
                         console.log({ success: false, message: 'Descrete field '+columns[i]["name"]+" doesn't have a translation for "+key})
                         res.statusCode = 400
@@ -52,6 +52,7 @@ module.exports.insert = async(req, res) => {
             }
         }
         if(newValue !== null){
+            console.log(JSON.stringify(newValue))
             DB.Values.create(newValue, (err, val)=>{
                 if(err){
                     res.statusCode = 500
