@@ -67,3 +67,20 @@ module.exports.insert = async(req, res) => {
         }
     })   
 }
+
+module.exports.runQuery = async(req, res) => {
+    res.setHeader('Content-Type', 'application/json')
+    DB.Values.find(req.body.filters, (err, values)=>{
+        var results = []
+        for(var i = 0; i<values.length; i++){
+            var valueFound = {}
+            for(var j = 0; j<req.body.columns.length; j++){
+                valueFound[req.body.columns[j]] = values[i][req.body.columns[j]]
+            }
+        }
+        res.statusCode = 200
+        res.write({success:true, message:"Found results", data:JSON.stringify(results)})
+        res.end()
+})
+
+}
