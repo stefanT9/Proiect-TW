@@ -33,10 +33,10 @@ bubbleGraphElement.value = 'bubble'
 bubbleGraphElement.text = 'bubble graph'
 
 const allOptions = [lineGraphElement, barGraphElement, barGraphElement, radarGraphElement, pieGraphElement, polarGraphElement, scatterGraphElement, bubbleGraphElement]
-const ddOptions = []
-const dcOptions = []
-const cdOptions = []
-const ccOptions = [lineGraphElement, ]
+const ddOptions = [scatterGraphElement,]
+const dcOptions = [scatterGraphElement,]
+const cdOptions = [scatterGraphElement,]
+const ccOptions = [scatterGraphElement, ]
 
 function getGraphController(chartCanvas) {
     const graphController = document.createElement('div')

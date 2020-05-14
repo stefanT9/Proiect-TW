@@ -2,18 +2,26 @@ const DB = require('../models/index')
 
 module.exports.getColumns = async(req, res) => {
     res.setHeader('Content-Type', 'application/json')
-    try {
-        const allColumns = []
-        for (let property in DB.Country.schema.obj) {
-            allColumns.push({ 'name': property, 'type': 'dummy' })
+    DB.Columns.find({}, (err, columns)=>{
+        var results = []
+        for(var i = 0; i<columns.length; i++){
+            var columnFound = {name:columns[i]["name"], details:columns[i]["details"], type:columns[i]["type"]}
+            if(columnFound["type"] == "discrete"){
+                columnFound["values"] = []
+                for(value of columns[i]["translate"]){
+                    columnFound["values"].push(value[1])
+                }
+            }else{
+                columnFound["min"] = columns[i]["min"]
+                columnFound["max"] = columns[i]["max"]
+            }
+            results.push(columnFound)
+            
         }
-        res.write(JSON.stringify({ success: true, columns: allColumns }))
+        res.statusCode = 200
+        res.write(JSON.stringify({ success: true, columns: results }))
         res.end()
-    } catch (e) {
-        console.log(e)
-        res.write(JSON.stringify({ success: false, message: "Internal server error" }))
-        res.end()
-    }
+    })
 }
 
 module.exports.filterResults = async(req, res) => {

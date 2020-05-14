@@ -1,5 +1,25 @@
 const { isAuth,collectBody } = require('../middlewares/payloadValidation')
 
+String.prototype.fullMatch = function (regex) {
+  try{
+    regex = new RegExp(regex)
+  }
+  catch (e)
+  {
+    return false
+  }
+  var matches = this.toString().match(regex)
+  for (var idx in matches)
+  {
+    if(matches[idx]===this.toString())
+    {
+      return true
+    }
+  }
+
+  return false
+}
+
 class Router {
   constructor() {
     this.getRoutes = {}
@@ -33,6 +53,15 @@ class Router {
       }
       else
       {
+        for (var idx in Object.keys(this.getRoutes))
+        {
+          const val = Object.keys(this.getRoutes)[idx]
+          if(url.fullMatch(val))
+          {
+            isAuth(req, res, [this.getRoutes[val]])
+            return
+          }
+        }
         res.statusCode = 404
         res.write(JSON.stringify({ success: false, message: 'not found' }))
         res.end()
@@ -44,6 +73,14 @@ class Router {
         }
       else
       {
+        Object.keys(this.postRoutes).forEach((val)=>{
+          if(url.fullMatch(val))
+          {
+            collectBody(req,res,[isAuth,this.postRoutes[val]])
+            return
+          }          
+        })
+
         res.statusCode = 404
         res.write(JSON.stringify({ success: false, message: 'not found' }))
         res.end()
