@@ -3,7 +3,6 @@ const { hostUrl } = require('../utils/constants')
 const router = new Router()
 
 router.get('/', async (req, res) =>{
-    console.log(`aici e ${req.url}`)
     res.writeHead(302, {'Location': hostUrl + '/public/index.html'});
     res.end();
 })
