@@ -3,7 +3,6 @@ const { isAuth,collectBody } = require('../middlewares/payloadValidation')
 String.prototype.fullMatch = function (regex) {
   try{
     regex = new RegExp(regex)
-    console.log(`${regex}`)
   }
   catch (e)
   {
@@ -14,12 +13,6 @@ String.prototype.fullMatch = function (regex) {
   {
     if(matches[idx]===this.toString())
     {
-      console.log('------------------')
-      console.log(regex.toString())
-      console.log(matches[idx])
-      console.log(this.toString())
-      console.log('---------------')
-
       return true
     }
   }
@@ -53,7 +46,6 @@ class Router {
 
   route(req, res) {
     var url = req.url.split('?')[0]
-    console.log(url)
 
     if (req.method === 'GET') {
       if (this.getRoutes[url] !== undefined) {
@@ -66,7 +58,6 @@ class Router {
           const val = Object.keys(this.getRoutes)[idx]
           if(url.fullMatch(val))
           {
-            console.log(`${url} goes on ${val}`)
             isAuth(req, res, [this.getRoutes[val]])
             return
           }

@@ -110,3 +110,35 @@ module.exports.getJS = async (req,res) =>{
         res.end()
     }
 }
+
+module.exports.getPhoto = async (req, res) =>{
+    try{
+    fs.readFile(req.url,(err, data)=>{
+        image=data
+        if(err)
+        {
+            console.log(err)
+        }
+        else{
+            try{
+                res.writeHead(200,{'Content-Type':'image/jpg'});
+                res.end(image, 'utf-8');    
+            }
+            catch(e)
+            {
+                console.log(e)
+                res.writeHead(500)
+                res.write()
+                res.end()
+            }
+        }
+    })
+    }
+    catch(e)
+    {
+        console.log(e)
+        res.writeHead(500)
+        res.write()
+        res.end()
+    }
+}
