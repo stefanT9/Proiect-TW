@@ -281,22 +281,22 @@ function loadFields() {
         selectors[1].appendChild(el.cloneNode(true))
         if (availableFields[idx]['type'] == 'dummy') {
             if (Math.random() < 0.5) {
-                appendContinuousFilter(availableFields[idx]['name'], 0, 15, 0.1)
+                appendContinuousFilter('orice vrea Radu', availableFields[idx]['name'], 0, 15, 0.1)
             } else {
-                appendDiscreteFilter(availableFields[idx]['name'], ['lol', 'bol', 'tzol'])
+                appendDiscreteFilter('orice vrea Radu', availableFields[idx]['name'], ['lol', 'bol', 'tzol'])
             }
         } else if (availableFields[idx]['type'] == 'discrete') {
-            appendDiscreteFilter(availableFields[idx]['name'], availableFields[idx]['values'])
+            appendDiscreteFilter('orice vrea Radu', availableFields[idx]['name'], availableFields[idx]['values'])
         } else if (availableFields[idx]['type'] == 'continuous') {
-            appendContinuousFilter(availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01)
+            appendContinuousFilter('orice vrea Radu', availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01)
         } else if (availableFields[idx]['type'] == 'date') {
-            appendContinuousFilter(availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
+            appendContinuousFilter('orice vrea Radu', availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
         }
     }
 
 }
 
-function appendDiscreteFilter(question, options) {
+function appendDiscreteFilter(question, columnName, options) {
     totalDiscrete = totalDiscrete + 1;
     let discreteFilter = document.createElement('div');
 
@@ -304,6 +304,7 @@ function appendDiscreteFilter(question, options) {
     let questionText = document.createElement('p');
     questionText.id = "QD" + String(totalDiscrete);
     questionText.innerText = question;
+    questionText.className = columnName;
 
     discreteFilter.appendChild(questionText);
 
@@ -333,7 +334,7 @@ function appendDiscreteFilter(question, options) {
     document.getElementById("popUpForm").appendChild(discreteFilter);
 }
 
-function appendContinuousFilter(question, min, max, step, isDate) {
+function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     totalContinous = totalContinous + 1;
     let continousFilter = document.createElement('div');
 
@@ -341,6 +342,7 @@ function appendContinuousFilter(question, min, max, step, isDate) {
     let questionText = document.createElement('p');
     questionText.id = "QC" + String(totalContinous);
     questionText.innerText = question;
+    questionText.className = columnName;
 
     continousFilter.appendChild(questionText);
 
@@ -483,7 +485,8 @@ function getFilters() {
             }
 
             flag = true;
-            let textQ = document.getElementById("QD" + String(i + 1)).innerText;
+            let textQ = document.getElementById("QD" + String(i + 1)).classList;
+            textQ = textQ[textQ.length - 1];
             query += " " + textQ + " : {";
             query += " $in: [ ";
             for (let j = 0; j < answersDiscrete[i].length; j++) {
@@ -501,8 +504,8 @@ function getFilters() {
     }
 
     for (let i = 0; i < countContinuous; i++) {
-        if ((answersContinous[i][0] == continousQuestions[2 * i].min && answersContinous[i][1] == continousQuestions[2 * i].max) ||
-            (answersContinous[i][0] == continousQuestions[2 * i].max && answersContinous[i][1] == continousQuestions[2 * i].min)) {
+        if (answersContinous[i][0] - parseFloat(continousQuestions[2 * i].step) < parseFloat(continousQuestions[2 * i].min) &&
+            answersContinous[i][1] + parseFloat(continousQuestions[2 * i].step) > parseFloat(continousQuestions[2 * i].max)) {
             continue;
         }
 
@@ -511,7 +514,8 @@ function getFilters() {
         }
 
         flag = true;
-        let textQ = document.getElementById("QC" + String(i + 1)).innerText;
+        let textQ = document.getElementById("QC" + String(i + 1)).classList;
+        textQ = textQ[textQ.length - 1];
         query += " " + textQ + " : {";
         query += "$gte: ";
         query += answersContinous[i][0];
