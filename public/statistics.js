@@ -33,12 +33,13 @@ bubbleGraphElement.value = 'bubble'
 bubbleGraphElement.text = 'bubble graph'
 
 const allOptions = [lineGraphElement, barGraphElement, barGraphElement, radarGraphElement, pieGraphElement, polarGraphElement, scatterGraphElement, bubbleGraphElement]
-const ddOptions = [scatterGraphElement,]
-const dcOptions = [scatterGraphElement,]
-const cdOptions = [scatterGraphElement,]
-const ccOptions = [scatterGraphElement, ]
+const ddOptions = [scatterGraphElement, lineGraphElement]
+const dcOptions = [scatterGraphElement, lineGraphElement]
+const cdOptions = [scatterGraphElement, lineGraphElement]
+const ccOptions = [scatterGraphElement, lineGraphElement]
 
-function getGraphController(chartCanvas) {
+function getGraphController(chartCanvas, chartJsElement) {
+
     const graphController = document.createElement('div')
     const buttonsWrapper = document.createElement('div')
 
@@ -129,8 +130,7 @@ function getGraphController(chartCanvas) {
 
     exportAsCSV.download = 'data.csv'
     exportAsCSV.onclick = () => {
-        let ctx = chartCanvas.getContext("2d")
-        console.log(ctx.getImageData(0, 0, chartCanvas.width, chartCanvas.height))
+        console.log(chartJsElement.data.datasets[0].data)
     }
 
     exportAsJPG.download = 'grafic.jpg'
@@ -539,13 +539,25 @@ function updateAvailableGraphs() {
     const yType = availableFields.filter((val) => { return val.name === ySelector.value })[0].type
 
     if (xType === 'discrete' && yType === 'discrete') {
-        chartSelector.childNodes = ddOptions
+        console.log("dd")
+        ddOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else if (xType === 'discrete' && yType === 'continuous') {
-        chartSelector.childNodes = dcOptions
+        console.log("dc")
+        dcOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else if (xType === 'continuous' && yType === 'discrete') {
-        chartSelector.childNodes = cdOptions
+        console.log("cd")
+        cdOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else if (xType === 'continuous' && yType === 'continuous') {
-        chartSelector.childNodes = ccOptions
+        console.log("cc")
+        ccOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else /// This else is called only on testing dummy data
     {
         console.log(allOptions)
