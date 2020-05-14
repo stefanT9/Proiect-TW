@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/public/common.css" type="text/css">
     <script src="/public/statistics.js"></script>
     <script src="/public/index.js"></script>
+    <script type="text/javascript" src="/public/imports.js"></script>
+
 </head>
 
 <body>
@@ -39,6 +41,7 @@
             <button>
                 Export
             </button>
+            <input type="file" onchange="readFile(event);">
         </section>
 
         <section id="resultsTableSection">

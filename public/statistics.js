@@ -90,7 +90,8 @@ function getGraphController(chartCanvas) {
 
     exportAsCSV.download = 'data.csv'
     exportAsCSV.onclick = () => {
-        console.log('not implemented')
+        let ctx = chartCanvas.getContext("2d")
+        console.log(ctx.getImageData(0, 0, chartCanvas.width, chartCanvas.height))
     }
 
     exportAsJPG.download = 'grafic.jpg'
@@ -225,8 +226,8 @@ function appendDiscreteFilter(question, options) {
     let discreteFilter = document.createElement('div');
 
     discreteFilter.className = "questionDivDiscrete";
-    discreteFilter.id = "QD" + String(totalDiscrete);
     let questionText = document.createElement('p');
+    questionText.id = "QD" + String(totalDiscrete);
     questionText.innerText = question;
 
     discreteFilter.appendChild(questionText);
@@ -262,8 +263,8 @@ function appendContinuousFilter(question, min, max, step, isDate) {
     let continousFilter = document.createElement('div');
 
     continousFilter.className = "questionDivContinuous";
-    continousFilter.id = "QC" + String(totalContinous);
     let questionText = document.createElement('p');
+    questionText.id = "QC" + String(totalContinous);
     questionText.innerText = question;
 
     continousFilter.appendChild(questionText);
@@ -339,10 +340,10 @@ function appendContinuousFilter(question, min, max, step, isDate) {
 }
 
 function getFilters() {
-    var discreteQuestions = document.querySelectorAll(".questionDivDiscrete > label > input");
-    var continousQuestions = document.querySelectorAll(".questionDivContinuous > input");
-    var countContinuous = document.querySelectorAll(".questionDivContinuous").length;
-    var countDiscrete = document.querySelectorAll(".questionDivDiscrete").length;
+    let discreteQuestions = document.querySelectorAll(".questionDivDiscrete > label > input");
+    let continousQuestions = document.querySelectorAll(".questionDivContinuous > input");
+    let countContinuous = document.querySelectorAll(".questionDivContinuous").length;
+    let countDiscrete = document.querySelectorAll(".questionDivDiscrete").length;
 
     let answersDiscrete = new Array();
 
@@ -358,14 +359,14 @@ function getFilters() {
                     let questionNumber = discreteQuestions[i].id.substring(j + 1);
                     answersDiscrete[questionNumber - 1].push(value);
 
-                    console.log("Value " + String(value) + " for question " + String(questionNumber))
+                    //               console.log("Value " + String(value) + " for question " + String(questionNumber))
                 }
             }
         }
     }
 
-    console.log("Final Discrete");
-    console.log(answersDiscrete);
+    // console.log("Final Discrete");
+    // console.log(answersDiscrete)
 
     let answersContinous = new Array();
 
@@ -389,16 +390,68 @@ function getFilters() {
             value2 = temp;
         }
 
-        let questionNumber = i / 2 + 1;
+        // let questionNumber = i / 2 + 1;
 
-        console.log("Question Continous " + String(questionNumber));
-        console.log("Interval: " + String(value1) + " - " + String(value2));
+        //console.log("Question Continous " + String(questionNumber));
+        //console.log("Interval: " + String(value1) + " - " + String(value2));
 
         answersContinous.push([value1, value2]);
     }
 
-    console.log("Final Continous");
-    console.log(answersContinous);
+
+    let query = "{";
+    let flag = false;
+    for (let i = 0; i < countDiscrete; i++) {
+        if (answersDiscrete[i].length > 0) {
+            if (flag == true) {
+                query += ", ";
+            }
+
+            flag = true;
+            let textQ = document.getElementById("QD" + String(i + 1)).innerText;
+            query += " " + textQ + " : {";
+            query += " $in: [ ";
+            for (let j = 0; j < answersDiscrete[i].length; j++) {
+                query += "\"";
+                query += answersDiscrete[i][j];
+                query += "\"";
+
+                if (j < answersDiscrete[i].length - 1) {
+                    query += ", ";
+                }
+            }
+
+            query += "] }";
+        }
+    }
+
+    for (let i = 0; i < countContinuous; i++) {
+        if ((answersContinous[i][0] == continousQuestions[2 * i].min && answersContinous[i][1] == continousQuestions[2 * i].max) ||
+            (answersContinous[i][0] == continousQuestions[2 * i].max && answersContinous[i][1] == continousQuestions[2 * i].min)) {
+            continue;
+        }
+
+        if (flag == true) {
+            query += ", ";
+        }
+
+        flag = true;
+        let textQ = document.getElementById("QC" + String(i + 1)).innerText;
+        query += " " + textQ + " : {";
+        query += "$gte: ";
+        query += answersContinous[i][0];
+        query += ", ";
+        query += "$lte: ";
+        query += answersContinous[i][1];
+        query += " } ";
+    }
+
+    query += " }";
+
+    return query;
+
+    //console.log("Final Continous");
+    //console.log(answersContinous);
     // TODO: transform to mongoose querry json
 }
 
