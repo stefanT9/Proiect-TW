@@ -3,30 +3,26 @@ const { isAuth,collectBody } = require('../middlewares/payloadValidation')
 String.prototype.fullMatch = function (regex) {
   try{
     regex = new RegExp(regex)
+    console.log(`${regex}`)
   }
   catch (e)
   {
     return false
   }
   var matches = this.toString().match(regex)
-  console.log('------------------')
-  console.log(matches)
-  console.log(this.toString())
-  console.log(regex)
-
   for (var idx in matches)
   {
     if(matches[idx]===this.toString())
     {
-      console.log(`match is ${matches[idx]}`)
-      console.log(true)
+      console.log('------------------')
+      console.log(regex.toString())
+      console.log(matches[idx])
+      console.log(this.toString())
       console.log('---------------')
 
       return true
     }
   }
-  console.log(false)
-  console.log('---------------')
 
   return false
 }
@@ -71,8 +67,7 @@ class Router {
           if(url.fullMatch(val))
           {
             console.log(`${url} goes on ${val}`)
-            isAuth(req, res, this.getRoutes[val])
-            // makes it so that you cant rewrite the response after the if
+            isAuth(req, res, [this.getRoutes[val]])
             return
           }
         }
@@ -91,7 +86,6 @@ class Router {
           if(url.fullMatch(val))
           {
             collectBody(req,res,[isAuth,this.postRoutes[val]])
-            // makes it so that you cant rewrite the response after the if  
             return
           }          
         })

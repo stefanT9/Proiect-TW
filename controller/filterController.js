@@ -31,6 +31,7 @@ module.exports.filterResults = async (req, res) => {
       }
       else{
         console.log(row)
+
         x.push(row[xField])
         y.push(row[yField])
       }
