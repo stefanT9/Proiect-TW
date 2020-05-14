@@ -1,3 +1,6 @@
+let dataObj = new Array()
+let position = undefined
+let totalGraphs = 0
 let availableFields = [];
 let chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
 
@@ -36,7 +39,6 @@ const cdOptions = []
 const ccOptions = [lineGraphElement, ]
 
 function getGraphController(chartCanvas) {
-
     const graphController = document.createElement('div')
     const buttonsWrapper = document.createElement('div')
 
@@ -47,6 +49,8 @@ function getGraphController(chartCanvas) {
     const addMoreData = document.createElement('a')
 
     const graphContainer = document.createElement('div')
+    deleteButton.id = "delete" + String(totalGraphs)
+    addMoreData.id = "add" + String(totalGraphs)
 
     buttonsWrapper.appendChild(deleteButton)
     buttonsWrapper.appendChild(exportAsCSV)
@@ -59,6 +63,8 @@ function getGraphController(chartCanvas) {
     exportAsJPG.classList.add('controller-button')
     exportAsPNG.classList.add('controller-button')
     addMoreData.classList.add('controller-button')
+    addMoreData.classList.add('add-button')
+    deleteButton.classList.add('delete-button')
 
     deleteButton.href = '#'
     exportAsCSV.href = '#'
@@ -82,10 +88,43 @@ function getGraphController(chartCanvas) {
     exportAsPNG.innerText = 'PNG'
     addMoreData.innerText = 'Add more data'
 
-    deleteButton.onclick = () => {
+    deleteButton.onclick = function() {
+        let position = String(this.id).substring(6)
+        position = parseInt(position)
+        dataObj.splice(position - 1, 1)
         const wrapper = deleteButton.parentElement.parentElement
         const body = wrapper.parentElement
         body.removeChild(wrapper)
+
+        listadd = document.querySelectorAll('.add-button')
+        listdel = document.querySelectorAll('.delete-button')
+        listcan = document.getElementsByTagName('canvas')
+
+        for (let i = 0; i < listadd.length; i++) {
+            let idCurr = parseInt(String(listadd[i].id).substring(3))
+            if (idCurr > position) {
+                idCurr--
+                listadd[i].id = 'add' + String(idCurr)
+            }
+        }
+
+        for (let i = 0; i < listdel.length; i++) {
+            let idCurr = parseInt(String(listdel[i].id).substring(6))
+            if (idCurr > position) {
+                idCurr--
+                listdel[i].id = 'delete' + String(idCurr)
+            }
+        }
+
+        for (let i = 0; i < listcan.length; i++) {
+            let idCurr = parseInt(String(listcan[i].id).substring(6))
+            if (idCurr > position) {
+                idCurr--
+                listcan[i].id = 'canvas' + String(idCurr)
+            }
+        }
+
+        totalGraphs--
     };
 
     exportAsCSV.download = 'data.csv'
@@ -104,8 +143,10 @@ function getGraphController(chartCanvas) {
         exportAsJPG.href = chartCanvas.toDataURL("image/png")
     }
 
-    addMoreData.onclick = () => {
-
+    addMoreData.onclick = function() {
+        position = String(this.id).substring(3)
+        position = parseInt(position)
+        openPopUp()
     }
 
     return graphController
@@ -143,19 +184,45 @@ function addNewChart() {
 
     const xValues = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
     const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
-    const chartCanvas = document.createElement('canvas');
+    let chartCanvas
+    let flag = false
+
+    if (position === undefined) {
+        flag = true
+        totalGraphs++
+        chartCanvas = document.createElement('canvas');
+        chartCanvas.id = 'canvas' + String(totalGraphs)
+
+    } else {
+        chartCanvas = document.getElementById('canvas' + String(position))
+    }
+
+    if (position === undefined) {
+        dataObj.push(new Array())
+        dataObj[dataObj.length - 1].push({
+            label: yLabel,
+            data: dataArray,
+            backgroundColor: chartsPallete,
+            borderColor: chartsPallete,
+            fill: false
+        });
+
+        position = dataObj.length;
+    } else {
+        dataObj[position - 1].push({
+            label: yLabel,
+            data: dataArray,
+            backgroundColor: chartsPallete,
+            borderColor: chartsPallete,
+            fill: false
+        })
+    }
 
     const myChart = new Chart(chartCanvas.getContext('2d'), {
         type: chartType,
         data: {
             labels: xValues,
-            datasets: [{
-                label: yLabel,
-                data: dataArray,
-                backgroundColor: chartsPallete,
-                borderColor: chartsPallete,
-                fill: false
-            }, ]
+            datasets: dataObj[position - 1]
         },
         options: {
             responsive: true,
@@ -175,11 +242,19 @@ function addNewChart() {
                         beginAtZero: false
                     }
                 }]
-            }
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
         }
     });
 
-    document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
+    if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
+    position = undefined
     closePopUp()
 }
 
