@@ -90,7 +90,14 @@ function getGraphController(chartCanvas, chartJsElement) {
 
     exportAsCSV.download = 'data.csv'
     exportAsCSV.onclick = () => {
-        console.log(chartJsElement.data.datasets[0].data)
+        var result = chartJsElement.data
+        const content = result.datasets[0].data
+        const labels = result.labels
+        let csv = `"x","y"\n`
+        content.forEach((val,idx) => {
+            csv = csv+`"${labels[idx]}",${val}\n`
+        })
+        exportAsCSV.href = `data:text/csv;charset=utf-8,${csv}`
     }
 
     exportAsJPG.download = 'grafic.jpg'
