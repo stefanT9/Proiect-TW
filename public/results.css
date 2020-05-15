@@ -121,7 +121,7 @@ form input {
     z-index: 2;
     top: 0;
     color: white;
-    border: solid #9C27B0;
+    border: solid black;
     padding-top: 5pt;
     background-color: #9C27B0;
 }
@@ -131,21 +131,26 @@ form input {
     position: relative;
     padding-top: 5pt;
     text-align: center;
-    border: solid #00BCD4;
+    border: solid black;
 }
 
 .resultsTableRow {
     color: #9C27B0;
     text-align: center;
+    border-color: black;
 }
 
-.resultsTableRow:hover>.resultsTableData {
-    background-color: #9C27B0;
+.resultsTableRow:hover>.resultsTableData:not(:hover) {
+    background-color: rgb(197, 52, 223);
     color: white;
-    border: solid #9C27B0;
+    border-color: solid black;
 }
 
-.fieldsWrapper {}
+.resultsTableRow:hover>.resultsTableData:hover {
+    background-color: rgb(167, 8, 196);
+    color: white;
+    border-color: solid black;
+}
 
 .separator {
     margin: 10pt;
@@ -228,4 +233,9 @@ form input {
         min-width: 100%;
         width: 100%;
     }
+}
+
+#resultsTableDiv {
+    overflow-x: auto;
+    overflow-y: auto;
 }
