@@ -174,4 +174,30 @@ function getFilters() {
     // TODO: transform to mongoose querry json
 }
 
-module.exports = { appendDiscreteFilter, appendContinuousFilter, getFilters }
+function getResultsFromFilters(filters, columns) {
+    var response = await fetch(
+        "/values/search",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                filters:filters,
+                columns:columns
+            })
+        }
+    );
+    return response.json();
+}
+
+function getGraphResults(xFieldName, yFieldName){
+    var x = []
+    var y = []
+    getResultsFromFilters(getFilters(), [xFieldName, yFieldName]).forEach((item, index)=>{
+        x.push(item[xFieldName])
+        y.push(item[yFieldName])
+    })
+    return {xFieldName:x, yFieldName:y}
+}
+

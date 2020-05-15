@@ -112,7 +112,7 @@ function getGraphController(chartCanvas) {
 }
 
 async function getAvailableFields() {
-    const url = 'http://localhost:3000/filter/all';
+    const url = '/filter/all';
     return await fetch(url)
         .then(data => {
             return data.json()
@@ -141,8 +141,9 @@ function addNewChart() {
     const yLabel = document.getElementById('yOfGraph').value
     const chartType = document.getElementById('typeOfGraph').value;
 
-    const xValues = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
-    const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
+    const graphValues = getGraphResults(xLabel, yLabel)
+    const xValues = graphValues[xLabel] //['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
+    const dataArray = graphValues[yLabel] //[Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
     const chartCanvas = document.createElement('canvas');
 
     const myChart = new Chart(chartCanvas.getContext('2d'), {
