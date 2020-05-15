@@ -1,3 +1,6 @@
+let dataObj = new Array()
+let position = undefined
+let totalGraphs = 0
 let availableFields = [];
 let chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
 
@@ -30,12 +33,12 @@ bubbleGraphElement.value = 'bubble'
 bubbleGraphElement.text = 'bubble graph'
 
 const allOptions = [lineGraphElement, barGraphElement, barGraphElement, radarGraphElement, pieGraphElement, polarGraphElement, scatterGraphElement, bubbleGraphElement]
-const ddOptions = [scatterGraphElement,]
-const dcOptions = [scatterGraphElement,]
-const cdOptions = [scatterGraphElement,]
-const ccOptions = [scatterGraphElement, ]
+const ddOptions = [scatterGraphElement, lineGraphElement]
+const dcOptions = [scatterGraphElement, lineGraphElement]
+const cdOptions = [scatterGraphElement, lineGraphElement]
+const ccOptions = [scatterGraphElement, lineGraphElement]
 
-function getGraphController(chartCanvas) {
+function getGraphController(chartCanvas, chartJsElement) {
 
     const graphController = document.createElement('div')
     const buttonsWrapper = document.createElement('div')
@@ -47,6 +50,8 @@ function getGraphController(chartCanvas) {
     const addMoreData = document.createElement('a')
 
     const graphContainer = document.createElement('div')
+    deleteButton.id = "delete" + String(totalGraphs)
+    addMoreData.id = "add" + String(totalGraphs)
 
     buttonsWrapper.appendChild(deleteButton)
     buttonsWrapper.appendChild(exportAsCSV)
@@ -59,6 +64,8 @@ function getGraphController(chartCanvas) {
     exportAsJPG.classList.add('controller-button')
     exportAsPNG.classList.add('controller-button')
     addMoreData.classList.add('controller-button')
+    addMoreData.classList.add('add-button')
+    deleteButton.classList.add('delete-button')
 
     deleteButton.href = '#'
     exportAsCSV.href = '#'
@@ -82,16 +89,55 @@ function getGraphController(chartCanvas) {
     exportAsPNG.innerText = 'PNG'
     addMoreData.innerText = 'Add more data'
 
-    deleteButton.onclick = () => {
+    deleteButton.onclick = function() {
+        let position = String(this.id).substring(6)
+        position = parseInt(position)
+        dataObj.splice(position - 1, 1)
         const wrapper = deleteButton.parentElement.parentElement
         const body = wrapper.parentElement
         body.removeChild(wrapper)
+
+        listadd = document.querySelectorAll('.add-button')
+        listdel = document.querySelectorAll('.delete-button')
+        listcan = document.getElementsByTagName('canvas')
+
+        for (let i = 0; i < listadd.length; i++) {
+            let idCurr = parseInt(String(listadd[i].id).substring(3))
+            if (idCurr > position) {
+                idCurr--
+                listadd[i].id = 'add' + String(idCurr)
+            }
+        }
+
+        for (let i = 0; i < listdel.length; i++) {
+            let idCurr = parseInt(String(listdel[i].id).substring(6))
+            if (idCurr > position) {
+                idCurr--
+                listdel[i].id = 'delete' + String(idCurr)
+            }
+        }
+
+        for (let i = 0; i < listcan.length; i++) {
+            let idCurr = parseInt(String(listcan[i].id).substring(6))
+            if (idCurr > position) {
+                idCurr--
+                listcan[i].id = 'canvas' + String(idCurr)
+            }
+        }
+
+        totalGraphs--
     };
 
     exportAsCSV.download = 'data.csv'
     exportAsCSV.onclick = () => {
-        let ctx = chartCanvas.getContext("2d")
-        console.log(ctx.getImageData(0, 0, chartCanvas.width, chartCanvas.height))
+        var result = chartJsElement.data
+        const content = result.datasets[0].data
+        const labels = result.labels
+        let csv = `"x","y"\n`
+        content.forEach((val, idx) => {
+            csv = csv + `"${labels[idx]}",${val}\n`
+        })
+        exportAsCSV.href = `data:text/csv;charset=utf-8,${csv}`
     }
 
     exportAsJPG.download = 'grafic.jpg'
@@ -104,8 +150,10 @@ function getGraphController(chartCanvas) {
         exportAsJPG.href = chartCanvas.toDataURL("image/png")
     }
 
-    addMoreData.onclick = () => {
-
+    addMoreData.onclick = function() {
+        position = String(this.id).substring(3)
+        position = parseInt(position)
+        openPopUp()
     }
 
     return graphController
@@ -141,22 +189,47 @@ function addNewChart() {
     const yLabel = document.getElementById('yOfGraph').value
     const chartType = document.getElementById('typeOfGraph').value;
 
-    const graphValues = getGraphResults(xLabel, yLabel)
-    const xValues = graphValues[xLabel] //['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
-    const dataArray = graphValues[yLabel] //[Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
-    const chartCanvas = document.createElement('canvas');
+    const xValues = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
+    const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
+    let chartCanvas
+    let flag = false
+
+    if (position === undefined) {
+        flag = true
+        totalGraphs++
+        chartCanvas = document.createElement('canvas');
+        chartCanvas.id = 'canvas' + String(totalGraphs)
+
+    } else {
+        chartCanvas = document.getElementById('canvas' + String(position))
+    }
+
+    if (position === undefined) {
+        dataObj.push(new Array())
+        dataObj[dataObj.length - 1].push({
+            label: yLabel,
+            data: dataArray,
+            backgroundColor: chartsPallete,
+            borderColor: chartsPallete,
+            fill: false
+        });
+
+        position = dataObj.length;
+    } else {
+        dataObj[position - 1].push({
+            label: yLabel,
+            data: dataArray,
+            backgroundColor: chartsPallete,
+            borderColor: chartsPallete,
+            fill: false
+        })
+    }
 
     const myChart = new Chart(chartCanvas.getContext('2d'), {
         type: chartType,
         data: {
             labels: xValues,
-            datasets: [{
-                label: yLabel,
-                data: dataArray,
-                backgroundColor: chartsPallete,
-                borderColor: chartsPallete,
-                fill: false
-            }, ]
+            datasets: dataObj[position - 1]
         },
         options: {
             responsive: true,
@@ -176,11 +249,19 @@ function addNewChart() {
                         beginAtZero: false
                     }
                 }]
-            }
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
         }
     });
 
-    document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
+    if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
+    position = undefined
     closePopUp()
 }
 
@@ -207,29 +288,45 @@ function loadFields() {
         selectors[1].appendChild(el.cloneNode(true))
         if (availableFields[idx]['type'] == 'dummy') {
             if (Math.random() < 0.5) {
-                appendContinuousFilter(availableFields[idx]['name'], 0, 15, 0.1)
+                appendContinuousFilter('orice vrea Radu', availableFields[idx]['name'], 0, 15, 0.1)
             } else {
-                appendDiscreteFilter(availableFields[idx]['name'], ['lol', 'bol', 'tzol'])
+                appendDiscreteFilter('orice vrea Radu', availableFields[idx]['name'], ['lol', 'bol', 'tzol'])
             }
         } else if (availableFields[idx]['type'] == 'discrete') {
-            appendDiscreteFilter(availableFields[idx]['name'], availableFields[idx]['values'])
+            appendDiscreteFilter('orice vrea Radu', availableFields[idx]['name'], availableFields[idx]['values'])
         } else if (availableFields[idx]['type'] == 'continuous') {
-            appendContinuousFilter(availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01)
+            appendContinuousFilter('orice vrea Radu', availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01)
         } else if (availableFields[idx]['type'] == 'date') {
-            appendContinuousFilter(availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
+            appendContinuousFilter('orice vrea Radu', availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
         }
     }
 
 }
 
-function appendDiscreteFilter(question, options) {
-    totalDiscrete = totalDiscrete + 1;
-    let discreteFilter = document.createElement('div');
+function appendDiscreteFilter(question, columnName, options) {
+    if (options.length == 0)
+        return;
 
+    totalDiscrete = totalDiscrete + 1;
+    let flipP = document.createElement('p')
+    flipP.innerText = question;
+    flipP.className = "flip";
+    document.getElementById("popUpForm").appendChild(flipP);
+    let discreteFilter = document.createElement('div');
+    discreteFilter.id = "divD" + String(totalDiscrete);
+    flipP.onclick = function() {
+        if (document.getElementById(discreteFilter.id).style.display == "none")
+            document.getElementById(discreteFilter.id).style.display = "block";
+        else
+            document.getElementById(discreteFilter.id).style.display = "none";
+    };
+    discreteFilter.style.display = "none";
     discreteFilter.className = "questionDivDiscrete";
     let questionText = document.createElement('p');
     questionText.id = "QD" + String(totalDiscrete);
     questionText.innerText = question;
+    questionText.className = columnName;
+    questionText.style.display = "none";
 
     discreteFilter.appendChild(questionText);
 
@@ -259,14 +356,30 @@ function appendDiscreteFilter(question, options) {
     document.getElementById("popUpForm").appendChild(discreteFilter);
 }
 
-function appendContinuousFilter(question, min, max, step, isDate) {
-    totalContinous = totalContinous + 1;
-    let continousFilter = document.createElement('div');
+function appendContinuousFilter(question, columnName, min, max, step, isDate) {
+    if (String(max) == "null" || String(min) == "null")
+        return;
 
+    totalContinous = totalContinous + 1;
+    let flipP = document.createElement('p')
+    flipP.innerText = question;
+    flipP.className = "flip";
+    document.getElementById("popUpForm").appendChild(flipP);
+    let continousFilter = document.createElement('div');
+    continousFilter.id = "divC" + String(totalContinous);
+    flipP.onclick = function() {
+        if (document.getElementById(continousFilter.id).style.display == "none")
+            document.getElementById(continousFilter.id).style.display = "block";
+        else
+            document.getElementById(continousFilter.id).style.display = "none";
+    };
+    continousFilter.style.display = "none";
     continousFilter.className = "questionDivContinuous";
     let questionText = document.createElement('p');
     questionText.id = "QC" + String(totalContinous);
     questionText.innerText = question;
+    questionText.className = columnName;
+    questionText.style.display = "none";
 
     continousFilter.appendChild(questionText);
 
@@ -409,9 +522,10 @@ function getFilters() {
             }
 
             flag = true;
-            let textQ = document.getElementById("QD" + String(i + 1)).innerText;
+            let textQ = document.getElementById("QD" + String(i + 1)).classList;
+            textQ = "\"" + textQ[textQ.length - 1] + "\"";
             query += " " + textQ + " : {";
-            query += " $in: [ ";
+            query += " \"$in\": [ ";
             for (let j = 0; j < answersDiscrete[i].length; j++) {
                 query += "\"";
                 query += answersDiscrete[i][j];
@@ -427,8 +541,8 @@ function getFilters() {
     }
 
     for (let i = 0; i < countContinuous; i++) {
-        if ((answersContinous[i][0] == continousQuestions[2 * i].min && answersContinous[i][1] == continousQuestions[2 * i].max) ||
-            (answersContinous[i][0] == continousQuestions[2 * i].max && answersContinous[i][1] == continousQuestions[2 * i].min)) {
+        if (answersContinous[i][0] - parseFloat(continousQuestions[2 * i].step) < parseFloat(continousQuestions[2 * i].min) &&
+            answersContinous[i][1] + parseFloat(continousQuestions[2 * i].step) > parseFloat(continousQuestions[2 * i].max)) {
             continue;
         }
 
@@ -437,12 +551,13 @@ function getFilters() {
         }
 
         flag = true;
-        let textQ = document.getElementById("QC" + String(i + 1)).innerText;
+        let textQ = document.getElementById("QC" + String(i + 1)).classList;
+        textQ = "\"" + textQ[textQ.length - 1] + "\"";
         query += " " + textQ + " : {";
-        query += "$gte: ";
+        query += "\"$gte\": ";
         query += answersContinous[i][0];
         query += ", ";
-        query += "$lte: ";
+        query += "\"$lte\": ";
         query += answersContinous[i][1];
         query += " } ";
     }
@@ -465,13 +580,25 @@ function updateAvailableGraphs() {
     const yType = availableFields.filter((val) => { return val.name === ySelector.value })[0].type
 
     if (xType === 'discrete' && yType === 'discrete') {
-        chartSelector.childNodes = ddOptions
+        console.log("dd")
+        ddOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else if (xType === 'discrete' && yType === 'continuous') {
-        chartSelector.childNodes = dcOptions
+        console.log("dc")
+        dcOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else if (xType === 'continuous' && yType === 'discrete') {
-        chartSelector.childNodes = cdOptions
+        console.log("cd")
+        cdOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else if (xType === 'continuous' && yType === 'continuous') {
-        chartSelector.childNodes = ccOptions
+        console.log("cc")
+        ccOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
     } else /// This else is called only on testing dummy data
     {
         console.log(allOptions)

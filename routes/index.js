@@ -7,7 +7,7 @@ const resources = require('./res')
 const pages = require('./pages')
 
 var router = new Router()
-router.use('/public', resources)
+router.use('', resources)
 router.use('/crud',crud)
 router.use('/filter', filter)
 router.use('/auth', auth)
