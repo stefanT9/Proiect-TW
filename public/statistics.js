@@ -134,8 +134,8 @@ function getGraphController(chartCanvas, chartJsElement) {
         const content = result.datasets[0].data
         const labels = result.labels
         let csv = `"x","y"\n`
-        content.forEach((val,idx) => {
-            csv = csv+`"${labels[idx]}",${val}\n`
+        content.forEach((val, idx) => {
+            csv = csv + `"${labels[idx]}",${val}\n`
         })
         exportAsCSV.href = `data:text/csv;charset=utf-8,${csv}`
     }
@@ -304,14 +304,29 @@ function loadFields() {
 }
 
 function appendDiscreteFilter(question, columnName, options) {
-    totalDiscrete = totalDiscrete + 1;
-    let discreteFilter = document.createElement('div');
+    if (options.length == 0)
+        return;
 
+    totalDiscrete = totalDiscrete + 1;
+    let flipP = document.createElement('p')
+    flipP.innerText = question;
+    flipP.className = "flip";
+    document.getElementById("popUpForm").appendChild(flipP);
+    let discreteFilter = document.createElement('div');
+    discreteFilter.id = "divD" + String(totalDiscrete);
+    flipP.onclick = function() {
+        if (document.getElementById(discreteFilter.id).style.display == "none")
+            document.getElementById(discreteFilter.id).style.display = "block";
+        else
+            document.getElementById(discreteFilter.id).style.display = "none";
+    };
+    discreteFilter.style.display = "none";
     discreteFilter.className = "questionDivDiscrete";
     let questionText = document.createElement('p');
     questionText.id = "QD" + String(totalDiscrete);
     questionText.innerText = question;
     questionText.className = columnName;
+    questionText.style.display = "none";
 
     discreteFilter.appendChild(questionText);
 
@@ -342,14 +357,29 @@ function appendDiscreteFilter(question, columnName, options) {
 }
 
 function appendContinuousFilter(question, columnName, min, max, step, isDate) {
-    totalContinous = totalContinous + 1;
-    let continousFilter = document.createElement('div');
+    if (String(max) == "null" || String(min) == "null")
+        return;
 
+    totalContinous = totalContinous + 1;
+    let flipP = document.createElement('p')
+    flipP.innerText = question;
+    flipP.className = "flip";
+    document.getElementById("popUpForm").appendChild(flipP);
+    let continousFilter = document.createElement('div');
+    continousFilter.id = "divC" + String(totalContinous);
+    flipP.onclick = function() {
+        if (document.getElementById(continousFilter.id).style.display == "none")
+            document.getElementById(continousFilter.id).style.display = "block";
+        else
+            document.getElementById(continousFilter.id).style.display = "none";
+    };
+    continousFilter.style.display = "none";
     continousFilter.className = "questionDivContinuous";
     let questionText = document.createElement('p');
     questionText.id = "QC" + String(totalContinous);
     questionText.innerText = question;
     questionText.className = columnName;
+    questionText.style.display = "none";
 
     continousFilter.appendChild(questionText);
 
@@ -493,9 +523,9 @@ function getFilters() {
 
             flag = true;
             let textQ = document.getElementById("QD" + String(i + 1)).classList;
-            textQ = textQ[textQ.length - 1];
+            textQ = "\"" + textQ[textQ.length - 1] + "\"";
             query += " " + textQ + " : {";
-            query += " $in: [ ";
+            query += " \"$in\": [ ";
             for (let j = 0; j < answersDiscrete[i].length; j++) {
                 query += "\"";
                 query += answersDiscrete[i][j];
@@ -522,12 +552,12 @@ function getFilters() {
 
         flag = true;
         let textQ = document.getElementById("QC" + String(i + 1)).classList;
-        textQ = textQ[textQ.length - 1];
+        textQ = "\"" + textQ[textQ.length - 1] + "\"";
         query += " " + textQ + " : {";
-        query += "$gte: ";
+        query += "\"$gte\": ";
         query += answersContinous[i][0];
         query += ", ";
-        query += "$lte: ";
+        query += "\"$lte\": ";
         query += answersContinous[i][1];
         query += " } ";
     }
