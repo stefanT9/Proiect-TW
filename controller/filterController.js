@@ -12,6 +12,9 @@ module.exports.getColumns = async(req, res) => {
                     columnFound["values"].push(value[1])
                 }
             }else{
+                if(columns[i]["min"] === null || columns[i]["max"] === null){
+                    continue
+                }
                 columnFound["min"] = columns[i]["min"]
                 columnFound["max"] = columns[i]["max"]
             }
@@ -25,27 +28,23 @@ module.exports.getColumns = async(req, res) => {
 }
 
 module.exports.filterResults = async(req, res) => {
-    try {
-        xField = req.body.xField
-        yField = req.body.yField
-        console.log(req.body.filter)
-        var x = []
-        var y = []
-
-        await await DB.Country.find(req.body.filter, (err, row) => {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log(row)
-                x.push(row[xField])
-                y.push(row[yField])
+    res.setHeader('Content-Type', 'application/json')
+    try{
+        DB.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", (err, values)=>{
+            if(err){
+                res.statusCode = 500
+                res.write(JSON.stringify({success:false, message:"Could not fetch data"}))
+                res.end()
+            }else{
+                res.statusCode = 200
+                res.write(JSON.stringify({success:true, message:"Found results", data:values}))
+                res.end()
             }
         })
-        res.write(JSON.stringify({ success: true, xData: x, yData: y, message: "Success!" }))
-        res.end()
-    } catch (e) {
-        console.log(e)
-        res.write(JSON.stringify({ success: false, message: "Internal server error!" }))
+    }catch(err){
+        console.log(err)
+        res.statusCode = 500
+        res.write(JSON.stringify({success:false, message:"Could not fetch data"}))
         res.end()
     }
 }

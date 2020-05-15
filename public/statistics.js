@@ -160,7 +160,7 @@ function getGraphController(chartCanvas, chartJsElement) {
 }
 
 async function getAvailableFields() {
-    const url = 'http://localhost:3000/filter/all';
+    const url = '/filter/all';
     return await fetch(url)
         .then(data => {
             return data.json()
