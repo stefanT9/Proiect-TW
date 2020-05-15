@@ -33,7 +33,7 @@ module.exports.filterResults = async(req, res) => {
         DB.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", (err, values)=>{
             if(err){
                 res.statusCode = 500
-                res.write({success:false, message:"Could not fetch data"})
+                res.write(JSON.stringify({success:false, message:"Could not fetch data"}))
                 res.end()
             }else{
                 res.statusCode = 200

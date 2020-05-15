@@ -174,9 +174,9 @@ function getFilters() {
     // TODO: transform to mongoose querry json
 }
 
-function getResultsFromFilters(filters, columns) {
+async function getResultsFromFilters(filters, columns) {
     var response = await fetch(
-        "/values/search",
+        "/filter/filter",
         {
             method: "POST",
             headers: {
