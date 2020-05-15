@@ -5,13 +5,15 @@ const jwt = require('jsonwebtoken')
 module.exports.isAuth = (req, res, next) => {
     try {
         const url = req.url.split('?')[0]
-        const token = req.headers.token
-
+        const token = req.headers.authorization.split('Bearer ')[1]
         if (url.includes('/crud')) {
             try {
                 var obj = jwt.verify(token, secret)
+                delete obj.password
+                req.user = obj
                 next[0](req, res, next.slice(1))
             } catch (e) {
+                console.log(e)
                 res.writeHead(403, 'aplication/json')
                 res.write(JSON.stringify({ result: false, message: 'Auth is required' }))
                 res.end()
@@ -40,7 +42,8 @@ module.exports.collectBody = (req, res, next) => {
     } catch (e) {
         res.writeHead(500, 'aplication/json')
         res.write(JSON.stringify({ result: false, message: 'internal server error' }))
-        res.end()    }
+        res.end()    
+    }
 }
 
 module.exports.checkBody = (req, res, next, args) => {
