@@ -16,7 +16,7 @@ class WebApp {
   async listen () {
     const app = this
 
-    await mongoose.connect(db_url,{
+    await mongoose.connect(db_url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true
@@ -26,7 +26,7 @@ class WebApp {
     })
     server.listen(port)
     console.log(`app running on PORT: ${port}`)
-    console.log(`http://localhost:3000`)
+    console.log('http://localhost:3000')
   }
 }
 

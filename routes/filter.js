@@ -8,7 +8,7 @@ router.get('', (req, res) => {
   res.write('service is up')
   res.end()
 })
-router.get('/all',filterController.getColumns)
-router.post('/filter',filterController.filterResults)
+router.get('/all', filterController.getColumns)
+router.post('/filter', filterController.filterResults)
 
 module.exports = router

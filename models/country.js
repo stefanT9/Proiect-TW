@@ -32,6 +32,6 @@ const countrySchema = new Schema({
   latestIndustrialData: String,
   latestTradeData: String,
   latestWaterWithdrawalData: String
-},{collation:"EdStatCountry"})
+}, { collation: 'EdStatCountry' })
 
 module.exports = model('country', countrySchema, 'EdStatCountry')

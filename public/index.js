@@ -1,9 +1,9 @@
-function makeResponsive() {
-    var x = document.getElementById('TopNavId')
+function makeResponsive () {
+  var x = document.getElementById('TopNavId')
 
-    if (x.className === 'topNav') {
-        x.className += ' responsive'
-    } else {
-        x.className = 'topNav'
-    }
+  if (x.className === 'topNav') {
+    x.className += ' responsive'
+  } else {
+    x.className = 'topNav'
+  }
 }

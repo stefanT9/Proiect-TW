@@ -1,12 +1,12 @@
-const {Schema,model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
-var columnSchema=new Schema({
-    name:  String, 
-    details: String,
-    type: String,
-    translate: Map,
-    min: Number,
-    max: Number
+var columnSchema = new Schema({
+  name: String,
+  details: String,
+  type: String,
+  translate: Map,
+  min: Number,
+  max: Number
 })
 
-module.exports=model('Columns',columnSchema)
+module.exports = model('Columns', columnSchema)

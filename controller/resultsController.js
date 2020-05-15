@@ -4,7 +4,7 @@ const resPath = 'res/results'
 const results = 'view/results'
 let resultsHTML = ''
 let resultsCSS = ''
-let resultsJS = ''
+const resultsJS = ''
 
 fs.readFile(results + '.html', 'utf8', function (err, data) {
   if (err) {
@@ -23,13 +23,12 @@ fs.readFile(resPath + '.css', 'utf8', function (err, data) {
   resultsCSS = data
 })
 
-module.exports.getResultsHTML= async (req, res) => {
+module.exports.getResultsHTML = async (req, res) => {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
     res.write(resultsHTML)
     res.end()
-
   } catch (e) {
     console.log(e)
     res.statusCode = 500
@@ -45,7 +44,6 @@ module.exports.getResultsCSS = async (req, res) => {
     res.setHeader('Content-Type', 'text/css')
     res.write(resultsCSS)
     res.end()
-
   } catch (e) {
     console.log(e)
     res.statusCode = 500
