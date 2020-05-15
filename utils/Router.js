@@ -1,7 +1,7 @@
 const { isAuth,collectBody } = require('../middlewares/payloadValidation')
 
 String.prototype.fullMatch = function (regex) {
-  try{
+  try {
     regex = new RegExp(regex)
   }
   catch (e)
@@ -24,6 +24,8 @@ class Router {
   constructor() {
     this.getRoutes = {}
     this.postRoutes = {}
+    this.putRoutes = {}
+    this.deleteRoutes = {}
   }
 
   use(url, router) {
@@ -33,11 +35,25 @@ class Router {
     }
     for (el in router.postRoutes) {
       this.postRoutes[url + el] = router.postRoutes[el]
+    }    
+    for (el in router.putRoutes) {
+      this.putRoutes[url + el] = router.putRoutes[el]
+    }    
+    for (el in router.deleteRoutes) {
+      this.deleteRoutes[url + el] = router.deleteRoutes[el]
     }
   }
 
   post(url, controller) {
     this.postRoutes[url] = controller
+  }
+
+  delete(url, controller){
+    this.deleteRoutes[url] = controller
+  }
+
+  put(url, controller){
+    this.putRoutes[url] = controller
   }
 
   get(url, controller) {
@@ -77,6 +93,44 @@ class Router {
           if(url.fullMatch(val))
           {
             collectBody(req,res,[isAuth,this.postRoutes[val]])
+            return
+          }          
+        })
+
+        res.statusCode = 404
+        res.write(JSON.stringify({ success: false, message: 'not found' }))
+        res.end()
+      }
+    }
+    if (req.method === 'PUT') {
+      if (this.postRoutes[url] !== undefined) {
+          collectBody(req,res,[isAuth, this.putRoutes[url]])
+        }
+      else
+      {
+        Object.keys(this.putRoutes).forEach((val)=>{
+          if(url.fullMatch(val))
+          {
+            collectBody(req,res,[isAuth,this.putRoutes[val]])
+            return
+          }          
+        })
+
+        res.statusCode = 404
+        res.write(JSON.stringify({ success: false, message: 'not found' }))
+        res.end()
+      }
+    }
+    if (req.method === 'DELETE') {
+      if (this.deleteRoutes[url] !== undefined) {
+          collectBody(req,res,[isAuth, this.deleteRoutes[url]])
+        }
+      else
+      {
+        Object.keys(this.deleteRoutes).forEach((val)=>{
+          if(url.fullMatch(val))
+          {
+            collectBody(req,res,[isAuth,this.deleteRoutes[val]])
             return
           }          
         })
