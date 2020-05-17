@@ -8,11 +8,11 @@ const pages = require('./pages')
 
 var router = new Router()
 router.use('', resources)
+router.use('', pages)
+
 router.use('/crud', crud)
 router.use('/filter', filter)
 router.use('/auth', auth)
-router.use('', resources)
-router.use('', pages)
 router.use('/insert', inserts)
 
 module.exports.index = router

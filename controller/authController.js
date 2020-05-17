@@ -42,7 +42,7 @@ module.exports.register = async (req, res) => {
     res.write(JSON.stringify({ success: false, message: 'email is already being used' }))
     res.end()
   } else {
-    user_ = new DB.User({
+    const user_ = new DB.User({
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, constants.rounds)
     })
