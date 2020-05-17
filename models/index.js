@@ -6,13 +6,13 @@ const Country = require('./country')
 const FootNote = require('./footNote')
 const Series = require('./series')
 
-db={
-    User,
-    Country,
-    CountrySeries,
-    FootNote,
-    Series,
-    Columns,
-    Values
+db = {
+  User,
+  Country,
+  CountrySeries,
+  FootNote,
+  Series,
+  Columns,
+  Values
 }
 module.exports = db

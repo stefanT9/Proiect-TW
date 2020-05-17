@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="results.css" type="text/css">
     <link rel="stylesheet" href="navbar.css" type="text/css">
     <link rel="stylesheet" href="common.css" type="text/css">
-    <script src="statistics.js"></script>
     <script src="index.js"></script>
-    <script type="text/javascript" src="imports.js"></script>
+    <script src="results.js"></script>
+    <script type="text/javascript" src="import.js"></script>
 
 </head>
 
@@ -20,7 +20,6 @@
     <div class="topNav" id="TopNavId">
         <a href="#" id="menuBar">Menu</a>
         <a href="index.html">Home</a>
-        <a href="#"> Scores</a>
         <a href="results.html#" class="active"> Results </a>
         <a href="statistics.html"> Statistics </a>
         <a href="javascript:void(0);" class="icon" onclick="makeResponsive()">
@@ -45,15 +44,18 @@
         </section>
 
         <section id="resultsTableSection">
-            <table id="resultsTable">
-                <thead>
-                    <tr id="resultsTableHeadingRow">
-                    </tr>
-                </thead>
-                <tbody id="resultsTableBody">
-                </tbody>
-            </table>
+            <div id="resultsTableDiv">
+                <table id="resultsTable">
+                    <thead>
+                        <tr id="resultsTableHeadingRow">
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody">
+                    </tbody>
+                </table>
+            </div>
         </section>
+
     </main>
 </body>
 

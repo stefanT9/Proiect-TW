@@ -1,8 +1,8 @@
-let dataObj = new Array()
-let position = undefined
+const dataObj = new Array()
+let position
 let totalGraphs = 0
-let availableFields = [];
-let chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
+let availableFields = []
+const chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
 
 const lineGraphElement = document.createElement('option')
 lineGraphElement.value = 'line'
@@ -418,152 +418,150 @@ var chartBuilder = {
     scatter:buildScatterGraph
 }
 
-function getGraphController(chartCanvas, chartJsElement) {
+function getGraphController (chartCanvas, chartJsElement) {
+  const graphController = document.createElement('div')
+  const buttonsWrapper = document.createElement('div')
 
-    const graphController = document.createElement('div')
-    const buttonsWrapper = document.createElement('div')
+  const deleteButton = document.createElement('a')
+  const exportAsCSV = document.createElement('a')
+  const exportAsJPG = document.createElement('a')
+  const exportAsPNG = document.createElement('a')
+  const addMoreData = document.createElement('a')
 
-    const deleteButton = document.createElement('a')
-    const exportAsCSV = document.createElement('a')
-    const exportAsJPG = document.createElement('a')
-    const exportAsPNG = document.createElement('a')
-    const addMoreData = document.createElement('a')
+  const graphContainer = document.createElement('div')
+  deleteButton.id = 'delete' + String(totalGraphs)
+  addMoreData.id = 'add' + String(totalGraphs)
 
-    const graphContainer = document.createElement('div')
-    deleteButton.id = "delete" + String(totalGraphs)
-    addMoreData.id = "add" + String(totalGraphs)
+  buttonsWrapper.appendChild(deleteButton)
+  buttonsWrapper.appendChild(exportAsCSV)
+  buttonsWrapper.appendChild(exportAsJPG)
+  buttonsWrapper.appendChild(exportAsPNG)
+  buttonsWrapper.appendChild(addMoreData)
 
-    buttonsWrapper.appendChild(deleteButton)
-    buttonsWrapper.appendChild(exportAsCSV)
-    buttonsWrapper.appendChild(exportAsJPG)
-    buttonsWrapper.appendChild(exportAsPNG)
-    buttonsWrapper.appendChild(addMoreData)
+  deleteButton.classList.add('controller-button')
+  exportAsCSV.classList.add('controller-button')
+  exportAsJPG.classList.add('controller-button')
+  exportAsPNG.classList.add('controller-button')
+  addMoreData.classList.add('controller-button')
+  addMoreData.classList.add('add-button')
+  deleteButton.classList.add('delete-button')
 
-    deleteButton.classList.add('controller-button')
-    exportAsCSV.classList.add('controller-button')
-    exportAsJPG.classList.add('controller-button')
-    exportAsPNG.classList.add('controller-button')
-    addMoreData.classList.add('controller-button')
-    addMoreData.classList.add('add-button')
-    deleteButton.classList.add('delete-button')
+  deleteButton.href = '#'
+  exportAsCSV.href = '#'
+  exportAsJPG.href = '#'
+  exportAsPNG.href = '#'
+  addMoreData.href = '#'
 
-    deleteButton.href = '#'
-    exportAsCSV.href = '#'
-    exportAsJPG.href = '#'
-    exportAsPNG.href = '#'
-    addMoreData.href = '#'
+  graphController.appendChild(buttonsWrapper)
+  graphController.appendChild(graphContainer)
+  graphContainer.appendChild(chartCanvas)
 
-    graphController.appendChild(buttonsWrapper);
-    graphController.appendChild(graphContainer);
-    graphContainer.appendChild(chartCanvas);
+  buttonsWrapper.classList.add('graph-controller-button-wrapper')
+  graphContainer.classList.add('graphContainer')
+  graphController.classList.add('graphController')
 
+  deleteButton.innerText = 'remove graph'
+  exportAsJPG.innerText = 'JPG'
+  exportAsCSV.innerText = 'CSV'
+  exportAsPNG.innerText = 'PNG'
+  addMoreData.innerText = 'Add more data'
 
-    buttonsWrapper.classList.add('graph-controller-button-wrapper')
-    graphContainer.classList.add('graphContainer');
-    graphController.classList.add('graphController');
+  deleteButton.onclick = function () {
+    let position = String(this.id).substring(6)
+    position = parseInt(position)
+    dataObj.splice(position - 1, 1)
+    const wrapper = deleteButton.parentElement.parentElement
+    const body = wrapper.parentElement
+    body.removeChild(wrapper)
 
+    listadd = document.querySelectorAll('.add-button')
+    listdel = document.querySelectorAll('.delete-button')
+    listcan = document.getElementsByTagName('canvas')
 
-    deleteButton.innerText = 'remove graph';
-    exportAsJPG.innerText = 'JPG'
-    exportAsCSV.innerText = 'CSV'
-    exportAsPNG.innerText = 'PNG'
-    addMoreData.innerText = 'Add more data'
-
-    deleteButton.onclick = function() {
-        let position = String(this.id).substring(6)
-        position = parseInt(position)
-        dataObj.splice(position - 1, 1)
-        const wrapper = deleteButton.parentElement.parentElement
-        const body = wrapper.parentElement
-        body.removeChild(wrapper)
-
-        listadd = document.querySelectorAll('.add-button')
-        listdel = document.querySelectorAll('.delete-button')
-        listcan = document.getElementsByTagName('canvas')
-
-        for (let i = 0; i < listadd.length; i++) {
-            let idCurr = parseInt(String(listadd[i].id).substring(3))
-            if (idCurr > position) {
-                idCurr--
-                listadd[i].id = 'add' + String(idCurr)
-            }
-        }
-
-        for (let i = 0; i < listdel.length; i++) {
-            let idCurr = parseInt(String(listdel[i].id).substring(6))
-            if (idCurr > position) {
-                idCurr--
-                listdel[i].id = 'delete' + String(idCurr)
-            }
-        }
-
-        for (let i = 0; i < listcan.length; i++) {
-            let idCurr = parseInt(String(listcan[i].id).substring(6))
-            if (idCurr > position) {
-                idCurr--
-                listcan[i].id = 'canvas' + String(idCurr)
-            }
-        }
-
-        totalGraphs--
-    };
-
-    exportAsCSV.download = 'data.csv'
-    exportAsCSV.onclick = () => {
-        var result = chartJsElement.data
-        const content = result.datasets[0].data
-        const labels = result.labels
-        let csv = `"x","y"\n`
-        content.forEach((val, idx) => {
-            csv = csv + `"${labels[idx]}",${val}\n`
-        })
-        exportAsCSV.href = `data:text/csv;charset=utf-8,${csv}`
+    for (let i = 0; i < listadd.length; i++) {
+      let idCurr = parseInt(String(listadd[i].id).substring(3))
+      if (idCurr > position) {
+        idCurr--
+        listadd[i].id = 'add' + String(idCurr)
+      }
     }
 
-    exportAsJPG.download = 'grafic.jpg'
-    exportAsJPG.onclick = () => {
-        exportAsJPG.href = chartCanvas.toDataURL("image/jpg")
+    for (let i = 0; i < listdel.length; i++) {
+      let idCurr = parseInt(String(listdel[i].id).substring(6))
+      if (idCurr > position) {
+        idCurr--
+        listdel[i].id = 'delete' + String(idCurr)
+      }
     }
 
-    exportAsPNG.download = 'grafic.png'
-    exportAsPNG.onclick = () => {
-        exportAsJPG.href = chartCanvas.toDataURL("image/png")
+    for (let i = 0; i < listcan.length; i++) {
+      let idCurr = parseInt(String(listcan[i].id).substring(6))
+      if (idCurr > position) {
+        idCurr--
+        listcan[i].id = 'canvas' + String(idCurr)
+      }
     }
 
-    addMoreData.onclick = function() {
-        position = String(this.id).substring(3)
-        position = parseInt(position)
-        openPopUp()
-    }
+    totalGraphs--
+  }
 
-    return graphController
+  exportAsCSV.download = 'data.csv'
+  exportAsCSV.onclick = () => {
+    var result = chartJsElement.data
+    const content = result.datasets[0].data
+    const labels = result.labels
+    let csv = '"x","y"\n'
+    content.forEach((val, idx) => {
+      csv = csv + `"${labels[idx]}",${val}\n`
+    })
+    exportAsCSV.href = `data:text/csv;charset=utf-8,${csv}`
+  }
+
+  exportAsJPG.download = 'grafic.jpg'
+  exportAsJPG.onclick = () => {
+    exportAsJPG.href = chartCanvas.toDataURL('image/jpg')
+  }
+
+  exportAsPNG.download = 'grafic.png'
+  exportAsPNG.onclick = () => {
+    exportAsJPG.href = chartCanvas.toDataURL('image/png')
+  }
+
+  addMoreData.onclick = function () {
+    position = String(this.id).substring(3)
+    position = parseInt(position)
+    openPopUp()
+  }
+
+  return graphController
 }
 
-async function getAvailableFields() {
-    const url = '/filter/all';
-    return await fetch(url)
-        .then(data => {
-            return data.json()
-        })
-        .then(res => {
-            return res
-        })
-        .catch(err => {
-            return undefined
-        })
+async function getAvailableFields () {
+  const url = '/filter/all'
+  return await fetch(url)
+    .then(data => {
+      return data.json()
+    })
+    .then(res => {
+      return res
+    })
+    .catch(err => {
+      return undefined
+    })
 }
 
-function closePopUp() {
-    document.getElementById('invisibleBackground').classList.remove('grayout');
-    document.getElementById('popUpForm').classList.remove('visible');
-    document.body.style.overflow = ''
-    document.getElementsByClassName('floatingButton')[0].classList.remove('invisible')
-    document.getElementById('confirmFieldsSelectionButton').classList.add('no-click')
-    document.getElementById('xOfGraph').disabled = true;
-    document.getElementById('yOfGraph').disabled = true;
-    document.getElementById('typeOfGraph').disabled = true;
+function closePopUp () {
+  document.getElementById('invisibleBackground').classList.remove('grayout')
+  document.getElementById('popUpForm').classList.remove('visible')
+  document.body.style.overflow = ''
+  document.getElementsByClassName('floatingButton')[0].classList.remove('invisible')
+  document.getElementById('confirmFieldsSelectionButton').classList.add('no-click')
+  document.getElementById('xOfGraph').disabled = true
+  document.getElementById('yOfGraph').disabled = true
+  document.getElementById('typeOfGraph').disabled = true
 }
 
+<<<<<<< HEAD
 
 function addNewChart() {
     const xLabel = document.getElementById('xOfGraph').value
@@ -637,19 +635,21 @@ function addNewChart() {
         position = undefined
         closePopUp()
     })
+>>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
 }
 
-function openPopUp() {
-    document.getElementById('invisibleBackground').classList.add('grayout');
-    document.getElementById('popUpForm').classList.add('visible');
-    document.body.style.overflow = 'hidden'
-    document.getElementsByClassName('floatingButton')[0].classList.add('invisible')
-    document.getElementById('confirmFieldsSelectionButton').classList.remove('no-click')
-    document.getElementById('xOfGraph').disabled = false;
-    document.getElementById('yOfGraph').disabled = false;
-    document.getElementById('typeOfGraph').disabled = false;
+function openPopUp () {
+  document.getElementById('invisibleBackground').classList.add('grayout')
+  document.getElementById('popUpForm').classList.add('visible')
+  document.body.style.overflow = 'hidden'
+  document.getElementsByClassName('floatingButton')[0].classList.add('invisible')
+  document.getElementById('confirmFieldsSelectionButton').classList.remove('no-click')
+  document.getElementById('xOfGraph').disabled = false
+  document.getElementById('yOfGraph').disabled = false
+  document.getElementById('typeOfGraph').disabled = false
 }
 
+<<<<<<< HEAD
 function loadFields() {
     const selectors = document.getElementsByTagName('select');
     console.log(availableFields);
@@ -673,278 +673,271 @@ function loadFields() {
         } else if (availableFields[idx]['type'] == 'date') {
             appendContinuousFilter(availableFields[idx].details, availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
         }
+>>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
     }
+  }
 
+
+function appendDiscreteFilter (question, columnName, options) {
+  if (options.length == 0) { return }
+
+  totalDiscrete = totalDiscrete + 1
+  const flipP = document.createElement('p')
+  flipP.innerText = question
+  flipP.className = 'flip'
+  document.getElementById('popUpForm').appendChild(flipP)
+  const discreteFilter = document.createElement('div')
+  discreteFilter.id = 'divD' + String(totalDiscrete)
+  flipP.onclick = function () {
+    if (document.getElementById(discreteFilter.id).style.display == 'none') { document.getElementById(discreteFilter.id).style.display = 'block' } else { document.getElementById(discreteFilter.id).style.display = 'none' }
+  }
+  discreteFilter.style.display = 'none'
+  discreteFilter.className = 'questionDivDiscrete'
+  const questionText = document.createElement('p')
+  questionText.id = 'QD' + String(totalDiscrete)
+  questionText.innerText = question
+  questionText.className = columnName
+  questionText.style.display = 'none'
+
+  discreteFilter.appendChild(questionText)
+
+  for (let i = 0; i < options.length; i++) {
+    const cb = document.createElement('input')
+
+    cb.type = 'checkbox'
+    cb.name = options[i] + '_' + String(totalDiscrete)
+    cb.value = options[i]
+    cb.id = cb.name
+
+    const label = document.createElement('label')
+    label.innerText = options[i]
+    label.className = 'container'
+    label.appendChild(cb)
+
+    const span = document.createElement('span')
+    span.className = 'checkmark'
+
+    label.appendChild(span)
+
+    label.for = cb.name
+
+    discreteFilter.appendChild(label)
+  }
+
+  document.getElementById('popUpForm').appendChild(discreteFilter)
 }
 
-function appendDiscreteFilter(question, columnName, options) {
-    if (options.length == 0)
-        return;
+function appendContinuousFilter (question, columnName, min, max, step, isDate) {
+  if (String(max) == 'null' || String(min) == 'null') { return }
 
-    totalDiscrete = totalDiscrete + 1;
-    let flipP = document.createElement('p')
-    flipP.innerText = question;
-    flipP.className = "flip";
-    document.getElementById("popUpForm").appendChild(flipP);
-    let discreteFilter = document.createElement('div');
-    discreteFilter.id = "divD" + String(totalDiscrete);
-    flipP.onclick = function() {
-        if (document.getElementById(discreteFilter.id).style.display == "none")
-            document.getElementById(discreteFilter.id).style.display = "block";
-        else
-            document.getElementById(discreteFilter.id).style.display = "none";
-    };
-    discreteFilter.style.display = "none";
-    discreteFilter.className = "questionDivDiscrete";
-    let questionText = document.createElement('p');
-    questionText.id = "QD" + String(totalDiscrete);
-    questionText.innerText = question;
-    questionText.className = columnName;
-    questionText.style.display = "none";
+  totalContinous = totalContinous + 1
+  const flipP = document.createElement('p')
+  flipP.innerText = question
+  flipP.className = 'flip'
+  document.getElementById('popUpForm').appendChild(flipP)
+  const continousFilter = document.createElement('div')
+  continousFilter.id = 'divC' + String(totalContinous)
+  flipP.onclick = function () {
+    if (document.getElementById(continousFilter.id).style.display == 'none') { document.getElementById(continousFilter.id).style.display = 'block' } else { document.getElementById(continousFilter.id).style.display = 'none' }
+  }
+  continousFilter.style.display = 'none'
+  continousFilter.className = 'questionDivContinuous'
+  const questionText = document.createElement('p')
+  questionText.id = 'QC' + String(totalContinous)
+  questionText.innerText = question
+  questionText.className = columnName
+  questionText.style.display = 'none'
 
-    discreteFilter.appendChild(questionText);
+  continousFilter.appendChild(questionText)
 
-    for (let i = 0; i < options.length; i++) {
-        let cb = document.createElement('input');
+  const range1 = document.createElement('input')
+  range1.type = (isDate ? 'date' : 'range')
+  range1.min = min
+  range1.max = max
+  if (!isDate) {
+    range1.step = step
+    range1.className = 'slider'
+  }
 
-        cb.type = "checkbox";
-        cb.name = options[i] + '_' + String(totalDiscrete);
-        cb.value = options[i];
-        cb.id = cb.name;
+  range1.value = min
+  range1.name = 'Min_' + String(totalContinous)
+  range1.id = 'Min_' + String(totalContinous)
 
-        let label = document.createElement('label');
-        label.innerText = options[i];
-        label.className = "container";
-        label.appendChild(cb);
+  const range2 = document.createElement('input')
+  range2.type = (isDate ? 'date' : 'range')
+  range2.min = min
+  range2.max = max
+  if (!isDate) {
+    range2.step = step
+    range2.className = 'slider'
+  }
+  range2.value = max
+  range2.name = 'Max_' + String(totalContinous)
+  range2.id = 'Max_' + String(totalContinous)
 
-        let span = document.createElement('span');
-        span.className = "checkmark";
+  const label1 = document.createElement('label')
+  label1.id = 'LMin_' + String(totalContinous)
+  label1.innerText = (isDate ? 'From: ' : String(min))
 
-        label.appendChild(span);
+  if (isDate) {
+    continousFilter.appendChild(label1)
+    continousFilter.appendChild(range1)
+  } else {
+    continousFilter.appendChild(range1)
+    continousFilter.appendChild(label1)
+  }
 
-        label.for = cb.name;
+  const spacer = document.createElement('div')
 
-        discreteFilter.appendChild(label);
+  continousFilter.appendChild(spacer)
+
+  const label2 = document.createElement('label')
+  label2.id = 'LMax_' + String(totalContinous)
+  label2.innerText = (isDate ? 'To: ' : String(max))
+
+  if (isDate) {
+    continousFilter.appendChild(label2)
+    continousFilter.appendChild(range2)
+  } else {
+    continousFilter.appendChild(range2)
+    continousFilter.appendChild(label2)
+  }
+
+  if (!isDate) {
+    range1.oninput = function () {
+      const str = this.id
+      const value = document.getElementById(str).value
+      document.getElementById('L' + str).innerText = value
     }
 
-    document.getElementById("popUpForm").appendChild(discreteFilter);
+    range2.oninput = function () {
+      const str = this.id
+      const value = document.getElementById(str).value
+      document.getElementById('L' + str).innerText = value
+    }
+  }
+
+  document.getElementById('popUpForm').appendChild(continousFilter)
 }
 
-function appendContinuousFilter(question, columnName, min, max, step, isDate) {
-    if (String(max) == "null" || String(min) == "null")
-        return;
+function getFilters () {
+  const discreteQuestions = document.querySelectorAll('.questionDivDiscrete > label > input')
+  const continousQuestions = document.querySelectorAll('.questionDivContinuous > input')
+  const countContinuous = document.querySelectorAll('.questionDivContinuous').length
+  const countDiscrete = document.querySelectorAll('.questionDivDiscrete').length
 
-    totalContinous = totalContinous + 1;
-    let flipP = document.createElement('p')
-    flipP.innerText = question;
-    flipP.className = "flip";
-    document.getElementById("popUpForm").appendChild(flipP);
-    let continousFilter = document.createElement('div');
-    continousFilter.id = "divC" + String(totalContinous);
-    flipP.onclick = function() {
-        if (document.getElementById(continousFilter.id).style.display == "none")
-            document.getElementById(continousFilter.id).style.display = "block";
-        else
-            document.getElementById(continousFilter.id).style.display = "none";
-    };
-    continousFilter.style.display = "none";
-    continousFilter.className = "questionDivContinuous";
-    let questionText = document.createElement('p');
-    questionText.id = "QC" + String(totalContinous);
-    questionText.innerText = question;
-    questionText.className = columnName;
-    questionText.style.display = "none";
+  const answersDiscrete = new Array()
 
-    continousFilter.appendChild(questionText);
+  for (let i = 0; i < countDiscrete; i++) {
+    answersDiscrete.push(new Array())
+  }
 
-    let range1 = document.createElement('input');
-    range1.type = (isDate ? "date" : "range");
-    range1.min = min;
-    range1.max = max;
-    if (!isDate) {
-        range1.step = step;
-        range1.className = "slider";
+  for (let i = 0; i < discreteQuestions.length; i++) {
+    if (discreteQuestions[i].checked == true) {
+      for (let j = 0; j < discreteQuestions[i].id.length; j++) {
+        if (discreteQuestions[i].id[j] == '_') {
+          const value = discreteQuestions[i].id.substring(0, j)
+          const questionNumber = discreteQuestions[i].id.substring(j + 1)
+          answersDiscrete[questionNumber - 1].push(value)
+
+          //               console.log("Value " + String(value) + " for question " + String(questionNumber))
+        }
+      }
     }
+  }
 
-    range1.value = min;
-    range1.name = 'Min_' + String(totalContinous);
-    range1.id = 'Min_' + String(totalContinous);
+  // console.log("Final Discrete");
+  // console.log(answersDiscrete)
 
-    let range2 = document.createElement('input');
-    range2.type = (isDate ? "date" : "range");
-    range2.min = min;
-    range2.max = max;
-    if (!isDate) {
-        range2.step = step;
-        range2.className = "slider";
-    }
-    range2.value = max;
-    range2.name = 'Max_' + String(totalContinous);
-    range2.id = 'Max_' + String(totalContinous);
+  const answersContinous = new Array()
 
-    let label1 = document.createElement('label');
-    label1.id = "LMin_" + String(totalContinous);
-    label1.innerText = (isDate ? "From: " : String(min));
+  for (let i = 0; i < continousQuestions.length; i += 2) {
+    let value1 = parseFloat(continousQuestions[i].value)
+    let value2 = parseFloat(continousQuestions[i + 1].value)
 
-    if (isDate) {
-        continousFilter.appendChild(label1);
-        continousFilter.appendChild(range1);
+    if (isNaN(value1) || isNaN(value2) || continousQuestions[i].type == 'date') {
+      value1 = continousQuestions[i].value
+      value2 = continousQuestions[i + 1].value
     } else {
-        continousFilter.appendChild(range1);
-        continousFilter.appendChild(label1);
+      if (continousQuestions[i].type == 'date') {
+        value1 = new Date(continousQuestions[i].value)
+        value2 = new Date(continousQuestions[i + 1].value)
+      }
     }
 
-    let spacer = document.createElement("div");
-
-    continousFilter.appendChild(spacer);
-
-    let label2 = document.createElement('label');
-    label2.id = "LMax_" + String(totalContinous);
-    label2.innerText = (isDate ? "To: " : String(max));
-
-    if (isDate) {
-        continousFilter.appendChild(label2);
-        continousFilter.appendChild(range2);
-    } else {
-        continousFilter.appendChild(range2);
-        continousFilter.appendChild(label2);
+    if (value1 > value2) {
+      const temp = value1
+      value1 = value2
+      value2 = temp
     }
 
-    if (!isDate) {
-        range1.oninput = function() {
-            let str = this.id;
-            let value = document.getElementById(str).value;
-            document.getElementById("L" + str).innerText = value;
-        };
+    // let questionNumber = i / 2 + 1;
 
-        range2.oninput = function() {
-            let str = this.id;
-            let value = document.getElementById(str).value;
-            document.getElementById("L" + str).innerText = value;
+    // console.log("Question Continous " + String(questionNumber));
+    // console.log("Interval: " + String(value1) + " - " + String(value2));
+
+    answersContinous.push([value1, value2])
+  }
+
+  let query = '{'
+  let flag = false
+  for (let i = 0; i < countDiscrete; i++) {
+    if (answersDiscrete[i].length > 0) {
+      if (flag == true) {
+        query += ', '
+      }
+
+      flag = true
+      let textQ = document.getElementById('QD' + String(i + 1)).classList
+      textQ = '"' + textQ[textQ.length - 1] + '"'
+      query += ' ' + textQ + ' : {'
+      query += ' "$in": [ '
+      for (let j = 0; j < answersDiscrete[i].length; j++) {
+        query += '"'
+        query += answersDiscrete[i][j]
+        query += '"'
+
+        if (j < answersDiscrete[i].length - 1) {
+          query += ', '
         }
+      }
+
+      query += '] }'
     }
+  }
 
-    document.getElementById("popUpForm").appendChild(continousFilter);
-}
-
-function getFilters() {
-    let discreteQuestions = document.querySelectorAll(".questionDivDiscrete > label > input");
-    let continousQuestions = document.querySelectorAll(".questionDivContinuous > input");
-    let countContinuous = document.querySelectorAll(".questionDivContinuous").length;
-    let countDiscrete = document.querySelectorAll(".questionDivDiscrete").length;
-
-    let answersDiscrete = new Array();
-
-    for (let i = 0; i < countDiscrete; i++) {
-        answersDiscrete.push(new Array())
-    }
-
-    for (let i = 0; i < discreteQuestions.length; i++) {
-        if (discreteQuestions[i].checked == true) {
-            for (let j = 0; j < discreteQuestions[i].id.length; j++) {
-                if (discreteQuestions[i].id[j] == '_') {
-                    let value = discreteQuestions[i].id.substring(0, j);
-                    let questionNumber = discreteQuestions[i].id.substring(j + 1);
-                    answersDiscrete[questionNumber - 1].push(value);
-
-                    //               console.log("Value " + String(value) + " for question " + String(questionNumber))
-                }
-            }
-        }
-    }
-
-    // console.log("Final Discrete");
-    // console.log(answersDiscrete)
-
-    let answersContinous = new Array();
-
-    for (let i = 0; i < continousQuestions.length; i += 2) {
-        let value1 = parseFloat(continousQuestions[i].value);
-        let value2 = parseFloat(continousQuestions[i + 1].value);
-
-        if (isNaN(value1) || isNaN(value2) || continousQuestions[i].type == "date") {
-            value1 = continousQuestions[i].value;
-            value2 = continousQuestions[i + 1].value;
-        } else {
-            if (continousQuestions[i].type == "date") {
-                value1 = new Date(continousQuestions[i].value);
-                value2 = new Date(continousQuestions[i + 1].value);
-            }
-        }
-
-        if (value1 > value2) {
-            let temp = value1;
-            value1 = value2;
-            value2 = temp;
-        }
-
-        // let questionNumber = i / 2 + 1;
-
-        //console.log("Question Continous " + String(questionNumber));
-        //console.log("Interval: " + String(value1) + " - " + String(value2));
-
-        answersContinous.push([value1, value2]);
-    }
-
-
-    let query = "{";
-    let flag = false;
-    for (let i = 0; i < countDiscrete; i++) {
-        if (answersDiscrete[i].length > 0) {
-            if (flag == true) {
-                query += ", ";
-            }
-
-            flag = true;
-            let textQ = document.getElementById("QD" + String(i + 1)).classList;
-            textQ = "\"" + textQ[textQ.length - 1] + "\"";
-            query += " " + textQ + " : {";
-            query += " \"$in\": [ ";
-            for (let j = 0; j < answersDiscrete[i].length; j++) {
-                query += "\"";
-                query += answersDiscrete[i][j];
-                query += "\"";
-
-                if (j < answersDiscrete[i].length - 1) {
-                    query += ", ";
-                }
-            }
-
-            query += "] }";
-        }
-    }
-
-    for (let i = 0; i < countContinuous; i++) {
-        if (answersContinous[i][0] - parseFloat(continousQuestions[2 * i].step) < parseFloat(continousQuestions[2 * i].min) &&
+  for (let i = 0; i < countContinuous; i++) {
+    if (answersContinous[i][0] - parseFloat(continousQuestions[2 * i].step) < parseFloat(continousQuestions[2 * i].min) &&
             answersContinous[i][1] + parseFloat(continousQuestions[2 * i].step) > parseFloat(continousQuestions[2 * i].max)) {
-            continue;
-        }
-
-        if (flag == true) {
-            query += ", ";
-        }
-
-        flag = true;
-        let textQ = document.getElementById("QC" + String(i + 1)).classList;
-        textQ = "\"" + textQ[textQ.length - 1] + "\"";
-        query += " " + textQ + " : {";
-        query += "\"$gte\": ";
-        query += answersContinous[i][0];
-        query += ", ";
-        query += "\"$lte\": ";
-        query += answersContinous[i][1];
-        query += " } ";
+      continue
     }
 
-    query += " }";
+    if (flag == true) {
+      query += ', '
+    }
 
-    return query;
+    flag = true
+    let textQ = document.getElementById('QC' + String(i + 1)).classList
+    textQ = '"' + textQ[textQ.length - 1] + '"'
+    query += ' ' + textQ + ' : {'
+    query += '"$gte": '
+    query += answersContinous[i][0]
+    query += ', '
+    query += '"$lte": '
+    query += answersContinous[i][1]
+    query += ' } '
+  }
 
-    //console.log("Final Continous");
-    //console.log(answersContinous);
-    // TODO: transform to mongoose querry json
+  query += ' }'
+
+  return query
+
+  // console.log("Final Continous");
+  // console.log(answersContinous);
+  // TODO: transform to mongoose querry json
 }
 
+<<<<<<< HEAD
 function updateAvailableGraphs() {
     console.log("test")
     var xSelector = document.getElementById('xOfGraph')
@@ -1019,6 +1012,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(e => { console.log(e) })
 
+>>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
 }, false)
 
 var totalDiscrete = 0

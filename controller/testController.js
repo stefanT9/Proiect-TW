@@ -1,7 +1,7 @@
 const fs = require('fs')
 const Mustache = require('mustache')
 
-const path = "view/moustache_test"
+const path = 'view/moustache_test'
 let main_template = ''
 let include = ''
 
@@ -28,7 +28,7 @@ function gettestHTML (req, res) {
   try {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
-    res.write(Mustache.render(main_template, {minclude:include}))
+    res.write(Mustache.render(main_template, { minclude: include }))
   } catch (e) {
     console.log(e)
     res.statusCode = 500

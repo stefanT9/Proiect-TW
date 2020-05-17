@@ -8,7 +8,7 @@ router.get('', (req, res) => {
   res.write('service is up')
   res.end()
 })
-router.post('/login',authController.login)
-router.post('/register',authController.register)
+router.post('/login', authController.login)
+router.post('/register', authController.register)
 
 module.exports = router

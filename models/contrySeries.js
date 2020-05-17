@@ -1,9 +1,9 @@
-const {Schema,model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
-var countrySeriesSchema=new Schema({
-    countryCode: String,
-    seriesCode: String,
-    description: String
+var countrySeriesSchema = new Schema({
+  countryCode: String,
+  seriesCode: String,
+  description: String
 })
 
-module.exports=model('countrySeries',countrySeriesSchema, 'EdStatsCountrySeries')
+module.exports = model('countrySeries', countrySeriesSchema, 'EdStatsCountrySeries')
