@@ -30,7 +30,14 @@ module.exports.getColumns = async(req, res) => {
 module.exports.filterResults = async(req, res) => {
     res.setHeader('Content-Type', 'application/json')
     try{
-        DB.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", (err, values)=>{
+        var pagination = {}
+        console.log((req.body.page !== undefined && req.body.size !== undefined))
+        if(req.body.page !== undefined && req.body.size !== undefined){
+            pagination["skip"] = req.body.page * req.body.size
+            pagination["limit"] = req.body.size
+        }
+        console.log(pagination)
+        DB.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
             if(err){
                 res.statusCode = 500
                 res.write(JSON.stringify({success:false, message:"Could not fetch data"}))

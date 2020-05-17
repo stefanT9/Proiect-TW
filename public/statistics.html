@@ -37,6 +37,13 @@
             </select>
             <select id="typeOfGraph" disabled>
             </select>
+            <button id="paginateResultsSwitch" class="hidden-button" onclick="switchPagination();">Paginate Results</button>
+            <div id="paginateResults">
+                <label>Page number</label>
+                <input type="number" name="pageNumber" id="pageNumber" value="0">
+                <label>Results per page</label>
+                <input type="number" name="pageResults" id="pageResults" value="0">
+            </div>
             <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addNewChart()">Generate</button>
 
         </div>

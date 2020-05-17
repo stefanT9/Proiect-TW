@@ -174,7 +174,16 @@ function getFilters() {
     // TODO: transform to mongoose querry json
 }
 
-async function getResultsFromFilters(filters, columns) {
+async function getResultsFromFilters(filters, columns, paginationOptions) {
+    var body = {
+        filters:filters,
+        columns:columns
+    }
+    console.log(paginationOptions)
+    if(paginationOptions !== undefined){
+        body["page"] = paginationOptions["page"]
+        body["size"] = paginationOptions["size"]
+    }
     var response = await fetch(
         "/filter/filter",
         {
@@ -182,22 +191,21 @@ async function getResultsFromFilters(filters, columns) {
             headers: {
                 "Content-Type":"application/json"
             },
-            body: JSON.stringify({
-                filters:filters,
-                columns:columns
-            })
+            body: JSON.stringify(body)
         }
     );
     return response.json();
 }
 
-function getGraphResults(xFieldName, yFieldName){
-    var x = []
-    var y = []
-    getResultsFromFilters(getFilters(), [xFieldName, yFieldName]).forEach((item, index)=>{
-        x.push(item[xFieldName])
-        y.push(item[yFieldName])
-    })
-    return {xFieldName:x, yFieldName:y}
+async function getGraphResults(xFieldName, yFieldName, paginationOptions){
+    var dataset = []
+    var filteredResults = await getResultsFromFilters(JSON.parse(getFilters()), [xFieldName, yFieldName], paginationOptions)
+    for(var i = 0; i<filteredResults["data"].length; i++){
+        dataset.push({
+            x:filteredResults["data"][i][xFieldName],
+            y:filteredResults["data"][i][yFieldName]
+        })
+    }
+    return dataset
 }
 
