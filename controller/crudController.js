@@ -2,7 +2,6 @@ var { ObjectId } = require('mongodb')
 
 module.exports.getFunction = async (req, res) => {
   try {
-
     const document = await req.db.Values.findOne({ _id: ObjectId(req.params.id) })
 
     res.statusCode = 200

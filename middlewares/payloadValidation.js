@@ -34,25 +34,37 @@ module.exports.collectBody = (req, res, next) => {
   try {
     var data = ''
     req.on('data', (chunk) => {
-      data += chunk
+      try {
+        data += chunk
+      } catch (e) {
+        console.log(e)
+        res.writeHead(500, 'aplication/json')
+        res.write(JSON.stringify({ result: false, message: 'internal server error' }))
+        res.end()
+      }
     })
     req.on('end', () => {
-      req.body = JSON.parse(data)
-      next[0](req, res, next.slice(1))
+      try {
+        req.body = JSON.parse(data)
+        next[0](req, res, next.slice(1))
+      } catch (e) {
+        res.writeHead(400, 'aplication/json')
+        res.write(JSON.stringify({ result: false, message: 'Bad request' }))
+        res.end()
+      }
     })
   } catch (e) {
+    console.log(e)
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
   }
 }
 module.exports.composeDatabase = (req, res, next) => {
-  try{
+  try {
     req.db = DB
     next[0](req, res, next.splice(1))
-  }
-  catch(e)
-  {
+  } catch (e) {
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
@@ -62,9 +74,7 @@ module.exports.collectParameters = (req, res, next) => {
   try {
     req.params = url.parse(req.url, true).query
     next[0](req, res, next.slice(1))
-  }
-  catch(e)
-  {
+  } catch (e) {
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
