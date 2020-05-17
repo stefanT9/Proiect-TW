@@ -561,7 +561,6 @@ function closePopUp () {
   document.getElementById('typeOfGraph').disabled = true
 }
 
-<<<<<<< HEAD
 
 function addNewChart() {
     const xLabel = document.getElementById('xOfGraph').value
@@ -635,7 +634,6 @@ function addNewChart() {
         position = undefined
         closePopUp()
     })
->>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
 }
 
 function openPopUp () {
@@ -649,7 +647,6 @@ function openPopUp () {
   document.getElementById('typeOfGraph').disabled = false
 }
 
-<<<<<<< HEAD
 function loadFields() {
     const selectors = document.getElementsByTagName('select');
     console.log(availableFields);
@@ -673,7 +670,6 @@ function loadFields() {
         } else if (availableFields[idx]['type'] == 'date') {
             appendContinuousFilter(availableFields[idx].details, availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
         }
->>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
     }
   }
 
@@ -937,7 +933,6 @@ function getFilters () {
   // TODO: transform to mongoose querry json
 }
 
-<<<<<<< HEAD
 function updateAvailableGraphs() {
     console.log("test")
     var xSelector = document.getElementById('xOfGraph')
@@ -1011,8 +1006,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         })
         .catch(e => { console.log(e) })
-
->>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
 }, false)
 
 var totalDiscrete = 0

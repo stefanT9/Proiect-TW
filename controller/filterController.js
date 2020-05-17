@@ -24,7 +24,6 @@ module.exports.getColumns = async (req, res) => {
   })
 }
 
-<<<<<<< HEAD
 module.exports.filterResults = async(req, res) => {
     res.setHeader('Content-Type', 'application/json')
     try{
@@ -35,7 +34,7 @@ module.exports.filterResults = async(req, res) => {
             pagination["limit"] = req.body.size
         }
         console.log(pagination)
-        DB.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
+        req.db.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
             if(err){
                 res.statusCode = 500
                 res.write(JSON.stringify({success:false, message:"Could not fetch data"}))
@@ -48,20 +47,8 @@ module.exports.filterResults = async(req, res) => {
         })
     }catch(err){
         console.log(err)
->>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
         res.statusCode = 500
         res.write(JSON.stringify({ success: false, message: 'Could not fetch data' }))
         res.end()
-      } else {
-        res.statusCode = 200
-        res.write(JSON.stringify({ success: true, message: 'Found results', data: values }))
-        res.end()
-      }
-    })
-  } catch (err) {
-    console.log(err)
-    res.statusCode = 500
-    res.write(JSON.stringify({ success: false, message: 'Could not fetch data' }))
-    res.end()
-  }
+    }
 }

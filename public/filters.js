@@ -172,7 +172,6 @@ function getFilters () {
   // TODO: transform to mongoose querry json
 }
 
-<<<<<<< HEAD
 async function getResultsFromFilters(filters, columns, paginationOptions) {
     var body = {
         filters:filters,
@@ -206,5 +205,4 @@ async function getGraphResults(xFieldName, yFieldName, paginationOptions){
         })
     }
     return dataset
->>>>>>> 98ca5e65941d534406c64cf7cf6854ae80f6446a
 }
