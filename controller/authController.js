@@ -5,8 +5,25 @@ const constants = require('../utils/constants')
 module.exports.login = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   console.log('test')
+
+  if(!req.body.email) 
+  {
+    console.log('err')
+    res.statusCode = 400
+    res.write(JSON.stringify({ success: false, message: '"email" is required' }))
+    res.end()
+    return
+  }
+  if(!req.body.password)
+  {
+    console.log('err')
+    res.statusCode = 400
+    res.write(JSON.stringify({ success: false, message: '"password" is required' }))
+    res.end()
+    return
+  }
+
   req.db.User.findOne({ email: req.body.email }, (err, user) => {
-    console.log({ err: err, user: user })
     if (err) {
       console.log(err)
       res.statusCode = 500
@@ -34,8 +51,25 @@ module.exports.login = async (req, res) => {
 
 module.exports.register = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
+
+  if(!req.body.email) 
+  {
+    console.log('err')
+    res.statusCode = 400
+    res.write(JSON.stringify({ success: false, message: '"email" is required' }))
+    res.end()
+    return
+  }
+  if(!req.body.password)
+  {
+    console.log('err')
+    res.statusCode = 400
+    res.write(JSON.stringify({ success: false, message: '"password" is required' }))
+    res.end()
+    return
+  }
+
   const user = await req.db.User.findOne({ email: req.body.email })
-  console.log(user)
   if (user) {
     res.statusCode = 403
     res.write(JSON.stringify({ success: false, message: 'email is already being used' }))
@@ -54,7 +88,7 @@ module.exports.register = async (req, res) => {
         res.end()
       } else {
         res.statusCode = 200
-        res.write(JSON.stringify({ success: true, message: 'user created' }))
+        res.write(JSON.stringify({ success: true,user_, message: 'user created' }))
         res.end()
       }
     })

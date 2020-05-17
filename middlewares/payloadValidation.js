@@ -7,10 +7,11 @@ const DB = require('../models/index')
 module.exports.isAuth = (req, res, next) => {
   try {
     const url = req.url.split('?')[0]
-    const token = req.headers.authorization.split('Bearer ')[1]
     if (url.includes('/crud')) {
       try {
+        const token = req.headers.authorization.split('Bearer ')[1]
         var obj = jwt.verify(token, secret)
+        
         delete obj.password
         req.user = obj
         next[0](req, res, next.slice(1))
@@ -24,6 +25,8 @@ module.exports.isAuth = (req, res, next) => {
       next[0](req, res, next, next.slice(1))
     }
   } catch (e) {
+
+    console.log(e)
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
@@ -37,6 +40,7 @@ module.exports.collectBody = (req, res, next) => {
       try {
         data += chunk
       } catch (e) {
+
         console.log(e)
         res.writeHead(500, 'aplication/json')
         res.write(JSON.stringify({ result: false, message: 'internal server error' }))
@@ -54,6 +58,7 @@ module.exports.collectBody = (req, res, next) => {
       }
     })
   } catch (e) {
+
     console.log(e)
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
@@ -65,6 +70,8 @@ module.exports.composeDatabase = (req, res, next) => {
     req.db = DB
     next[0](req, res, next.splice(1))
   } catch (e) {
+
+    console.log(e)
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
@@ -75,6 +82,8 @@ module.exports.collectParameters = (req, res, next) => {
     req.params = url.parse(req.url, true).query
     next[0](req, res, next.slice(1))
   } catch (e) {
+
+    console.log(e)
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
@@ -108,6 +117,8 @@ module.exports.checkBody = (req, res, next, args) => {
 
     next[0](req, res, next.slice(1), args.slice(1))
   } catch (e) {
+    
+    console.log(e)
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
