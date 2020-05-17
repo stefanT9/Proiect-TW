@@ -1,8 +1,6 @@
-const DB = require('../models/index')
-
 module.exports.insert = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  DB.Columns.findOne({ name: req.body.name }, (err, column) => {
+  req.db.Columns.findOne({ name: req.body.name }, (err, column) => {
     if (err) {
       console.log('on find ' + err)
       res.statusCode = 500
@@ -25,7 +23,7 @@ module.exports.insert = async (req, res) => {
       } else if (req.body.type === 'discrete') {
         newColumn.translate = req.body.translate
       }
-      DB.Columns.create(newColumn, (err, obj) => {
+      req.db.Columns.create(newColumn, (err, obj) => {
         if (err) {
           console.log('on create ' + err)
           res.statusCode = 500

@@ -1,8 +1,6 @@
-const DB = require('../models/index')
-
 module.exports.getColumns = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  DB.Columns.find({}, (err, columns) => {
+  req.db.Columns.find({}, (err, columns) => {
     var results = []
     for (var i = 0; i < columns.length; i++) {
       var columnFound = { name: columns[i].name, details: columns[i].details, type: columns[i].type }
@@ -29,7 +27,7 @@ module.exports.getColumns = async (req, res) => {
 module.exports.filterResults = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   try {
-    DB.Values.find(req.body.filters, req.body.columns.join(' ') + ' -_id', (err, values) => {
+    req.db.Values.find(req.body.filters, req.body.columns.join(' ') + ' -_id', (err, values) => {
       if (err) {
         res.statusCode = 500
         res.write(JSON.stringify({ success: false, message: 'Could not fetch data' }))

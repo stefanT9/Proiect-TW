@@ -1,9 +1,7 @@
-const DB = require('../models/index')
-
 module.exports.insert = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   var value = req.body
-  DB.Columns.find({}, (err, columns) => {
+  req.db.Columns.find({}, (err, columns) => {
     var newValue = {}
     for (var i = 0; i < columns.length; i++) {
       if (value.hasOwnProperty(columns[i].name)) {
@@ -53,7 +51,7 @@ module.exports.insert = async (req, res) => {
     }
     if (newValue !== null) {
       console.log(JSON.stringify(newValue))
-      DB.Values.create(newValue, (err, val) => {
+      req.db.Values.create(newValue, (err, val) => {
         if (err) {
           res.statusCode = 500
           res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
@@ -70,7 +68,7 @@ module.exports.insert = async (req, res) => {
 
 module.exports.runQuery = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  DB.Values.find(req.body.filters, (err, values) => {
+  req.db.Values.find(req.body.filters, (err, values) => {
     var results = []
     for (var i = 0; i < values.length; i++) {
       var valueFound = {}

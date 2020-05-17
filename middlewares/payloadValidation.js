@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const { secret } = require('../utils/constants')
 const jwt = require('jsonwebtoken')
+const url = require('url')
+const DB = require('../models/index')
 
 module.exports.isAuth = (req, res, next) => {
   try {
@@ -39,6 +41,30 @@ module.exports.collectBody = (req, res, next) => {
       next[0](req, res, next.slice(1))
     })
   } catch (e) {
+    res.writeHead(500, 'aplication/json')
+    res.write(JSON.stringify({ result: false, message: 'internal server error' }))
+    res.end()
+  }
+}
+module.exports.composeDatabase = (req, res, next) => {
+  try{
+    req.db = DB
+    next[0](req, res, next.splice(1))
+  }
+  catch(e)
+  {
+    res.writeHead(500, 'aplication/json')
+    res.write(JSON.stringify({ result: false, message: 'internal server error' }))
+    res.end()
+  }
+}
+module.exports.collectParameters = (req, res, next) => {
+  try {
+    req.params = url.parse(req.url, true).query
+    next[0](req, res, next.slice(1))
+  }
+  catch(e)
+  {
     res.writeHead(500, 'aplication/json')
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()

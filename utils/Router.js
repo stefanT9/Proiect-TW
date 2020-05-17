@@ -1,4 +1,4 @@
-const { isAuth, collectBody } = require('../middlewares/payloadValidation')
+const {composeDatabase,collectParameters, isAuth, collectBody, } = require('../middlewares/payloadValidation')
 
 String.prototype.fullMatch = function (regex) {
   try {
@@ -61,12 +61,12 @@ class Router {
 
     if (req.method === 'GET') {
       if (this.getRoutes[url] !== undefined) {
-        isAuth(req, res, [this.getRoutes[url]])
+        isAuth(req, res, [composeDatabase,collectParameters,this.getRoutes[url]])
       } else {
         for (var idx in Object.keys(this.getRoutes)) {
           const val = Object.keys(this.getRoutes)[idx]
           if (url.fullMatch(val)) {
-            isAuth(req, res, [this.getRoutes[val]])
+            isAuth(req, res, [composeDatabase,collectParameters,this.getRoutes[val]])
             return
           }
         }
@@ -77,11 +77,11 @@ class Router {
     }
     if (req.method === 'POST') {
       if (this.postRoutes[url] !== undefined) {
-        collectBody(req, res, [isAuth, this.postRoutes[url]])
+        collectBody(req, res, [composeDatabase,collectParameters,isAuth, this.postRoutes[url]])
       } else {
         Object.keys(this.postRoutes).forEach((val) => {
           if (url.fullMatch(val)) {
-            collectBody(req, res, [isAuth, this.postRoutes[val]])
+            collectBody(req, res, [composeDatabase,collectParameters,isAuth, this.postRoutes[val]])
           }
         })
 
@@ -92,11 +92,11 @@ class Router {
     }
     if (req.method === 'PUT') {
       if (this.postRoutes[url] !== undefined) {
-        collectBody(req, res, [isAuth, this.putRoutes[url]])
+        collectBody(req, res, [composeDatabase,collectParameters,isAuth, this.putRoutes[url]])
       } else {
         Object.keys(this.putRoutes).forEach((val) => {
           if (url.fullMatch(val)) {
-            collectBody(req, res, [isAuth, this.putRoutes[val]])
+            collectBody(req, res,[composeDatabase,collectParameters,isAuth, this.putRoutes[val]])
           }
         })
 
@@ -107,11 +107,11 @@ class Router {
     }
     if (req.method === 'DELETE') {
       if (this.deleteRoutes[url] !== undefined) {
-        collectBody(req, res, [isAuth, this.deleteRoutes[url]])
+        collectBody(req, res, [composeDatabase,collectParameters,isAuth, this.deleteRoutes[url]])
       } else {
         Object.keys(this.deleteRoutes).forEach((val) => {
           if (url.fullMatch(val)) {
-            collectBody(req, res, [isAuth, this.deleteRoutes[val]])
+            collectBody(req, res, [composeDatabase,collectParameters,isAuth, this.deleteRoutes[val]])
           }
         })
 

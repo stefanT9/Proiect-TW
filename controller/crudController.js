@@ -1,12 +1,9 @@
 var { ObjectId } = require('mongodb')
-const url = require('url')
-const db = require('../models/index')
 
 module.exports.getFunction = async (req, res) => {
   try {
-    const params = url.parse(req.url, true).query
-    console.log(params.id)
-    const document = await db.Values.findOne({ _id: ObjectId(params.id) })
+
+    const document = await req.db.Values.findOne({ _id: ObjectId(req.params.id) })
 
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
@@ -23,7 +20,7 @@ module.exports.getFunction = async (req, res) => {
 
 module.exports.postFunction = async (req, res) => {
   try {
-    const value = new db.Values(req.body.element)
+    const value = new req.db.Values(req.body.element)
 
     value.save((err) => {
       if (err) {
@@ -50,7 +47,7 @@ module.exports.postFunction = async (req, res) => {
 
 module.exports.deleteFunction = async (req, res) => {
   try {
-    db.Values.remove({ _id: ObjectId(req.body.id) }, (err) => {
+    req.db.Values.remove({ _id: ObjectId(req.body.id) }, (err) => {
       if (err) {
         res.statusCode = 500
         res.setHeader('Content-Type', 'application/json')
@@ -73,8 +70,8 @@ module.exports.deleteFunction = async (req, res) => {
 
 module.exports.putFunction = async (req, res) => {
   try {
-    const document = await db.Values.findOne({ _id: ObjectId(req.body.id) })
-    const updatedDocument = new db.Values(req.body.element)
+    const document = await req.db.Values.findOne({ _id: ObjectId(req.body.id) })
+    const updatedDocument = new req.db.Values(req.body.element)
     updatedDocument._id = document._id
     updatedDocument.save((err) => {
       if (err) {

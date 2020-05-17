@@ -1,12 +1,11 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const DB = require('../models/index')
 const constants = require('../utils/constants')
 
 module.exports.login = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   console.log('test')
-  DB.User.findOne({ email: req.body.email }, (err, user) => {
+  req.db.User.findOne({ email: req.body.email }, (err, user) => {
     console.log({ err: err, user: user })
     if (err) {
       console.log(err)
@@ -35,14 +34,14 @@ module.exports.login = async (req, res) => {
 
 module.exports.register = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  const user = await DB.User.findOne({ email: req.body.email })
+  const user = await req.db.User.findOne({ email: req.body.email })
   console.log(user)
   if (user) {
     res.statusCode = 403
     res.write(JSON.stringify({ success: false, message: 'email is already being used' }))
     res.end()
   } else {
-    const user_ = new DB.User({
+    const user_ = new req.db.User({
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, constants.rounds)
     })
