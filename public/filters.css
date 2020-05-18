@@ -11,7 +11,8 @@
 }
 
 .questionDivDiscrete,
-.questionDivContinuous {
+.questionDivContinuous,
+.filtersDiv {
     padding-left: 3%;
 }
 

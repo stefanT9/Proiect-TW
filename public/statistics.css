@@ -130,7 +130,7 @@ body {
     margin: 5px;
     padding: 5px;
     color: #9C27B0;
-    border: solid #00BCD4;
+    border: solid black;
     border-radius: 20%;
 }
 
@@ -199,7 +199,7 @@ body {
     border: solid 1px #8C38B9;
 }
 
-#paginateResults{
+#paginateResults {
     flex-direction: column;
     display: none;
 }

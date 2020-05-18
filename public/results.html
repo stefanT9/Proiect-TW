@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="results.css" type="text/css">
     <link rel="stylesheet" href="navbar.css" type="text/css">
     <link rel="stylesheet" href="common.css" type="text/css">
+    <link rel="stylesheet" href="filters.css" type="text/css">
+
     <script src="index.js"></script>
     <script src="results.js"></script>
+    <script src="filters.js"></script>
     <script type="text/javascript" src="import.js"></script>
 
 </head>
@@ -28,21 +31,21 @@
     </div>
     <main>
         <div id="fieldsPopUpForm">
-            <div class="fieldsWrapper"></div>
-            <button id="confirmFieldsSelectionButton" class="hidden-button" onclick="closePopUp()">done</button>
+            <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addTable()">GENERATE</button>
+            <div class="fieldsWrapper" disabled></div>
         </div>
         <section id="filterSection">
             <h2>Filters</h2>
             <div class="form-filter"></div>
             <button id="addFieldsButton" onclick="openPopUp()">
-                Add fields
+                Add Table
             </button>
-            <button>
-                Export
+            <button id="exportButton" onclick="exportCsv()">
+                Export CSV
             </button>
             <button onclick="importFile()">
                 <input id="readFileId" type="file" onchange="readFile(event);" style="display: none;">
-                Chose file
+                Import data to database
             </button>
         </section>
 

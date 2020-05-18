@@ -166,23 +166,30 @@ form input {
 }
 
 #invisibleBackground {
-    position: absolute;
-    top: auto;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
     z-index: -1;
 }
 
+.invisible {
+    z-index: -9999 !important;
+}
+
 #fieldsPopUpForm {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
     background: white;
-    position: absolute;
     width: 70%;
     height: 70%;
     top: 25%;
     left: 20%;
     opacity: 0;
     z-index: -1;
+}
+
+.visible {
+    z-index: 2 !important;
+    opacity: 1 !important;
 }
 
 .hidden-button {
@@ -195,7 +202,7 @@ form input {
     margin: 5px;
     padding: 5px;
     color: #9C27B0;
-    border: solid #00BCD4;
+    border: solid black;
     border-radius: 20%;
 }
 
@@ -238,4 +245,22 @@ form input {
 #resultsTableDiv {
     overflow-x: auto;
     overflow-y: auto;
+}
+
+.grayout {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 1 !important;
+}
+
+.flip {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    border: solid 1px #8C38B9;
 }
