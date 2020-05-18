@@ -6,16 +6,14 @@ module.exports.login = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   console.log('test')
 
-  if(!req.body.email) 
-  {
+  if (!req.body.email) {
     console.log('err')
     res.statusCode = 400
     res.write(JSON.stringify({ success: false, message: '"email" is required' }))
     res.end()
     return
   }
-  if(!req.body.password)
-  {
+  if (!req.body.password) {
     console.log('err')
     res.statusCode = 400
     res.write(JSON.stringify({ success: false, message: '"password" is required' }))
@@ -52,16 +50,14 @@ module.exports.login = async (req, res) => {
 module.exports.register = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
 
-  if(!req.body.email) 
-  {
+  if (!req.body.email) {
     console.log('err')
     res.statusCode = 400
     res.write(JSON.stringify({ success: false, message: '"email" is required' }))
     res.end()
     return
   }
-  if(!req.body.password)
-  {
+  if (!req.body.password) {
     console.log('err')
     res.statusCode = 400
     res.write(JSON.stringify({ success: false, message: '"password" is required' }))
@@ -88,7 +84,7 @@ module.exports.register = async (req, res) => {
         res.end()
       } else {
         res.statusCode = 200
-        res.write(JSON.stringify({ success: true,user_, message: 'user created' }))
+        res.write(JSON.stringify({ success: true, user_, message: 'user created' }))
         res.end()
       }
     })
