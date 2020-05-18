@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt')
 const { secret } = require('../utils/constants')
 const jwt = require('jsonwebtoken')
 const url = require('url')
@@ -6,7 +5,6 @@ const DB = require('../models/index')
 
 module.exports.isAuth = (req, res, next) => {
   try {
-
     const url = req.url.split('?')[0]
     if (url.includes('/crud')) {
       try {

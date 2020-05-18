@@ -61,9 +61,8 @@ module.exports.postFunction = async (req, res) => {
 
 module.exports.deleteFunction = async (req, res) => {
   try {
-    const user = await req.db.User.findOne({_id:ObjectId(req.pathParams.id)})
-    if(user === null)
-    {
+    const user = await req.db.User.findOne({ _id: ObjectId(req.pathParams.id) })
+    if (user === null) {
       res.statusCode = 404
       res.setHeader('Content-Type', 'application/json')
       res.write(JSON.stringify({ success: false, message: 'User not found' }))

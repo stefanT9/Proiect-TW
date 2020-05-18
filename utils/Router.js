@@ -64,7 +64,7 @@ class Router {
         let urlRegex = ''
         const pathParams = {}
         routeKey.split('/').forEach((val, idx) => {
-          if (idx != 0) {
+          if (idx !== 0) {
             if (val.startsWith(':')) {
               pathParams[val.slice(1)] = null
               urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
@@ -88,7 +88,7 @@ class Router {
         let urlRegex = ''
         const pathParams = {}
         routeKey.split('/').forEach((val, idx) => {
-          if (idx != 0) {
+          if (idx !== 0) {
             if (val.startsWith(':')) {
               pathParams[val.slice(1)] = null
               urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
@@ -112,7 +112,7 @@ class Router {
         let urlRegex = ''
         const pathParams = {}
         routeKey.split('/').forEach((val, idx) => {
-          if (idx != 0) {
+          if (idx !== 0) {
             if (val.startsWith(':')) {
               pathParams[val.slice(1)] = null
               urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
@@ -136,7 +136,7 @@ class Router {
         let urlRegex = ''
         const pathParams = {}
         routeKey.split('/').forEach((val, idx) => {
-          if (idx != 0) {
+          if (idx !== 0) {
             if (val.startsWith(':')) {
               pathParams[val.slice(1)] = null
               urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
