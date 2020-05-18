@@ -40,7 +40,10 @@
             <button>
                 Export
             </button>
-            <input type="file" onchange="readFile(event);">
+            <button onclick="importFile()">
+                <input id="readFileId" type="file" onchange="readFile(event);" style="display: none;">
+                Chose file
+            </button>
         </section>
 
         <section id="resultsTableSection">

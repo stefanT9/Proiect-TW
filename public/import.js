@@ -88,3 +88,8 @@ async function readFile (event) {
   reader.addEventListener('load', fileLoadHandler)
   reader.readAsText(event.target.files[0])
 }
+
+function importFile()
+{
+  document.getElementById('readFileId').click()
+}
