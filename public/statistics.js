@@ -16,6 +16,10 @@ const radarGraphElement = document.createElement('option')
 radarGraphElement.value = 'radar'
 radarGraphElement.text = 'radar graph'
 
+const doughnutGraphElement = document.createElement('option')
+doughnutGraphElement.value = 'doughnut'
+doughnutGraphElement.text = 'doughnut graph'
+
 const pieGraphElement = document.createElement('option')
 pieGraphElement.value = 'pie'
 pieGraphElement.text = 'pie graph'
@@ -28,15 +32,391 @@ const scatterGraphElement = document.createElement('option')
 scatterGraphElement.value = 'scatter'
 scatterGraphElement.text = 'scatter graph'
 
-const bubbleGraphElement = document.createElement('option')
-bubbleGraphElement.value = 'bubble'
-bubbleGraphElement.text = 'bubble graph'
+const allOptions = [lineGraphElement, barGraphElement, radarGraphElement, pieGraphElement, doughnutGraphElement, scatterGraphElement]
+const ddOptions = [lineGraphElement, barGraphElement, radarGraphElement, pieGraphElement, doughnutGraphElement]//[scatterGraphElement, lineGraphElement]
+const dcOptions = [barGraphElement, radarGraphElement, pieGraphElement, doughnutGraphElement]
+const cdOptions = []
+const ccOptions = [lineGraphElement, barGraphElement, radarGraphElement, pieGraphElement, doughnutGraphElement]
 
-const allOptions = [lineGraphElement, barGraphElement, barGraphElement, radarGraphElement, pieGraphElement, polarGraphElement, scatterGraphElement, bubbleGraphElement]
-const ddOptions = [scatterGraphElement, lineGraphElement]
-const dcOptions = [scatterGraphElement, lineGraphElement]
-const cdOptions = [scatterGraphElement, lineGraphElement]
-const ccOptions = [scatterGraphElement, lineGraphElement]
+var paginationEnabled = false;
+
+function labelCount(dataset){
+    var labelCountMapping = {}
+    for(i in dataset){
+        var point = dataset[i]
+        if(point["x"]+' '+point["y"] in labelCountMapping){
+            labelCountMapping[point["x"]+' '+point["y"]] ++
+        }else{
+            labelCountMapping[point["x"]+' '+point["y"]] = 1
+        }
+    }
+    return labelCountMapping
+}
+
+function mapDiscreteDiscrete(filterValues){
+    var labelCountMapping = labelCount(filterValues)
+    console.log(labelCountMapping)
+    var graphValues = []
+    for(var label in labelCountMapping){
+        graphValues.push({
+            x:label,
+            y:labelCountMapping[label]
+        })
+    }
+    return graphValues
+}
+
+function identityMapping(filterValues){
+    return filterValues
+}
+
+var mapFilterValues = {
+    "discrete":{
+        "discrete": mapDiscreteDiscrete,
+        "continuous": identityMapping
+    },
+    "continuous":{
+        "discrete": identityMapping,
+        "continuous": identityMapping
+    }
+}
+
+function buildLineGraph(context2D, dataset, label){
+    console.log(dataset)
+    var labels = []
+    var values 
+    for(i in dataset){
+        labels.push(dataset[i].x)
+    }
+    new Chart(context2D, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets:[{
+                label: label,
+                data: dataset,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using line chart representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
+        }
+    });
+}
+
+
+function buildScatterGraph(context2D, dataset, label){
+    console.log(dataset)
+    new Chart(context2D, {
+        type: 'scatter',
+        data: {
+            datasets:[{
+                label: label,
+                data: dataset,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using line chart representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
+        }
+    });
+}
+
+function buildBarGraph(context2D, dataset, label){
+    console.log(dataset)
+    var labels = []
+    for(i in dataset){
+        labels.push(dataset[i].x)
+    }
+    new Chart(context2D, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets:[{
+                label: label,
+                data: dataset,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using bar chart representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
+        }
+    });
+}
+
+function buildRadarGraph(context2D, dataset, label){
+    console.log(dataset)
+    var labels = []
+    var values = []
+    for(i in dataset){
+        labels.push(dataset[i].x)
+        values.push(dataset[i].y)
+    }
+    new Chart(context2D, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets:[{
+                label: label,
+                data: values,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using radar chart representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
+        }
+    });
+}
+
+function buildDoughnutGraph(context2D, dataset, label){
+    console.log(dataset)
+    var labels = []
+    var values = []
+    for(i in dataset){
+        labels.push(dataset[i].x)
+        values.push(dataset[i].y)
+    }
+    new Chart(context2D, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets:[{
+                label: label,
+                data: values,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using pie chart representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
+        }
+    });
+}
+
+function buildPieGraph(context2D, dataset, label){
+    console.log(dataset)
+    var labels = []
+    var values = []
+    for(i in dataset){
+        labels.push(dataset[i].x)
+        values.push(dataset[i].y)
+    }
+    new Chart(context2D, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets:[{
+                label: label,
+                data: values,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using doughnut chart representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
+        }
+    });
+}
+
+function buildPolarGraph(context2D, dataset, label){
+    console.log(dataset)
+    var labels = []
+    var values = []
+    for(i in dataset){
+        labels.push(dataset[i].x)
+        values.push(dataset[i].y)
+    }
+    new Chart(context2D, {
+        type: 'polarArea',
+        data: {
+            labels: labels,
+            datasets:[{
+                label: label,
+                data: values,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: `x on y using polar chart representation`,
+                fontColor: "#333"
+            },
+            scales: {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'test123'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0
+            },
+            responsiveAnimationDuration: 0
+        }
+    });
+}
+
+var chartBuilder = {
+    line:buildLineGraph,
+    bar:buildBarGraph,
+    radar:buildRadarGraph,
+    doughnut:buildDoughnutGraph,
+    pie:buildPieGraph,
+    polar:buildPolarGraph,
+    scatter:buildScatterGraph
+}
 
 function getGraphController (chartCanvas, chartJsElement) {
   const graphController = document.createElement('div')
@@ -181,84 +561,79 @@ function closePopUp () {
   document.getElementById('typeOfGraph').disabled = true
 }
 
-function addNewChart () {
-  const xLabel = document.getElementById('xOfGraph').value
-  const yLabel = document.getElementById('yOfGraph').value
-  const chartType = document.getElementById('typeOfGraph').value
 
-  const xValues = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
-  const dataArray = [Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)]
-  let chartCanvas
-  let flag = false
-
-  if (position === undefined) {
-    flag = true
-    totalGraphs++
-    chartCanvas = document.createElement('canvas')
-    chartCanvas.id = 'canvas' + String(totalGraphs)
-  } else {
-    chartCanvas = document.getElementById('canvas' + String(position))
-  }
-
-  if (position === undefined) {
-    dataObj.push(new Array())
-    dataObj[dataObj.length - 1].push({
-      label: yLabel,
-      data: dataArray,
-      backgroundColor: chartsPallete,
-      borderColor: chartsPallete,
-      fill: false
-    })
-
-    position = dataObj.length
-  } else {
-    dataObj[position - 1].push({
-      label: yLabel,
-      data: dataArray,
-      backgroundColor: chartsPallete,
-      borderColor: chartsPallete,
-      fill: false
-    })
-  }
-
-  const myChart = new Chart(chartCanvas.getContext('2d'), {
-    type: chartType,
-    data: {
-      labels: xValues,
-      datasets: dataObj[position - 1]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      title: {
-        display: true,
-        text: `x on y using ${chartType} representation`,
-        fontColor: '#333'
-      },
-      scales: {
-        scaleLabel: {
-          display: true,
-          labelString: 'test123'
-        },
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
-      },
-      animation: {
-        duration: 0
-      },
-      hover: {
-        animationDuration: 0
-      },
-      responsiveAnimationDuration: 0
+function addNewChart() {
+    const xLabel = document.getElementById('xOfGraph').value
+    const yLabel = document.getElementById('yOfGraph').value
+    const chartType = document.getElementById('typeOfGraph').value;
+    var paginationOptions = undefined
+    if(paginationEnabled){
+        paginationOptions = {
+            page: parseInt(document.getElementById('pageNumber').value),
+            size: parseInt(document.getElementById('pageResults').value)
+        }
     }
-  })
 
-  if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas))
-  position = undefined
-  closePopUp()
+    getGraphResults(xLabel, yLabel, paginationOptions).then((filterValues)=>{
+        var xType, yType, xDetails, yDetails
+        for(var i = 0; i<availableFields.length; i++){
+            if(xLabel === availableFields[i].name){
+                xType = availableFields[i].type
+                xDetails = availableFields[i].details
+            }
+            if(yLabel === availableFields[i].name){
+                yType = availableFields[i].type
+                yDetails = availableFields[i].details
+            }
+        }
+
+        var graphValues = mapFilterValues[xType][yType](filterValues)
+
+        var xValues //= graphValues["xFieldName"] //['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
+        var dataArray //= graphValues["yFieldName"] //[Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
+        
+        let chartCanvas
+        let flag = false
+
+        if (position === undefined) {
+            flag = true
+            totalGraphs++
+            chartCanvas = document.createElement('canvas');
+            chartCanvas.id = 'canvas' + String(totalGraphs)
+
+        } else {
+            chartCanvas = document.getElementById('canvas' + String(position))
+        }
+
+        if (position === undefined) {
+            dataObj.push(new Array())
+            dataObj[dataObj.length - 1].push({
+                label: yLabel,
+                data: dataArray,
+                backgroundColor: chartsPallete,
+                borderColor: chartsPallete,
+                fill: false
+            });
+
+            position = dataObj.length;
+        } else {
+            dataObj[position - 1].push({
+                label: yLabel,
+                data: dataArray,
+                backgroundColor: chartsPallete,
+                borderColor: chartsPallete,
+                fill: false
+            })
+        }
+
+        
+        chartBuilder[chartType](chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
+        //buildPieGraph(chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
+
+        if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas));
+        position = undefined
+        closePopUp()
+    })
 }
 
 function openPopUp () {
@@ -272,31 +647,32 @@ function openPopUp () {
   document.getElementById('typeOfGraph').disabled = false
 }
 
-function loadFields () {
-  const selectors = document.getElementsByTagName('select')
-  console.log(availableFields)
-  for (const idx in availableFields) {
-    const el = document.createElement('option')
-    el.value = availableFields[idx].name
-    el.textContent = availableFields[idx].name
+function loadFields() {
+    const selectors = document.getElementsByTagName('select');
+    console.log(availableFields);
+    for (const idx in availableFields) {
+        const el = document.createElement('option');
+        el.value = availableFields[idx].name;
+        el.textContent = availableFields[idx].name;
 
-    selectors[0].appendChild(el)
-    selectors[1].appendChild(el.cloneNode(true))
-    if (availableFields[idx].type == 'dummy') {
-      if (Math.random() < 0.5) {
-        appendContinuousFilter('orice vrea Radu', availableFields[idx].name, 0, 15, 0.1)
-      } else {
-        appendDiscreteFilter('orice vrea Radu', availableFields[idx].name, ['lol', 'bol', 'tzol'])
-      }
-    } else if (availableFields[idx].type == 'discrete') {
-      appendDiscreteFilter('orice vrea Radu', availableFields[idx].name, availableFields[idx].values)
-    } else if (availableFields[idx].type == 'continuous') {
-      appendContinuousFilter('orice vrea Radu', availableFields[idx].name, availableFields[idx].min, availableFields[idx].max, 0.01)
-    } else if (availableFields[idx].type == 'date') {
-      appendContinuousFilter('orice vrea Radu', availableFields[idx].name, availableFields[idx].min, availableFields[idx].max, 0.01, true)
+        selectors[0].appendChild(el);
+        selectors[1].appendChild(el.cloneNode(true))
+        if (availableFields[idx]['type'] == 'dummy') {
+            if (Math.random() < 0.5) {
+                appendContinuousFilter(availableFields[idx].details, availableFields[idx]['name'], 0, 15, 0.1)
+            } else {
+                appendDiscreteFilter(availableFields[idx].details, availableFields[idx]['name'], ['lol', 'bol', 'tzol'])
+            }
+        } else if (availableFields[idx]['type'] == 'discrete') {
+            appendDiscreteFilter(availableFields[idx].details, availableFields[idx]['name'], availableFields[idx]['values'])
+        } else if (availableFields[idx]['type'] == 'continuous') {
+            appendContinuousFilter(availableFields[idx].details, availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01)
+        } else if (availableFields[idx]['type'] == 'date') {
+            appendContinuousFilter(availableFields[idx].details, availableFields[idx]['name'], availableFields[idx]['min'], availableFields[idx]['max'], 0.01, true)
+        }
     }
   }
-}
+
 
 function appendDiscreteFilter (question, columnName, options) {
   if (options.length == 0) { return }
@@ -557,67 +933,79 @@ function getFilters () {
   // TODO: transform to mongoose querry json
 }
 
-function updateAvailableGraphs () {
-  console.log('test')
-  var xSelector = document.getElementById('xOfGraph')
-  var ySelector = document.getElementById('yOfGraph')
-  var chartSelector = document.getElementById('typeOfGraph')
-  const xType = availableFields.filter((val) => { return val.name === xSelector.value })[0].type
-  const yType = availableFields.filter((val) => { return val.name === ySelector.value })[0].type
-
-  if (xType === 'discrete' && yType === 'discrete') {
-    console.log('dd')
-    ddOptions.forEach((val, idx) => {
-      chartSelector.appendChild(val)
-    })
-  } else if (xType === 'discrete' && yType === 'continuous') {
-    console.log('dc')
-    dcOptions.forEach((val, idx) => {
-      chartSelector.appendChild(val)
-    })
-  } else if (xType === 'continuous' && yType === 'discrete') {
-    console.log('cd')
-    cdOptions.forEach((val, idx) => {
-      chartSelector.appendChild(val)
-    })
-  } else if (xType === 'continuous' && yType === 'continuous') {
-    console.log('cc')
-    ccOptions.forEach((val, idx) => {
-      chartSelector.appendChild(val)
-    })
-  } else /// This else is called only on testing dummy data
-  {
-    console.log(allOptions)
-    allOptions.forEach((val, idx) => {
-      chartSelector.appendChild(val)
-    })
-  }
+function updateAvailableGraphs() {
+    console.log("test")
+    var xSelector = document.getElementById('xOfGraph')
+    var ySelector = document.getElementById('yOfGraph')
+    var chartSelector = document.getElementById('typeOfGraph')
+    const xType = availableFields.filter((val) => { return val.name === xSelector.value })[0].type
+    const yType = availableFields.filter((val) => { return val.name === ySelector.value })[0].type
+    document.getElementById('typeOfGraph').innerHTML = ''
+    if (xType === 'discrete' && yType === 'discrete') {
+        console.log("dd")
+        ddOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
+    } else if (xType === 'discrete' && yType === 'continuous') {
+        console.log("dc")
+        dcOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
+    } else if (xType === 'continuous' && yType === 'discrete') {
+        console.log("cd")
+        cdOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
+    } else if (xType === 'continuous' && yType === 'continuous') {
+        console.log("cc")
+        ccOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
+    } else /// This else is called only on testing dummy data
+    {
+        console.log(allOptions)
+        allOptions.forEach((val, idx) => {
+            chartSelector.appendChild(val)
+        })
+    }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  try {
-    fillChartsWithDummyData()
-  } catch (e) {
-    console.log(e)
-  }
-  getAvailableFields()
-    .then(res => { availableFields = res.columns })
-    .then(columns => { loadFields() })
-    .then(() => {
-      var xSelector = document.getElementById('xOfGraph')
-      var ySelector = document.getElementById('yOfGraph')
+function switchPagination(){
+    console.log(document.getElementById("paginateResults").style.display)
+    if (document.getElementById("paginateResults").style.display === "none" || document.getElementById("paginateResults").style.display === ""){
+        document.getElementById("paginateResults").style.display = "flex";
+        paginationEnabled = true;
+    }
+    else{
+        document.getElementById("paginateResults").style.display = "none";
+        paginationEnabled = false;
+    }
+}
 
-      updateAvailableGraphs()
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        fillChartsWithDummyData()
+    } catch (e) {
+        console.log(e)
+    }
+    getAvailableFields()
+        .then(res => { availableFields = res.columns })
+        .then(columns => { loadFields() })
+        .then(() => {
+            var xSelector = document.getElementById('xOfGraph')
+            var ySelector = document.getElementById('yOfGraph')
 
-      xSelector.addEventListener('change', (ev) => {
-        updateAvailableGraphs()
-      })
+            updateAvailableGraphs()
 
-      ySelector.addEventListener('change', (ev) => {
-        updateAvailableGraphs()
-      })
-    })
-    .catch(e => { console.log(e) })
+            xSelector.addEventListener('change', (ev) => {
+                updateAvailableGraphs()
+            })
+
+            ySelector.addEventListener('change', (ev) => {
+                updateAvailableGraphs()
+            })
+        })
+        .catch(e => { console.log(e) })
 }, false)
 
 var totalDiscrete = 0
