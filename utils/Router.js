@@ -1,5 +1,5 @@
 const { composeDatabase, collectParameters, isAuth, collectBody } = require('../middlewares/payloadValidation')
-
+const anythingButSlashRegex = '([0-9]|[a-z]|[A-Z])+'
 String.prototype.fullMatch = function (regex) {
   try {
     regex = new RegExp(regex)
@@ -7,8 +7,8 @@ String.prototype.fullMatch = function (regex) {
     return false
   }
   var matches = this.toString().match(regex)
-  for (var idx in matches) {
-    if (matches[idx] === this.toString()) {
+  if (matches) {
+    if (matches[0] === matches.input) {
       return true
     }
   }
@@ -60,65 +60,100 @@ class Router {
     var url = req.url.split('?')[0]
 
     if (req.method === 'GET') {
-      if (this.getRoutes[url] !== undefined) {
-        isAuth(req, res, [composeDatabase, collectParameters, this.getRoutes[url]])
-      } else {
-        for (var idx in Object.keys(this.getRoutes)) {
-          const val = Object.keys(this.getRoutes)[idx]
-          if (url.fullMatch(val)) {
-            isAuth(req, res, [composeDatabase, collectParameters, this.getRoutes[val]])
-            return
+      for (const routeKey of Object.keys(this.getRoutes)) {
+        let urlRegex = ''
+        const pathParams = {}
+        routeKey.split('/').forEach((val, idx) => {
+          if (idx != 0) {
+            if (val.startsWith(':')) {
+              pathParams[val.slice(1)] = null
+              urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
+            } else {
+              urlRegex = `${urlRegex}/${val}`
+            }
           }
+        })
+        if (url.fullMatch(urlRegex)) {
+          req.pathParams = url.match(urlRegex)
+          isAuth(req, res, [composeDatabase, collectParameters, this.getRoutes[routeKey]])
+          return
         }
-        res.statusCode = 404
-        res.write(JSON.stringify({ success: false, message: 'not found' }))
-        res.end()
       }
+      res.statusCode = 404
+      res.write(JSON.stringify({ success: false, message: 'not found' }))
+      res.end()
     }
     if (req.method === 'POST') {
-      if (this.postRoutes[url] !== undefined) {
-        collectBody(req, res, [composeDatabase, collectParameters, isAuth, this.postRoutes[url]])
-      } else {
-        Object.keys(this.postRoutes).forEach((val) => {
-          if (url.fullMatch(val)) {
-            collectBody(req, res, [composeDatabase, collectParameters, isAuth, this.postRoutes[val]])
+      for (const routeKey of Object.keys(this.postRoutes)) {
+        let urlRegex = ''
+        const pathParams = {}
+        routeKey.split('/').forEach((val, idx) => {
+          if (idx != 0) {
+            if (val.startsWith(':')) {
+              pathParams[val.slice(1)] = null
+              urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
+            } else {
+              urlRegex = `${urlRegex}/${val}`
+            }
           }
         })
-
-        res.statusCode = 404
-        res.write(JSON.stringify({ success: false, message: 'not found' }))
-        res.end()
+        if (url.fullMatch(urlRegex)) {
+          req.pathParams = url.match(urlRegex)
+          isAuth(req, res, [collectBody, composeDatabase, collectParameters, this.postRoutes[routeKey]])
+          return
+        }
       }
+      res.statusCode = 404
+      res.write(JSON.stringify({ success: false, message: 'not found' }))
+      res.end()
     }
     if (req.method === 'PUT') {
-      if (this.postRoutes[url] !== undefined) {
-        collectBody(req, res, [composeDatabase, collectParameters, isAuth, this.putRoutes[url]])
-      } else {
-        Object.keys(this.putRoutes).forEach((val) => {
-          if (url.fullMatch(val)) {
-            collectBody(req, res, [composeDatabase, collectParameters, isAuth, this.putRoutes[val]])
+      for (const routeKey of Object.keys(this.putRoutes)) {
+        let urlRegex = ''
+        const pathParams = {}
+        routeKey.split('/').forEach((val, idx) => {
+          if (idx != 0) {
+            if (val.startsWith(':')) {
+              pathParams[val.slice(1)] = null
+              urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
+            } else {
+              urlRegex = `${urlRegex}/${val}`
+            }
           }
         })
-
-        res.statusCode = 404
-        res.write(JSON.stringify({ success: false, message: 'not found' }))
-        res.end()
+        if (url.fullMatch(urlRegex)) {
+          req.pathParams = url.match(urlRegex)
+          isAuth(req, res, [collectBody, composeDatabase, collectParameters, this.putRoutes[routeKey]])
+          return
+        }
       }
+      res.statusCode = 404
+      res.write(JSON.stringify({ success: false, message: 'not found' }))
+      res.end()
     }
     if (req.method === 'DELETE') {
-      if (this.deleteRoutes[url] !== undefined) {
-        collectBody(req, res, [composeDatabase, collectParameters, isAuth, this.deleteRoutes[url]])
-      } else {
-        Object.keys(this.deleteRoutes).forEach((val) => {
-          if (url.fullMatch(val)) {
-            collectBody(req, res, [composeDatabase, collectParameters, isAuth, this.deleteRoutes[val]])
+      for (const routeKey of Object.keys(this.deleteRoutes)) {
+        let urlRegex = ''
+        const pathParams = {}
+        routeKey.split('/').forEach((val, idx) => {
+          if (idx != 0) {
+            if (val.startsWith(':')) {
+              pathParams[val.slice(1)] = null
+              urlRegex = `${urlRegex}/(?<${val.slice(1)}>${anythingButSlashRegex})`
+            } else {
+              urlRegex = `${urlRegex}/${val}`
+            }
           }
         })
-
-        res.statusCode = 404
-        res.write(JSON.stringify({ success: false, message: 'not found' }))
-        res.end()
+        if (url.fullMatch(urlRegex)) {
+          req.pathParams = url.match(urlRegex)
+          isAuth(req, res, [collectBody, composeDatabase, collectParameters, this.deleteRoutes[routeKey]])
+          return
+        }
       }
+      res.statusCode = 404
+      res.write(JSON.stringify({ success: false, message: 'not found' }))
+      res.end()
     }
   }
 }
