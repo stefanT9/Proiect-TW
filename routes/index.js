@@ -5,11 +5,13 @@ const crud = require('./crud')
 const inserts = require('./inserts')
 const resources = require('./res')
 const pages = require('./pages')
+const user = require('./user')
 
 var router = new Router()
 router.use('', resources)
 router.use('', pages)
 
+router.use('/user',user)
 router.use('/crud', crud)
 router.use('/filter', filter)
 router.use('/auth', auth)
