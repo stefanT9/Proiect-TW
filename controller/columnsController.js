@@ -64,6 +64,7 @@ module.exports.internalGetColumns = async (req, res) => {
 
 module.exports.insert = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
+  console.log("insert")
   req.db.Columns.findOne({ name: req.body.name }, (err, column) => {
     if (err) {
       console.log('on find ' + err)
