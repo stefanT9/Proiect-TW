@@ -395,9 +395,11 @@ function openPopUp() {
     document.getElementById('fieldsPopUpForm').classList.add('visible')
     document.body.style.overflow = 'hidden'
     document.getElementById('confirmFieldsSelectionButton').classList.remove('no-click')
+    document.getElementById('resultsTableDiv').style.zIndex = -9999
 }
 
 function closePopUp() {
+    document.getElementById('resultsTableDiv').style.zIndex = 0
     document.getElementById('invisibleBackground').classList.remove('grayout')
     document.getElementById('fieldsPopUpForm').classList.remove('visible')
     document.body.style.overflow = ''
