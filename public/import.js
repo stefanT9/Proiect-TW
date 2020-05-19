@@ -89,7 +89,6 @@ async function readFile (event) {
   reader.readAsText(event.target.files[0])
 }
 
-function importFile()
-{
+function importFile () {
   document.getElementById('readFileId').click()
 }
