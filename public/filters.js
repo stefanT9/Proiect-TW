@@ -1,25 +1,3 @@
-async function getResultsFromFilters(filters, columns, paginationOptions) {
-    var body = {
-        filters: filters,
-        columns: columns
-    }
-    console.log(paginationOptions)
-    if (paginationOptions !== undefined) {
-        body["page"] = paginationOptions["page"]
-        body["size"] = paginationOptions["size"]
-    }
-    var response = await fetch(
-        "/filter/filter", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
-        }
-    );
-    return response.json();
-}
-
 async function getGraphResults(xFieldName, yFieldName, paginationOptions) {
     var dataset = []
     var filteredResults = await getResultsFromFilters(JSON.parse(getFilters()), [xFieldName, yFieldName], paginationOptions)
@@ -216,7 +194,7 @@ async function getResultsFromFilters (filters, columns, paginationOptions) {
     body.size = paginationOptions.size
   }
   var response = await fetch(
-    '/filter/filter',
+    '/values/find',
     {
       method: 'POST',
       headers: {
