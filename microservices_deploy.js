@@ -17,7 +17,7 @@ try{
 if(microServiceName === "users"){
 	const router = new Router()
 	router.use('', usersRouter)
-	console.log(port)
+	console.log(router)
 
 	const app = new WebApp(port, usersRouter, constants.db_url_users, 'users')
 	app.listen()
