@@ -34,7 +34,6 @@ module.exports.getColumns = async (req, res) => {
 module.exports.filterResults = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   try {
-    console.log('lolololol')
     var pagination = {}
     console.log((req.body.page !== undefined && req.body.size !== undefined))
     if (req.body.page !== undefined && req.body.size !== undefined) {
