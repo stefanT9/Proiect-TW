@@ -31,7 +31,7 @@ module.exports.getCSS = async (req, res) => {
 
 module.exports.getHtml = async (req, res) => {
   try {
-    await fs.readFile('public/' + req.url, 'utf8', function (err, data) {
+    await fs.readFile('View/' + req.url, 'utf8', function (err, data) {
       if (err) {
         res.statusCode = 404
         res.write(`not found at ${req.url}`)
@@ -92,6 +92,7 @@ module.exports.getPhoto = async (req, res) => {
     fs.readFile('public/' + req.url, (err, data) => {
       const image = data
       if (err) {
+        console.log(err)
         res.statusCode = 404
         res.write(`not found at ${req.url}`)
         res.end()
