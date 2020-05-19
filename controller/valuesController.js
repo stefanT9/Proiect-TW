@@ -119,6 +119,7 @@ module.exports.putFunction = async (req, res) => {
 }
 
 module.exports.insert = async (req, res) => {
+  console.log("insert")
   res.setHeader('Content-Type', 'application/json')
   var value = req.body
   http.get(constants.hostUrl+'/columns/internalget', (response)=>{
@@ -127,23 +128,34 @@ module.exports.insert = async (req, res) => {
       data += part
     })
     response.on('end', () => {
+      console.log(data)
       columns = JSON.parse(data).columns
       var newValue = {}
       for (var i = 0; i < columns.length; i++) {
         if (value.hasOwnProperty(columns[i].name)) {
           if (columns[i].type === 'discrete') {
             var key = value[columns[i].name]
+            var keyAsString = key
+            var keyAsInt = undefined
+            var keyAsFloat
             if(key == null || key == undefined){
               continue
             }
-            if(key[0] !== '0'){
-              if (!isNaN(key)) {
-                key = parseInt(key).toString()
+            if (!isNaN(key)) {
+                keyAsInt = parseInt(key).toString()
+                keyAsFloat = parseFloat(key).toString()
               }
+            
+            if(Object.keys(columns[i].translate).indexOf(keyAsString)>=0) {
+              newValue[columns[i].name] = columns[i].translate[keyAsString]
             }
-            if (Object.keys(columns[i].translate).indexOf(key)>=0) {
-              newValue[columns[i].name] = columns[i].translate[key]
-            } else {
+            else if(Object.keys(columns[i].translate).indexOf(keyAsInt)>=0) {
+              newValue[columns[i].name] = columns[i].translate[keyAsInt]
+            }
+            else if(Object.keys(columns[i].translate).indexOf(keyAsFloat)>=0) {
+              newValue[columns[i].name] = columns[i].translate[keyAsFloat]
+            }
+            else {
 
               res.statusCode = 400
               res.write(JSON.stringify({ success: false, message: 'Discrete field ' + columns[i].name + " doesn't have a translation for " + key }))
