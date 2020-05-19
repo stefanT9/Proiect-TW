@@ -58,7 +58,7 @@ class Router {
 
   route (req, res) {
     var url = req.url.split('?')[0]
-
+    console.log(`i got this: ${url}`)
     if (req.method === 'GET') {
       for (const routeKey of Object.keys(this.getRoutes)) {
         let urlRegex = ''
@@ -76,7 +76,11 @@ class Router {
         if (url.fullMatch(urlRegex)) {
           req.pathParams = url.match(urlRegex)
           isAuth(req, res, [composeDatabase, collectParameters, this.getRoutes[routeKey]])
+          console.log(`match found on ${urlRegex}`)
           return
+        }
+        else{
+          console.log(url.match(urlRegex))
         }
       }
       res.statusCode = 404
