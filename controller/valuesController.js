@@ -1,5 +1,20 @@
 var { ObjectId } = require('mongodb')
 
+module.exports.getAll = async (req, res) => {
+  try {
+    const users = await req.db.Values.find()
+    res.statusCode = 200
+    res.setHeader('Content-Type', 'application/json')
+    res.write(JSON.stringify({ success: true, users, message: 'Succes!' }))
+    res.end()
+  } catch (e) {
+    console.log(e)
+    res.statusCode = 500
+    res.setHeader('Content-Type', 'application/json')
+    res.write(JSON.stringify({ success: false, message: 'Internal server error!' }))
+    res.end()
+  }
+}
 module.exports.getFunction = async (req, res) => {
   try {
     const document = await req.db.Values.findOne({ _id: ObjectId(req.params.id) })
@@ -46,7 +61,15 @@ module.exports.postFunction = async (req, res) => {
 
 module.exports.deleteFunction = async (req, res) => {
   try {
-    req.db.Values.remove({ _id: ObjectId(req.body.id) }, (err) => {
+    const user = await req.db.User.findOne({ _id: ObjectId(req.pathParams.id) })
+    if (user === null) {
+      res.statusCode = 404
+      res.setHeader('Content-Type', 'application/json')
+      res.write(JSON.stringify({ success: false, message: 'User not found' }))
+      res.end()
+      return
+    }
+    req.db.Values.remove({ _id: ObjectId(req.pathParams.id) }, (err) => {
       if (err) {
         res.statusCode = 500
         res.setHeader('Content-Type', 'application/json')
@@ -69,7 +92,7 @@ module.exports.deleteFunction = async (req, res) => {
 
 module.exports.putFunction = async (req, res) => {
   try {
-    const document = await req.db.Values.findOne({ _id: ObjectId(req.body.id) })
+    const document = await req.db.Values.findOne({ _id: ObjectId(req.pathParams.id) })
     const updatedDocument = new req.db.Values(req.body.element)
     updatedDocument._id = document._id
     updatedDocument.save((err) => {

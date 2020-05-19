@@ -90,7 +90,7 @@ module.exports.getJS = async (req, res) => {
 module.exports.getPhoto = async (req, res) => {
   try {
     fs.readFile('public/' + req.url, (err, data) => {
-      image = data
+      const image = data
       if (err) {
         res.statusCode = 404
         res.write(`not found at ${req.url}`)

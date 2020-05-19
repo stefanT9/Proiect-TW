@@ -1,14 +1,13 @@
+<<<<<<< HEAD
+const valueController = require('../controller/valuesController')
 const { Router } = require('../utils/Router')
-const valueController = require('../controller/valueController')
+const router = new Router()
 
-var router = new Router()
-router.get('', (req, res) => {
-	res.writeHead(200, {})
-	res.write('service is up')
-	res.end()
-})
+router.get('', valueController.getAll)
+router.get('/:id', valueController.getFunction)
+router.post('/', valueController.postFunction)
+router.put('/:id', valueController.putFunction)
+router.delete('/:id', valueController.deleteFunction)
 
-router.get('/values/filter', valueController.filterResults)
-router.post('/values', valueController.insert)
-
-module.exports.valuesRouter = router
+module.exports = router
+>>>>>>> 6c078584b987fb846b7121840d52ce8a87033170
