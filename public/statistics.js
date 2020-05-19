@@ -537,8 +537,8 @@ function getGraphController (chartCanvas, chartJsElement) {
 }
 
 async function getAvailableFields () {
-  const url = '/filter/all'
-  return await fetch(url)
+  const url = '/columns'
+  return await fetch(url, {keepalive: false})
     .then(data => {
       return data.json()
     })

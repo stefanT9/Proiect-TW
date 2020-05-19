@@ -8,12 +8,13 @@ function importColumn (name, details, type, onSuccess, onError, translate = unde
     column.translate = translate
   }
   fetch(
-    '/insert/column',
+    '/columns',
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
+      keepalive: false,
       body: JSON.stringify(column)
     }
   ).then(function (response) {
@@ -27,12 +28,13 @@ function importColumn (name, details, type, onSuccess, onError, translate = unde
 
 async function importValue (valueObj, onSuccess, onError) {
   await fetch(
-    '/insert/value',
+    '/values',
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
+      keepalive: false,
       body: JSON.stringify(valueObj)
     }
   ).then(function (response) {

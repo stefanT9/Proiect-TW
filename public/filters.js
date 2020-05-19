@@ -183,12 +183,13 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
         body["size"] = paginationOptions["size"]
     }
     var response = await fetch(
-        "/filter/filter",
+        "/values/filter",
         {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
             },
+            keepalive: false,
             body: JSON.stringify(body)
         }
     );

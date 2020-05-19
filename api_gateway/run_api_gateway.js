@@ -25,6 +25,7 @@ fs.readFile(file, (err, contents)=>{
 		sock.on('end', ()=>{
 			if(node !== undefined){
 				node.end()
+				node = undefined
 			}
 		})
 		sock.on('data', (data)=>{
@@ -32,11 +33,13 @@ fs.readFile(file, (err, contents)=>{
 			if(node === undefined){
 				var firstRow = dataAsString.split(/\r?\n/)[0]
 				if(firstRow.split(' ')[1].includes('/users')){
+					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to users on "+services['users'].port+" "+services['users'].ip)
 					node = new net.Socket()
 					node.connect(services['users'].port, services['users'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
+							sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()
@@ -44,10 +47,12 @@ fs.readFile(file, (err, contents)=>{
 					})
 				}else if(firstRow.split(' ')[1].includes('/columns')){
 					node = new net.Socket()
+					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to columns on "+services['columns'].port+" "+services['columns'].ip)
 					node.connect(services['columns'].port, services['columns'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
+							sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()
@@ -55,10 +60,12 @@ fs.readFile(file, (err, contents)=>{
 					})
 				}else if(firstRow.split(' ')[1].includes('/values')){
 					node = new net.Socket()
+					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to values on "+services['values'].port+" "+services['values'].ip)
 					node.connect(services['values'].port, services['values'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
+							sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()
@@ -66,10 +73,12 @@ fs.readFile(file, (err, contents)=>{
 					})
 				}else{
 					node = new net.Socket()
+					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to resources on "+services['resources'].port+" "+services['resources'].ip)
 					node.connect(services['resources'].port, services['resources'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
+							sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()
