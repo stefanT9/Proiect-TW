@@ -7,8 +7,6 @@ const { columnsRouter } = require('./routes/columns')
 const { valuesRouter } = require('./routes/values')
 const { resourcesRouter } = require('./routes/resources')
 
-console.log(usersRouter)
-
 try{
 	var microServiceName = process.argv[2]
 	var port = parseInt(process.argv[3])

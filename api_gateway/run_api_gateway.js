@@ -21,97 +21,98 @@ fs.readFile(file, (err, contents)=>{
 	console.log(services)
 	const server = net.createServer((sock) => {
 		console.log("[*] New connection "+sock.address())
-		var node = undefined
 		sock.on('error', (err)=>{
 			console.log('client err')
 			console.log(err)
 		})
 		sock.on('end', ()=>{
-			if(node !== undefined){
-				node.end()
-				node = undefined
+			if(sock.node !== undefined){
+				sock.node.end()
+				sock.node = undefined
 			}
 		})
 		sock.on('data', (data)=>{
+			sock.node = undefined
 			var dataAsString = data.toString()
 			var firstRow = dataAsString.split(/\r?\n/)[0].split(' ')
 			console.log(firstRow[0])
-			if(firstRow[0] in ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"]){
-				if(node !== undefined){
-					node.end()
+			if(["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"].includes(firstRow[0])){
+				if(sock.node !== undefined){
+					sock.node.end()
 				}
 				//var firstRow = dataAsString.split(/\r?\n/)[0]
 				if(firstRow[1].includes('/users')){
-					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to users on "+services['users'].port+" "+services['users'].ip)
-					node = new net.Socket()
-					node.on('error', (err)=>{
+					console.log("[*] new request to "+firstRow[1]+" redirecting to users on "+services['users'].port+" "+services['users'].ip)
+					sock.node = new net.Socket()
+					sock.node.on('error', (err)=>{
 						console.log("node err")
 						console.log(err)
 					})
-					node.connect(services['users'].port, services['users'].ip, ()=>{
-						node.write(data)
-						node.on('data', (data)=>{
+					sock.node.connect(services['users'].port, services['users'].ip, ()=>{
+						sock.node.write(data)
+						sock.node.on('data', (data)=>{
 							sock.write(data)
 							//sock.end()
 						})
-						node.on('end', ()=>{
+						sock.node.on('end', ()=>{
 							sock.end()
 						})
 					})
 				}else if(firstRow[1].includes('/columns')){
-					node = new net.Socket()
-					node.on('error', (err)=>{
+					sock.node = new net.Socket()
+					sock.node.on('error', (err)=>{
 						console.log("node err")
 						console.log(err)
 					})
-					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to columns on "+services['columns'].port+" "+services['columns'].ip)
-					node.connect(services['columns'].port, services['columns'].ip, ()=>{
-						node.write(data)
-						node.on('data', (data)=>{
+					console.log("[*] new request to "+firstRow[1]+" redirecting to columns on "+services['columns'].port+" "+services['columns'].ip)
+					sock.node.connect(services['columns'].port, services['columns'].ip, ()=>{
+						sock.node.write(data)
+						sock.node.on('data', (data)=>{
 							sock.write(data)
 							//sock.end()
 						})
-						node.on('end', ()=>{
+						sock.node.on('end', ()=>{
 							sock.end()
 						})
 					})
 				}else if(firstRow[1].includes('/values')){
-					node = new net.Socket()
-					node.on('error', (err)=>{
+					sock.node = new net.Socket()
+					sock.node.on('error', (err)=>{
 						console.log("node err")
 						console.log(err)
 					})
-					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to values on "+services['values'].port+" "+services['values'].ip)
-					node.connect(services['values'].port, services['values'].ip, ()=>{
-						node.write(data)
-						node.on('data', (data)=>{
+					console.log("[*] new request to "+firstRow[1]+" redirecting to values on "+services['values'].port+" "+services['values'].ip)
+					sock.node.connect(services['values'].port, services['values'].ip, ()=>{
+						sock.node.write(data)
+						sock.node.on('data', (data)=>{
 							sock.write(data)
 							//sock.end()
 						})
-						node.on('end', ()=>{
+						sock.node.on('end', ()=>{
 							sock.end()
 						})
 					})
 				}else{
-					node = new net.Socket()
-					node.on('error', (err)=>{
+					sock.node = new net.Socket()
+					sock.node.on('error', (err)=>{
 						console.log("node err")
 						console.log(err)
 					})
-					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to resources on "+services['resources'].port+" "+services['resources'].ip)
-					node.connect(services['resources'].port, services['resources'].ip, ()=>{
-						node.write(data)
-						node.on('data', (data)=>{
+					console.log("[*] new request to "+firstRow[1]+" redirecting to resources on "+services['resources'].port+" "+services['resources'].ip)
+					sock.node.connect(services['resources'].port, services['resources'].ip, ()=>{
+						sock.node.write(data)
+						sock.node.on('data', (data)=>{
 							sock.write(data)
 							//sock.end()
 						})
-						node.on('end', ()=>{
+						sock.node.on('end', ()=>{
 							sock.end()
 						})
 					})
 				}
 			}else{
-				node.write(data)
+				console.log(firstRow)
+				sock.node.write(data)
 			}
 		})
 	}).on('error', (err) => {
