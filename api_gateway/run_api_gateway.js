@@ -1,10 +1,7 @@
 const {services} = require('../utils/constants')
-const { WebApp } = require('../utils/WebApp')
 const {Router} = require('../utils/Router')
 const forward = require('http-forward')
 const http = require('http')
-
-const gatewayRouter = new Router()
 
 async function usersForward(req, res)
 {
