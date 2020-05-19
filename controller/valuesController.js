@@ -128,7 +128,6 @@ module.exports.insert = async (req, res) => {
     })
     response.on('end', () => {
       columns = JSON.parse(data).columns
-      console.log(data)
       var newValue = {}
       for (var i = 0; i < columns.length; i++) {
         if (value.hasOwnProperty(columns[i].name)) {
@@ -140,11 +139,10 @@ module.exports.insert = async (req, res) => {
             if (!isNaN(key)) {
               key = parseInt(key).toString()
             }
-            console.log(key)
-            if (key in columns[i].translate) {
+            if (Object.keys(columns[i].translate).indexOf(key)>=0) {
               newValue[columns[i].name] = columns[i].translate[key]
             } else {
-              console.log({ success: false, message: 'Descrete field ' + columns[i].name + " doesn't have a translation for " + key })
+
               res.statusCode = 400
               res.write(JSON.stringify({ success: false, message: 'Descrete field ' + columns[i].name + " doesn't have a translation for " + key }))
               res.end()
@@ -196,7 +194,6 @@ module.exports.insert = async (req, res) => {
         }
       }
       if (newValue !== null) {
-        console.log(JSON.stringify(newValue))
         req.db.Values.create(newValue, (err, val) => {
           if (err) {
             res.statusCode = 500
@@ -217,12 +214,10 @@ module.exports.filterResults = async(req, res) => {
     res.setHeader('Content-Type', 'application/json')
     try{
         var pagination = {}
-        console.log((req.body.page !== undefined && req.body.size !== undefined))
         if(req.body.page !== undefined && req.body.size !== undefined){
             pagination["skip"] = req.body.page * req.body.size
             pagination["limit"] = req.body.size
         }
-        console.log(pagination)
         req.db.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
             if(err){
                 res.statusCode = 500
