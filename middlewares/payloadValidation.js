@@ -16,7 +16,7 @@ module.exports.isAuth = (req, res, next) => {
         next[0](req, res, next.slice(1))
       } catch (e) {
         console.log(e)
-        res.writeHead(403, 'aplication/json')
+        res.writeHead(401, 'aplication/json')
         res.write(JSON.stringify({ result: false, message: 'Auth is required' }))
         res.end()
       }
