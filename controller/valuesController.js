@@ -137,16 +137,18 @@ module.exports.insert = async (req, res) => {
             if(key == null || key == undefined){
               continue
             }
-            if (!isNaN(key)) {
-              key = parseInt(key).toString()
+            if(key[0] !== '0'){
+              if (!isNaN(key)) {
+                key = parseInt(key).toString()
+              }
             }
-            console.log(key)
-            if (key in columns[i].translate) {
+            if (columns[i].translate.hasOwnProperty(key)) {
               newValue[columns[i].name] = columns[i].translate[key]
             } else {
-              console.log({ success: false, message: 'Descrete field ' + columns[i].name + " doesn't have a translation for " + key })
+              console.log(columns[i].translate)
+              console.log({ success: false, message: 'Discrete field ' + columns[i].name + " doesn't have a translation for " + key })
               res.statusCode = 400
-              res.write(JSON.stringify({ success: false, message: 'Descrete field ' + columns[i].name + " doesn't have a translation for " + key }))
+              res.write(JSON.stringify({ success: false, message: 'Discrete field ' + columns[i].name + " doesn't have a translation for " + key }))
               res.end()
               newValue = null
               break
