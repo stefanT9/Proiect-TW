@@ -3,7 +3,7 @@ const columnsController = require('../controller/columnsController')
 
 var router = new Router()
 
-router.get('', (req, res) => {
+router.get('/', async (req, res) => {
 	res.writeHead(200, {})
 	res.write('service is up')
 	res.end()

@@ -33,10 +33,10 @@ module.exports.isAuth = (req, res, next) => {
 
 module.exports.collectBody = (req, res, next) => {
   try {
-    var data = ''
-    req.on('data', (chunk) => {
+    var bodyData = ''
+    req.on('data', (bodyChunk) => {
       try {
-        data += chunk
+        bodyData += bodyChunk
       } catch (e) {
         console.log(e)
         res.writeHead(500, 'aplication/json')
@@ -46,7 +46,7 @@ module.exports.collectBody = (req, res, next) => {
     })
     req.on('end', () => {
       try {
-        req.body = JSON.parse(data)
+        req.body = JSON.parse(bodyData)
         next[0](req, res, next.slice(1))
       } catch (e) {
         res.writeHead(400, 'aplication/json')

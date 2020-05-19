@@ -21,7 +21,7 @@ function addTableRow(rowData) {
 }
 
 async function getAvailableFields() {
-    const url = '/filter/all'
+    const url = '/columns'
     return await fetch(url)
         .then(data => {
             return data.json()
