@@ -1,3 +1,66 @@
+module.exports.internalSetMinColumns = async (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+  req.db.Columns.find({name:req.body.name}, (err, columns) => {
+    if(err){
+      res.statusCode = 500
+      res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+      res.end()  
+    }else{
+      columns[0].min = req.body.min
+      columns[0].save((err) => {
+        if (err) {
+          res.statusCode = 500
+          res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+          res.end()
+        }else{
+          res.statusCode = 200
+          res.write(JSON.stringify({ success: true, columns: columns }))
+          res.end()
+        }
+      })
+    }
+  })
+}
+
+module.exports.internalSetMaxColumns = async (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+  req.db.Columns.find({name:req.body.name}, (err, columns) => {
+    if(err){
+      res.statusCode = 500
+      res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+      res.end()  
+    }else{
+      columns[0].max = req.body.max
+      columns[0].save((err) => {
+        if (err) {
+          res.statusCode = 500
+          res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+          res.end()
+        }else{
+          res.statusCode = 200
+          res.write(JSON.stringify({ success: true, columns: columns }))
+          res.end()
+        }
+      })
+    }
+  })
+}
+
+module.exports.internalGetColumns = async (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+  req.db.Columns.find({}, (err, columns) => {
+    if(err){
+      res.statusCode = 500
+      res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+      res.end()  
+    }else{
+      res.statusCode = 200
+      res.write(JSON.stringify({ success: true, columns: columns }))
+      res.end()
+    }
+  })
+}
+
 module.exports.insert = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   req.db.Columns.findOne({ name: req.body.name }, (err, column) => {
