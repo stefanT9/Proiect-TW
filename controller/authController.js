@@ -84,7 +84,7 @@ module.exports.register = async (req, res) => {
         res.end()
       } else {
         res.statusCode = 200
-        res.write(JSON.stringify({ success: true, user_, message: 'user created' }))
+        res.write(JSON.stringify({ success: true, message: 'user created' }))
         res.end()
       }
     })

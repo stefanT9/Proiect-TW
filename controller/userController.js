@@ -52,7 +52,7 @@ module.exports.postFunction = async (req, res) => {
       } else {
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify({ success: true, user, message: 'user inserted' }))
+        res.write(JSON.stringify({ success: true, message: 'user inserted' }))
         res.end()
       }
     })
@@ -98,6 +98,14 @@ module.exports.deleteFunction = async (req, res) => {
 module.exports.putFunction = async (req, res) => {
   try {
     const user = await req.db.User.findOne({ _id: ObjectId(req.pathParams.id) })
+    if(user === null)
+    {
+      res.statusCode = 404
+      res.setHeader('Content-Type', 'application/json')
+      res.write(JSON.stringify({ success: false, message: 'User not found' }))
+      res.end()    
+      return
+    }
     const updatedUser = new req.db.User(req.body.element)
     updatedUser._id = document._id
     updatedUser.save((err) => {
