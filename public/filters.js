@@ -224,10 +224,8 @@ async function getResultsFromFilters (filters, columns, paginationOptions) {
       },
       body: JSON.stringify(body)
     }
-<<<<<<< HEAD
   )
   return response.json()
->>>>>>> 6c078584b987fb846b7121840d52ce8a87033170
 }
 
 async function getGraphResults (xFieldName, yFieldName, paginationOptions) {

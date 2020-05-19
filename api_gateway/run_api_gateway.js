@@ -22,6 +22,10 @@ fs.readFile(file, (err, contents)=>{
 	const server = net.createServer((sock) => {
 		console.log("[*] New connection "+sock.address())
 		var node = undefined
+		sock.on('error', (err)=>{
+			console.log('client err')
+			console.log(err)
+		})
 		sock.on('end', ()=>{
 			if(node !== undefined){
 				node.end()
@@ -30,42 +34,59 @@ fs.readFile(file, (err, contents)=>{
 		})
 		sock.on('data', (data)=>{
 			var dataAsString = data.toString()
-			if(node === undefined){
-				var firstRow = dataAsString.split(/\r?\n/)[0]
-				if(firstRow.split(' ')[1].includes('/users')){
+			var firstRow = dataAsString.split(/\r?\n/)[0].split(' ')
+			console.log(firstRow[0])
+			if(firstRow[0] in ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"]){
+				if(node !== undefined){
+					node.end()
+				}
+				//var firstRow = dataAsString.split(/\r?\n/)[0]
+				if(firstRow[1].includes('/users')){
 					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to users on "+services['users'].port+" "+services['users'].ip)
 					node = new net.Socket()
+					node.on('error', (err)=>{
+						console.log("node err")
+						console.log(err)
+					})
 					node.connect(services['users'].port, services['users'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
-							sock.end()
+							//sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()
 						})
 					})
-				}else if(firstRow.split(' ')[1].includes('/columns')){
+				}else if(firstRow[1].includes('/columns')){
 					node = new net.Socket()
+					node.on('error', (err)=>{
+						console.log("node err")
+						console.log(err)
+					})
 					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to columns on "+services['columns'].port+" "+services['columns'].ip)
 					node.connect(services['columns'].port, services['columns'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
-							sock.end()
+							//sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()
 						})
 					})
-				}else if(firstRow.split(' ')[1].includes('/values')){
+				}else if(firstRow[1].includes('/values')){
 					node = new net.Socket()
+					node.on('error', (err)=>{
+						console.log("node err")
+						console.log(err)
+					})
 					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to values on "+services['values'].port+" "+services['values'].ip)
 					node.connect(services['values'].port, services['values'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
-							sock.end()
+							//sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()
@@ -73,12 +94,16 @@ fs.readFile(file, (err, contents)=>{
 					})
 				}else{
 					node = new net.Socket()
+					node.on('error', (err)=>{
+						console.log("node err")
+						console.log(err)
+					})
 					console.log("[*] new request to "+firstRow.split(' ')[1]+" redirecting to resources on "+services['resources'].port+" "+services['resources'].ip)
 					node.connect(services['resources'].port, services['resources'].ip, ()=>{
 						node.write(data)
 						node.on('data', (data)=>{
 							sock.write(data)
-							sock.end()
+							//sock.end()
 						})
 						node.on('end', ()=>{
 							sock.end()

@@ -535,10 +535,9 @@ function getGraphController(chartCanvas, chartJsElement) {
     return graphController
 }
 
-<<<<<<< HEAD
 async function getAvailableFields () {
   const url = '/columns'
-  return await fetch(url, {keepalive: false})
+  return await fetch(url)
     .then(data => {
       return data.json()
     })
@@ -548,7 +547,6 @@ async function getAvailableFields () {
     .catch(err => {
       return undefined
     })
->>>>>>> 6c078584b987fb846b7121840d52ce8a87033170
 }
 
 function closePopUp() {
