@@ -26,6 +26,7 @@ module.exports.internalSetMaxColumns = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   req.db.Columns.find({name:req.body.name}, (err, columns) => {
     if(err){
+      console.log(err)
       res.statusCode = 500
       res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
       res.end()  

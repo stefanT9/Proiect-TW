@@ -17,7 +17,6 @@ try{
 if(microServiceName === "users"){
 	const router = new Router()
 	router.use('', usersRouter)
-	console.log(router)
 
 	const app = new WebApp(port, usersRouter, constants.db_url_users, 'users')
 	app.listen()
@@ -26,7 +25,6 @@ if(microServiceName === "users"){
 }else if(microServiceName === "columns"){
 	const router = new Router()
 	router.use('', columnsRouter)
-	console.log(router)
 
 	const app = new WebApp(port, columnsRouter, constants.db_url_columns, 'columns')
 	app.listen()
@@ -35,7 +33,6 @@ if(microServiceName === "users"){
 }else if(microServiceName === "values"){
 	const router = new Router()
 	router.use('', valuesRouter)
-	console.log(router)
 
 	const app = new WebApp(port, valuesRouter, constants.db_url_values, 'values')
 	app.listen()
@@ -44,7 +41,6 @@ if(microServiceName === "users"){
 }else if(microServiceName === "resources"){
 	const router = new Router()
 	router.use('', resourcesRouter)
-	console.log(router)
 
 	const app = new WebApp(port, resourcesRouter, undefined, 'resources')
 	app.listen()

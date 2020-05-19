@@ -47,6 +47,7 @@ module.exports.collectBody = (req, res, next) => {
     req.on('end', () => {
       try {
         req.body = JSON.parse(bodyData)
+
         next[0](req, res, next.slice(1))
       } catch (e) {
         res.writeHead(400, 'aplication/json')

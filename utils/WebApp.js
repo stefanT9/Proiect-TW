@@ -16,6 +16,8 @@ class WebApp {
   }
 
   async listen () {
+    console.log(`${this.name} is started`)
+    console.log(this.router)
     const app = this
 
     if(app.db_url !== undefined){

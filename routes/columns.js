@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 router.get('/columns', columnsController.getColumns)
 router.post('/columns', columnsController.insert)
 router.get('/columns/internalget', columnsController.internalGetColumns)
-router.get('/columns/internalupdatemin', columnsController.internalSetMinColumns)
-router.get('/columns/internalupdatemax', columnsController.internalSetMaxColumns)
+router.post('/columns/internalupdatemin', columnsController.internalSetMinColumns)
+router.post('/columns/internalupdatemax', columnsController.internalSetMaxColumns)
 
 module.exports.columnsRouter = router
