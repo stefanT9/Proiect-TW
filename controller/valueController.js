@@ -66,18 +66,31 @@ module.exports.insert = async (req, res) => {
   })
 }
 
-module.exports.runQuery = async (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  req.db.Values.find(req.body.filters, (err, values) => {
-    var results = []
-    for (var i = 0; i < values.length; i++) {
-      var valueFound = {}
-      for (var j = 0; j < req.body.columns.length; j++) {
-        valueFound[req.body.columns[j]] = values[i][req.body.columns[j]]
-      }
+module.exports.filterResults = async(req, res) => {
+    res.setHeader('Content-Type', 'application/json')
+    try{
+        var pagination = {}
+        console.log((req.body.page !== undefined && req.body.size !== undefined))
+        if(req.body.page !== undefined && req.body.size !== undefined){
+            pagination["skip"] = req.body.page * req.body.size
+            pagination["limit"] = req.body.size
+        }
+        console.log(pagination)
+        req.db.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
+            if(err){
+                res.statusCode = 500
+                res.write(JSON.stringify({success:false, message:"Could not fetch data"}))
+                res.end()
+            }else{
+                res.statusCode = 200
+                res.write(JSON.stringify({success:true, message:"Found results", data:values}))
+                res.end()
+            }
+        })
+    }catch(err){
+        console.log(err)
+        res.statusCode = 500
+        res.write(JSON.stringify({ success: false, message: 'Could not fetch data' }))
+        res.end()
     }
-    res.statusCode = 200
-    res.write({ success: true, message: 'Found results', data: JSON.stringify(results) })
-    res.end()
-  })
 }
