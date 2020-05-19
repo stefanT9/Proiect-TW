@@ -4,8 +4,7 @@
   "description": "PiRo",
   "main": "app.js",
   "scripts": {
-    "test": "standard && node my-tests.js",
-    "start all":""
+    "test": "standard && node my-tests.js"
   },
   "repository": {
     "type": "git",
