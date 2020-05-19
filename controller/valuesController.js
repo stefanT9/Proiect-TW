@@ -175,7 +175,8 @@ module.exports.insert = async (req, res) => {
                 headers: {
                   'Content-Type': 'application/json',
                   'Content-Length': updateReq.length
-                }
+                },
+                method: 'POST',
               })
               request.on('error', (error)=>{})
               request.write(updateReq)
@@ -190,7 +191,9 @@ module.exports.insert = async (req, res) => {
                 headers: {
                   'Content-Type': 'application/json',
                   'Content-Length': updateReq.length
-                }
+                },
+                method: 'POST',
+                
               })
               request.on('error', (error)=>{})
               request.write(updateReq)
