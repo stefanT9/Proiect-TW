@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title> Documentatie PiRo</title>
+    <link rel="stylesheet" type="text/css" href="documentatie.css">
+</head>
+
+<body>
+    <h1>
+        PiRo
+    </h1>
+
+    <div id="catalog">
+        <ol>
+            <li><a href="#abstract">Abstract</a></li>
+            <li><a href="#introducere">Introducere</a>
+                <ol type="a">
+                    <li><a href="#motivatie">Motivatie</a></li>
+                </ol>
+            </li>
+            <li><a href="#structura">Structura</a>
+                <ol type='a'>
+                    <li><a href="#homepage">Pagina Home</a></li>
+                    <li><a href="#resultspage">Pagina Results</a></li>
+                    <li><a href="#statisticspage">Pagina Statistics</a></li>
+                </ol>
+            </li>
+            <li><a href="#arhitectura">Arhitectura</a>
+                <ol type='a'>
+                    <li><a href="#abordaremicro">Abordare bazata pe microservicii</a></li>
+                    <ol type="i">
+                        <li><a href="#users">Users</a></li>
+                        <li><a href="#columns">Columns</a></li>
+                        <li><a href="#values">Values</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                    </ol>
+                    <li><a href="#fatclient">Fat client</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#implementare">Implementare</a>
+                <ol type="a">
+                    <li><a href="#frontend">Front-end</a></li>
+                    <li><a href="#backend">Back-end</a></li>
+                    <li><a href="#bazadate">Baza de date</a></li>
+                </ol>
+            </li>
+            <li><a href="#metodologii">Metodologii</a>
+                <ol type="a">
+                    <li><a href="#github">Github</a></li>
+                    <li><a href="#kanban">Kanban</a></li>
+                </ol>
+            </li>
+            <li><a href="#concluzii">Concluzii</a></li>
+        </ol>
+    </div>
+
+    <section id="abstract">
+        <div>
+            <h2>Abstract</h2>
+            <p>
+                Numele proiectului PiRo vine de la Pisa Romania si reprezinta o platforma web pe care se pot vizualiza diferite statistici referitoare la rezultatele Romaniei la testele Pisa (Programme for International Student Assessment)
+            </p>
+        </div>
+    </section>
+
+    <section id="introducere">
+        <div>
+            <h2>Introducere</h2>
+            <p>
+                Testele Pisa masoara capacitatea unui copil de 15 ani de a citi, de a face calcule si de a vedea cunostintele despre lumea inconjuratoare. Mai multe despre aceste teste puteti afla <a href="https://www.oecd.org/pisa/">aici</a>.
+            </p>
+            <section id="motivatie">
+                <div>
+                    <h3> Motivatie </h3>
+                    <p>
+                        O astfel de platforma va putea ajuta viitoarele generatii intr-o pregatire mai buna pentru aceste teste, astfel vizualizarea rezultatelor testelor trecute ii vor putea ajuta in a determina care sunt ariile cu rezultate mai putin bune pentru participantii
+                        din Romania.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section id="structura">
+        <div>
+            <h2>Structura</h2>
+            <p>
+                Platforma noastra a fost impartita in trei pagini HTML, fiecare avand propriul scop si propriile functionalitati.
+            </p>
+        </div>
+        <section id="homepage">
+            <div>
+                <h3>Pagina home</h3>
+                <p>
+                    Aceasta pagina are rol de informare a utilizatorilor veniti pe platforma cu privire la scopul platformei.
+                    <br> [img de inserat]
+                </p>
+            </div>
+        </section>
+
+        <section id="resultspage">
+            <div>
+                <h3>Pagina Results</h3>
+                <p>
+                    Aceasta pagina are mai multe functionalitati:
+                    <ul>
+                        <li>Permite adaugarea de date in format CSV (ex: rezultate noi la testele PISA) ce pot fi luate in calcul pentru alte statistici</li>
+                        <li>Vizualizarea datelor dorite sub forma tabelara</li>
+                        <li>Exportarea acestor date in format CSV</li>
+                    </ul>
+                    [img de inserat]
+                </p>
+            </div>
+        </section>
+
+        <section id="statisticspage">
+            <div>
+                <h3>Pagina Statistics</h3>
+                <p>
+                    Aceasta pagina are functionalitatile:
+                    <ul>
+                        <li>Vizualizarea datelor dorite sub forma grafica</li>
+                        <li>Se pot vizualiza mai multe grafice pe acelasi sistem de axe, pentru compararea mai buna a rezultatelor</li>
+                        <li>Stergerea anumitor grafice create</li>
+                        <li>Exportarea acestora in format PNG, JPG sau CSV</li>
+                    </ul>
+                    [img de inserat]
+                </p>
+            </div>
+        </section>
+
+        <section id="arhitectura">
+            <div>
+                <h2>Arhitectura</h2>
+                <img src="arhitectura.png" style="width: 35%;height: 35%;" />
+                <section id="abordaremicro">
+                    <div>
+                        <h3>Abordare bazata pe microservicii</h3>
+                        <p>
+                            Arhitectura aleasa pentru aceasta platforma a fost cea de spargere in microservicii, astfel functionalitatile total independente apartin unor microservicii diferite.
+                        </p>
+                        <section id="users">
+                            <div>
+                                <h4>Users</h4>
+                                <p>
+                                    Acest microserviciu se va ocupa strict de autentificarea userilor pe platforma noastra.
+                                    <br> Totodata, se va ocupa si de gestionarea acestora, apeland la un CRUD pentru baza de date.
+                                </p>
+                            </div>
+                        </section>
+                        <section id="columns">
+                            <div>
+                                <h4>Columns</h4>
+                                <p>
+                                    Acest microserviciu se va ocupa de managementul filtrelor/coloanelor ce pot aparea pe platforma.
+                                    <br> Acestea pot fi modificate doar daca autentificarea userului s-a realizat cu succes inainte.
+                                </p>
+                            </div>
+                        </section>
+                        <section id="values">
+                            <div>
+                                <h4>Values</h4>
+                                <p>
+                                    Acest microserviciu se va ocupa de managementul valorilor ce apar in datele noastre pentru fiecare coloana.
+                                    <br> Acestea pot fi modificate doar daca autentificarea userului s-a realizat cu succes inainte.
+                                </p>
+                            </div>
+                        </section>
+                        <section id="resources">
+                            <div>
+                                <h4>Resources</h4>
+                                <p>
+                                    Acest microserviciu se va ocupa de managementul resurselor necesare requesturilor clientilor (resurse HTML, CSS, JS, imagini), orice nu este legat de API.
+                                </p>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section id="fatclient">
+                    <div>
+                        <h3>Fat client</h3>
+                        <p>Pentru o experienta mai buna pentru utilizator si pentru evitarea suprasolicitarii serverului, aceasta platforma va incarca dinamic toate elementele web ale requestului.</p>
+                    </div>
+                </section>
+            </div>
+
+        </section>
+
+        <section id="implementare">
+            <div>
+                <h2>Implementare</h2>
+                <section id="frontend">
+                    <div>
+                        <h3>Front-end</h3>
+                        <p>
+                            Stack folosit: HTML5, CSS3, Javascript (Vanilla)
+                            <br>Arhitectura fiind bazata pe fat-client, se trimite doar un template de pagina care ulterior este incarcat dinamic.
+                            <br>Un exemplu de astfel de incarcare dinamica este cea a filtrelor, in care pe baza tipului de filtru (continuu sau discret), se va incarca un sablon templatizat.
+                            <br>
+                            <div class="codeDiv">
+                                <code>
+                                    for each column in columns <br>
+                                    &#8195; if column.type is "discrete" then appendDiscreteFilter(column) <br>
+                                    &#8195; else appendContinousFilter(column)
+                                </code>
+                            </div>
+                        </p>
+                    </div>
+                </section>
+                <section id="backend">
+                    <div>
+                        <h3>Back-end</h3>
+                        <p>
+                            Stack folosit: NodeJs
+                            <br> Pentru o eficienta sporita, marea majoritate a functiilor sunt asincrone.
+                            <br> Totodata, acest stack a fost ales datorita dimensiunilor de input si output, iar urma unui research facut de fiecare, am hotarat ca NodeJs este alegerea cea mai buna pentru aceasta platforma.
+                        </p>
+                    </div>
+                </section>
+                <section id="bazadate">
+                    <div>
+                        <h3>Baza de date</h3>
+                        <p>
+                            Datele platformei sunt salvate sub forma de colectii in MongoDB deoarece acest tip de baze de date nerelationale fac cautarea in spatiul de date mult mai rapida.
+                            <br> Momentan avem trei colectii, dupa cum urmeaza:
+                            <ul>
+                                <li>Colectia User</li>
+                                <p> In aceasta colectie sunt stocati toti utilizatorii platformei. Fiecare user are un email si o parola criptata.</p>
+                                <li>Colectia Columns</li>
+                                <p> In aceasta colectie sunt stocate date despre fiecare coloana. Fiecare coloana are informatii precum: numele acesteia, tipul (discreta sau continua) etc. </p>
+                                <li>Colectia Values </li>
+                                <p> In aceasta colectie sunt stocate date despre valorile fiecarei coloane. Astfel, fiecare coloana va avea cate un array de valori (de exemplu: coloana CNTRYID va contine ID-urile unor tari)</p>
+                            </ul>
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="metodologii">
+            <div>
+                <h2>Metodologii</h2>
+                <p>
+                    Pentru o colaborare cat mai eficienta, am folosit Github pentru versionarea codului si Kanban Board pentru impartirea taskurilor.
+                </p>
+                <section id="github">
+                    <div>
+                        <h3>Github</h3>
+                        <p>
+                            Pentru versionarea codului, am folosit git-ul impreuna cu <a href="https://github.com/">Github</a>.
+                            <br> Repository-ul proiectului se regaseste <a href="https://github.com/stefanT9/Proiect-TW/">aici</a>
+                        </p>
+                    </div>
+                </section>
+                <section id="kanban">
+                    <div>
+                        <h3>Kanban</h3>
+                        <p>
+                            Pentru impartirea taskurilor, am folosit un Kanban Board, astfel fiecare task avea o prioritate setata in functie de cate alte taskuri erau blocate de acesta.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="concluzii">
+            <div>
+                <h2> Concluzii </h2>
+                <p>
+                    Speram ca aceasta platforma sa devina utila in viitorul apropiat.
+                </p>
+            </div>
+        </section>
+
+
+</body>
+<footer>
+    <p style="text-align: center;">
+        (C) Stefan Tomsa, Daniel Rusu, Radu Tudorica (2A1) - Tehnologii Web 2020
+    </p>
+</footer>
+
+</html>
