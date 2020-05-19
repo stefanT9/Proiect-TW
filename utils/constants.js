@@ -22,5 +22,87 @@ module.exports = {
       ip:'localhost',
       port: 3004
     }
+  },
+  load_balancers:{
+  	"users":{
+  		server: {
+  			ip:'0.0.0.0',
+  			port:3001
+  		},
+  		nodes: [
+  			{
+  				ip:'127.0.0.1',
+  				port:4001
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:4002
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:4003
+  			},
+  		]
+	},
+	"columns":{
+  		server: {
+  			ip:'0.0.0.0',
+  			port:3002
+  		},
+  		nodes: [
+  			{
+  				ip:'127.0.0.1',
+  				port:5001
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:5002
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:5003
+  			},
+  		]
+  	},
+  	"values":{
+  		server: {
+  			ip:'0.0.0.0',
+  			port:3003
+  		},
+  		nodes: [
+  			{
+  				ip:'127.0.0.1',
+  				port:6001
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:6002
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:6003
+  			},
+  		]
+  	},
+  	"resources":{
+  		server: {
+  			ip:'0.0.0.0',
+  			port:3004
+  		},
+  		nodes: [
+  			{
+  				ip:'127.0.0.1',
+  				port:7001
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:7002
+  			},
+  			{
+  				ip:'127.0.0.1',
+  				port:7003
+  			},
+  		]
+  	}
   }
 }
