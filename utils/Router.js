@@ -1,4 +1,4 @@
-const { internalAuth, composeDatabase, collectParameters, isAuth, collectBody } = require('../middlewares/payloadValidation')
+const {internalAuth, composeDatabase, collectParameters, isAuth, collectBody } = require('../middlewares/payloadValidation')
 const anythingButSlashRegex = '([0-9]|[a-z]|[A-Z])+'
 String.prototype.fullMatch = function (regex) {
   try {

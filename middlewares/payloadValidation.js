@@ -7,12 +7,11 @@ module.exports.internalAuth = (req,res,next) => {
   try{
     if(req.url.includes('/internal'))
     {
-      if(req.headers.authorization.split('Bearer ')[1] === internalToken )
+      if(req.headers.authorization && req.headers.authorization.split('Bearer ')[1] === internalToken )
       {
         next[0](req, res, next.slice(1))
       }
       else{
-        console.log(e)
         res.writeHead(403, 'aplication/json')
         res.write(JSON.stringify({ result: false, message: 'Only internal calls are allowed' }))
         res.end()
