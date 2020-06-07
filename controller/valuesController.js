@@ -232,8 +232,12 @@ module.exports.filterResults = async(req, res) => {
     try{
         var pagination = {}
         if(req.body.page !== undefined && req.body.size !== undefined){
-            pagination["skip"] = req.body.page * req.body.size
-            pagination["limit"] = req.body.size
+            if(req.body.page > 0 && req.body.size > 0){
+              pagination["skip"] = (req.body.page - 1) * req.body.size
+              pagination["limit"] = req.body.size
+            }else{
+              pagination = {}
+            }
         }
         req.db.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
             if(err){
