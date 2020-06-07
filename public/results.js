@@ -337,6 +337,28 @@ function getFilters() {
     return query
 }
 
+async function getResultsFromFilters(filters, columns, paginationOptions) {
+    var body = {
+        filters: filters,
+        columns: columns
+    }
+    console.log(paginationOptions)
+    if (paginationOptions !== undefined) {
+        body.page = paginationOptions.page
+        body.size = paginationOptions.size
+    }
+    var response = await fetch(
+        '/values/find', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
+    )
+    return response.json()
+}
+
 async function addTable() {
     docsCsv = new Array()
     let newTBody = document.createElement('tbody')
