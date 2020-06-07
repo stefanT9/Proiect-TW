@@ -1,4 +1,4 @@
-const { xssFilter } = require('../utils/values')
+const { xssFilter } = require('../utils/xssFilter')
 
 module.exports.internalSetMinColumns = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
