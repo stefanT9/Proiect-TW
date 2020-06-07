@@ -32,6 +32,8 @@
     <main>
         <div id="fieldsPopUpForm">
             <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addTable()">GENERATE</button>
+            <label>Search filter: <input id="searchFilters" type="text" onchange="onChangeSearchFilters()">
+            </label>
             <div class="fieldsWrapper" disabled></div>
         </div>
         <section id="filterSection">

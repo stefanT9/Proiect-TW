@@ -1,5 +1,6 @@
 var { ObjectId } = require('mongodb')
 const constants = require('../utils/constants')
+const { xssFilter } = require('../utils/xssFilter')
 const http = require('http')
 
 module.exports.getAll = async (req, res) => {
@@ -121,13 +122,14 @@ module.exports.putFunction = async (req, res) => {
 module.exports.insert = async (req, res) => {
   console.log("insert")
   res.setHeader('Content-Type', 'application/json')
-  var value = req.body
+
+  var value = xssFilter(req.body)
   http.get(constants.hostUrl + '/columns/internalget', {
     headers: {
       'Authorization': `Bearer ${constants.internalToken}`,
       'Content-Type': 'application/json',
       'Content-Length': updateReq.length
-    },
+    }
   }, (response) => {
     var data = ''
     response.on('data', (part) => {

@@ -538,6 +538,7 @@ function closePopUp() {
     document.getElementById('xOfGraph').disabled = true
     document.getElementById('yOfGraph').disabled = true
     document.getElementById('typeOfGraph').disabled = true
+    document.getElementById('searchFilters').disabled = true
 }
 
 function addNewChart() {
@@ -629,6 +630,7 @@ function openPopUp() {
     document.getElementById('xOfGraph').disabled = false
     document.getElementById('yOfGraph').disabled = false
     document.getElementById('typeOfGraph').disabled = false
+    document.getElementById('searchFilters').disabled = false
 }
 
 function loadFields() {
@@ -664,6 +666,7 @@ function appendDiscreteFilter(question, columnName, options) {
     const flipP = document.createElement('p')
     flipP.innerText = question
     flipP.className = 'flip'
+    flipP.id = 'pdivD' + String(totalDiscrete)
     document.getElementById('popUpForm').appendChild(flipP)
     const discreteFilter = document.createElement('div')
     discreteFilter.id = 'divD' + String(totalDiscrete)
@@ -706,11 +709,56 @@ function appendDiscreteFilter(question, columnName, options) {
     document.getElementById('popUpForm').appendChild(discreteFilter)
 }
 
+function hideFilter(idxFilter, typeOfFilter) {
+    if (idxFilter < 1) {
+        return;
+    }
+
+    if (typeOfFilter == 'C') {
+        if (idxFilter > totalContinous) {
+            return;
+        }
+    } else {
+        if (idxFilter > totalDiscrete) {
+            return;
+        }
+    }
+
+    let divId = 'div' + typeOfFilter + String(idxFilter)
+    let pId = 'p' + divId
+
+    document.getElementById(divId).style.display = "none"
+    document.getElementById(pId).style.display = "none"
+}
+
+function showFilter(idxFilter, typeOfFilter) {
+    if (idxFilter < 1) {
+        return;
+    }
+
+    if (typeOfFilter == 'C') {
+        if (idxFilter > totalContinous) {
+            return;
+        }
+    } else {
+        if (idxFilter > totalDiscrete) {
+            return;
+        }
+    }
+
+    let divId = 'div' + typeOfFilter + String(idxFilter)
+    let pId = 'p' + divId
+
+    document.getElementById(divId).style.display = "none"
+    document.getElementById(pId).style.display = "block"
+}
+
 function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     if (String(max) == 'null' || String(min) == 'null') { return }
 
     totalContinous = totalContinous + 1
     const flipP = document.createElement('p')
+    flipP.id = 'pdivC' + String(totalContinous)
     flipP.innerText = question
     flipP.className = 'flip'
     document.getElementById('popUpForm').appendChild(flipP)
@@ -946,6 +994,30 @@ function updateAvailableGraphs() {
         allOptions.forEach((val, idx) => {
             chartSelector.appendChild(val)
         })
+    }
+}
+
+function onChangeSearchFilters() {
+    let toSearch = document.getElementById('searchFilters').value.toLowerCase()
+
+    for (let i = 1; i <= totalContinous; i++) {
+        let textQ = document.getElementById('pdivC' + String(i)).textContent.toLowerCase()
+
+        if (textQ.includes(toSearch) || toSearch.length == 0) {
+            showFilter(i, 'C')
+        } else {
+            hideFilter(i, 'C')
+        }
+    }
+
+    for (let i = 1; i <= totalDiscrete; i++) {
+        let textQ = document.getElementById('pdivD' + String(i)).textContent.toLowerCase()
+
+        if (textQ.includes(toSearch) || toSearch.length == 0) {
+            showFilter(i, 'D')
+        } else {
+            hideFilter(i, 'D')
+        }
     }
 }
 

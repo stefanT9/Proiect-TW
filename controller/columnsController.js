@@ -1,3 +1,5 @@
+const { xssFilter } = require('../utils/xssFilter')
+
 module.exports.internalSetMinColumns = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   req.db.Columns.find({name:req.body.name}, (err, columns) => {
@@ -65,43 +67,53 @@ module.exports.internalGetColumns = async (req, res) => {
 module.exports.insert = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   console.log("insert")
-  req.db.Columns.findOne({ name: req.body.name }, (err, column) => {
-    if (err) {
-      console.log('on find ' + err)
-      res.statusCode = 500
-      res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
-      res.end()
-    }
-    if (column) {
-      res.statusCode = 409
-      res.write(JSON.stringify({ success: false, message: 'Column already exists' }))
-      res.end()
-    } else {
-      var newColumn = {
-        name: req.body.name,
-        details: req.body.details,
-        type: req.body.type
-      }
-      if (req.body.type === 'continuous') {
-        newColumn.min = null
-        newColumn.max = null
-      } else if (req.body.type === 'discrete') {
-        newColumn.translate = req.body.translate
-      }
-      req.db.Columns.create(newColumn, (err, obj) => {
-        if (err) {
-          console.log('on create ' + err)
-          res.statusCode = 500
-          res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
-          res.end()
-        } else {
-          res.statusCode = 200
-          res.write(JSON.stringify({ success: true, message: 'Column inserted' }))
-          res.end()
+  try{
+    var columnName = xssFilter(req.body.name)
+    req.db.Columns.findOne({ name: columnName }, (err, column) => {
+      if (err) {
+        console.log('on find ' + err)
+        res.statusCode = 500
+        res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+        res.end()
+      }else if (column) {
+        res.statusCode = 409
+        res.write(JSON.stringify({ success: false, message: 'Column already exists' }))
+        res.end()
+      }else if (xssFilter(req.body.type) !== 'continuous' && xssFilter(req.body.type) !== 'discrete'){
+        res.statusCode = 409
+        res.write(JSON.stringify({ success: false, message: 'Column type can either be continuous or discrete' }))
+        res.end()
+      } else{
+        var newColumn = {
+          name: columnName,
+          details: xssFilter(req.body.details),
+          type: xssFilter(req.body.type)
         }
-      })
-    }
-  })
+        if (req.body.type === 'continuous') {
+          newColumn.min = null
+          newColumn.max = null
+        } else if (req.body.type === 'discrete') {
+          newColumn.translate = req.body.translate
+        }
+        req.db.Columns.create(newColumn, (err, obj) => {
+          if (err) {
+            console.log('on create ' + err)
+            res.statusCode = 500
+            res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+            res.end()
+          } else {
+            res.statusCode = 200
+            res.write(JSON.stringify({ success: true, message: 'Column inserted' }))
+            res.end()
+          }
+        })
+      }
+    })
+  } catch(e){
+    res.statusCode = 500
+    res.write(JSON.stringify({ success: false, message: 'Internal server error' }))
+    res.end()
+  }
 }
 
 

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const constants = require('../utils/constants')
+const { xssFilter } = require('../utils/xssFilter')
 
 module.exports.login = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
@@ -21,7 +22,7 @@ module.exports.login = async (req, res) => {
     return
   }
 
-  req.db.User.findOne({ email: req.body.email }, (err, user) => {
+  req.db.User.findOne({ email: String(req.body.email) }, (err, user) => {
     if (err) {
       console.log(err)
       res.statusCode = 500
@@ -65,14 +66,14 @@ module.exports.register = async (req, res) => {
     return
   }
 
-  const user = await req.db.User.findOne({ email: req.body.email })
+  const user = await req.db.User.findOne({ email: xssFilter(String(req.body.email)) })
   if (user) {
     res.statusCode = 403
     res.write(JSON.stringify({ success: false, message: 'email is already being used' }))
     res.end()
   } else {
     const user_ = new req.db.User({
-      email: req.body.email,
+      email: xssFilter(String(req.body.email)),
       password: bcrypt.hashSync(req.body.password, constants.rounds)
     })
     console.log(user_)
