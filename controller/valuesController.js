@@ -122,8 +122,15 @@ module.exports.putFunction = async(req, res) => {
 module.exports.insert = async(req, res) => {
     console.log("insert")
     res.setHeader('Content-Type', 'application/json')
+
     var value = xssFilter(req.body)
-    http.get(constants.hostUrl + '/columns/internalget', (response) => {
+    http.get(constants.hostUrl + '/columns/internalget', {
+        headers: {
+            'Authorization': `Bearer ${constants.internalToken}`,
+            'Content-Type': 'application/json',
+            'Content-Length': updateReq.length
+        }
+    }, (response) => {
         var data = ''
         response.on('data', (part) => {
             data += part
@@ -171,6 +178,7 @@ module.exports.insert = async(req, res) => {
                             })
                             var request = http.request(constants.hostUrl + '/columns/internalupdatemax', {
                                 headers: {
+                                    'Authorization': `Bearer ${constants.internalToken}`,
                                     'Content-Type': 'application/json',
                                     'Content-Length': updateReq.length
                                 },
@@ -187,6 +195,7 @@ module.exports.insert = async(req, res) => {
                             })
                             var request = http.request(constants.hostUrl + '/columns/internalupdatemin', {
                                 headers: {
+                                    'Authorization': `Bearer ${constants.internalToken}`,
                                     'Content-Type': 'application/json',
                                     'Content-Length': updateReq.length
                                 },
