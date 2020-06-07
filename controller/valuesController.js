@@ -246,6 +246,7 @@ module.exports.filterResults = async(req, res) => {
                 res.end()
             }else{
                 res.statusCode = 200
+                console.log(values)
                 res.write(JSON.stringify({success:true, message:"Found results", data:values.filter(value => JSON.stringify(value) !== '{}')}))
                 res.end()
             }
