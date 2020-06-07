@@ -1,6 +1,6 @@
 var { ObjectId } = require('mongodb')
 const constants = require('../utils/constants')
-const { xssFilter } = require('../utils/values')
+const { xssFilter } = require('../utils/xssFilter')
 const http = require('http')
 
 module.exports.getAll = async (req, res) => {
