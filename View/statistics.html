@@ -11,13 +11,16 @@
     <link rel="stylesheet" href="common.css" type="text/css">
     <link rel="stylesheet" href="filters.css" type="text/css">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> <!-- generaza charturi-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- generaza charturi-->
     <script type="text/javascript" src="filters.js"></script>
     <script src="statistics.js"></script>
+    <script src="loader.js"></script>
     <script src="index.js"></script>
 </head>
 
 <body>
+    <div class='loader center-screen'></div>
     <div id="invisibleBackground" onclick="closePopUp()"></div>
     <div class="topNav" id="TopNavId">
         <a href="#" id="menuBar">Menu</a>
@@ -28,34 +31,36 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <main>
-        <div id="popUpForm">
-            <select id="xOfGraph" disabled>
+    <div>
+        <main>
+            <div id="popUpForm">
+                <select id="xOfGraph" disabled>
             </select>
-            <select id="yOfGraph" disabled>
+                <select id="yOfGraph" disabled>
             </select>
-            <select id="typeOfGraph" disabled>
+                <select id="typeOfGraph" disabled>
             </select>
-            <button id="paginateResultsSwitch" class="hidden-button" onclick="switchPagination();">Paginate Results</button>
-            <div id="paginateResults">
-                <label>Page number</label>
-                <input type="number" name="pageNumber" id="pageNumber" value="1">
-                <label>Results per page</label>
-                <input type="number" name="pageResults" id="pageResults" value="50">
-            </div>
-            <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addNewChart()">Generate</button>
-            <label>Search filter: <input id="searchFilters" type="text" onchange="onChangeSearchFilters()">
+                <button id="paginateResultsSwitch" class="hidden-button" onclick="switchPagination();">Paginate Results</button>
+                <div id="paginateResults">
+                    <label>Page number</label>
+                    <input type="number" name="pageNumber" id="pageNumber" value="1">
+                    <label>Results per page</label>
+                    <input type="number" name="pageResults" id="pageResults" value="50">
+                </div>
+                <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addNewChart()">Generate</button>
+                <label>Search filter: <input id="searchFilters" type="text" onchange="onChangeSearchFilters()">
             </label>
 
-        </div>
-        <a href='#' class="floatingButton" onclick="openPopUp()">
-            <i class="fa fa-plus my-float"></i>
-        </a>
+            </div>
+            <a href='#' class="floatingButton" onclick="openPopUp()">
+                <i class="fa fa-plus my-float"></i>
+            </a>
 
-        <section id="graphsSection">
-            <h2>Representations</h2>
-        </section>
-    </main>
+            <section id="graphsSection">
+                <h2>Representations</h2>
+            </section>
+        </main>
+    </div>
 </body>
 
 </html>

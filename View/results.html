@@ -13,12 +13,13 @@
 
     <script src="index.js"></script>
     <script src="results.js"></script>
-    <!--<script src="filters.js"></script> -->
+    <script src="loader.js"></script>
     <script type="text/javascript" src="import.js"></script>
 
 </head>
 
 <body>
+    <div class='loader center-screen'></div>
     <div id="invisibleBackground" onclick="closePopUp()"></div>
     <div class="topNav" id="TopNavId">
         <a href="#" id="menuBar">Menu</a>
@@ -29,42 +30,44 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <main>
-        <div id="fieldsPopUpForm">
-            <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addTable()">GENERATE</button>
-            <label>Search filter: <input id="searchFilters" type="text" onchange="onChangeSearchFilters()">
+    <div>
+        <main>
+            <div id="fieldsPopUpForm">
+                <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addTable()">GENERATE</button>
+                <label>Search filter: <input id="searchFilters" type="text" onchange="onChangeSearchFilters()">
             </label>
-            <div class="fieldsWrapper" disabled></div>
-        </div>
-        <section id="filterSection">
-            <h2>Filters</h2>
-            <div class="form-filter"></div>
-            <button id="addFieldsButton" onclick="openPopUp()">
+                <div class="fieldsWrapper" disabled></div>
+            </div>
+            <section id="filterSection">
+                <h2>Filters</h2>
+                <div class="form-filter"></div>
+                <button id="addFieldsButton" onclick="openPopUp()">
                 Add Table
             </button>
-            <button id="exportButton" onclick="exportCsv()">
+                <button id="exportButton" onclick="exportCsv()">
                 Export CSV
             </button>
-            <button onclick="importFile()">
+                <button onclick="importFile()">
                 <input id="readFileId" type="file" onchange="readFile(event);" style="display: none;">
                 Import data to database
             </button>
-        </section>
+            </section>
 
-        <section id="resultsTableSection">
-            <div id="resultsTableDiv">
-                <table id="resultsTable">
-                    <thead>
-                        <tr id="resultsTableHeadingRow">
-                        </tr>
-                    </thead>
-                    <tbody id="resultsTableBody">
-                    </tbody>
-                </table>
-            </div>
-        </section>
+            <section id="resultsTableSection">
+                <div id="resultsTableDiv">
+                    <table id="resultsTable">
+                        <thead>
+                            <tr id="resultsTableHeadingRow">
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-    </main>
+        </main>
+    </div>
 </body>
 
 </html>

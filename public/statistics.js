@@ -57,10 +57,10 @@ function mapDiscreteDiscrete(filterValues) {
     console.log(labelCountMapping)
     var graphValues = []
     for (var label in labelCountMapping) {
-            graphValues.push({
-                x: label,
-                y: labelCountMapping[label]
-            })
+        graphValues.push({
+            x: label,
+            y: labelCountMapping[label]
+        })
     }
     return graphValues
 }
@@ -445,7 +445,7 @@ function getGraphController(chartCanvas, chartJsElement) {
     exportAsPNG.innerText = 'PNG'
     addMoreData.innerText = 'Add more data'
 
-    deleteButton.onclick = function () {
+    deleteButton.onclick = function() {
         let position = String(this.id).substring(6)
         position = parseInt(position)
         dataObj.splice(position - 1, 1)
@@ -506,7 +506,7 @@ function getGraphController(chartCanvas, chartJsElement) {
         exportAsJPG.href = chartCanvas.toDataURL('image/png')
     }
 
-    addMoreData.onclick = function () {
+    addMoreData.onclick = function() {
         position = String(this.id).substring(3)
         position = parseInt(position)
         openPopUp()
@@ -517,14 +517,18 @@ function getGraphController(chartCanvas, chartJsElement) {
 
 async function getAvailableFields() {
     const url = '/columns'
+    openLoader()
     return await fetch(url)
         .then(data => {
+            closeLoader()
             return data.json()
         })
         .then(res => {
+            closeLoader()
             return res
         })
         .catch(err => {
+            closeLoader()
             return undefined
         })
 }
@@ -598,17 +602,18 @@ function addNewChart() {
                 fill: false,
             })
         }
-        
-        graphValues = Array.from(graphValues).filter(val =>val.x.indexOf('undefined') === -1)
+
+        graphValues = Array.from(graphValues).filter(val => val.x.indexOf('undefined') === -1)
 
         chartBuilder[chartType](chartCanvas.getContext('2d'), graphValues, xLabel + ' ' + yLabel)
-        // buildPieGraph(chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
+            // buildPieGraph(chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
 
         if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas))
         position = undefined
         closePopUp()
     })
 }
+
 function randomPallete(len) {
     let pallete = new Array()
     for (let i = 0; i < len; i++) {
@@ -670,7 +675,7 @@ function appendDiscreteFilter(question, columnName, options) {
     document.getElementById('popUpForm').appendChild(flipP)
     const discreteFilter = document.createElement('div')
     discreteFilter.id = 'divD' + String(totalDiscrete)
-    flipP.onclick = function () {
+    flipP.onclick = function() {
         if (document.getElementById(discreteFilter.id).style.display == 'none') { document.getElementById(discreteFilter.id).style.display = 'block' } else { document.getElementById(discreteFilter.id).style.display = 'none' }
     }
     discreteFilter.style.display = 'none'
@@ -764,7 +769,7 @@ function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     document.getElementById('popUpForm').appendChild(flipP)
     const continousFilter = document.createElement('div')
     continousFilter.id = 'divC' + String(totalContinous)
-    flipP.onclick = function () {
+    flipP.onclick = function() {
         if (document.getElementById(continousFilter.id).style.display == 'none') { document.getElementById(continousFilter.id).style.display = 'block' } else { document.getElementById(continousFilter.id).style.display = 'none' }
     }
     continousFilter.style.display = 'none'
@@ -831,13 +836,13 @@ function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     }
 
     if (!isDate) {
-        range1.oninput = function () {
+        range1.oninput = function() {
             const str = this.id
             const value = document.getElementById(str).value
             document.getElementById('L' + str).innerText = value
         }
 
-        range2.oninput = function () {
+        range2.oninput = function() {
             const str = this.id
             const value = document.getElementById(str).value
             document.getElementById('L' + str).innerText = value
@@ -1032,7 +1037,7 @@ function switchPagination() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     try {
         fillChartsWithDummyData()
     } catch (e) {

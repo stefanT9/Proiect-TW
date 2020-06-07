@@ -8,6 +8,7 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
         body.page = paginationOptions.page
         body.size = paginationOptions.size
     }
+    openLoader()
     var response = await fetch(
         '/values/find', {
             method: 'POST',
@@ -17,6 +18,7 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
             body: JSON.stringify(body)
         }
     )
+    closeLoader()
     return response.json()
 }
 

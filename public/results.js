@@ -22,14 +22,18 @@ function addTableRow(rowData) {
 
 async function getAvailableFields() {
     const url = '/columns'
+    openLoader()
     return await fetch(url)
         .then(data => {
+            closeLoader()
             return data.json()
         })
         .then(res => {
+            closeLoader()
             return res
         })
         .catch(err => {
+            closeLoader()
             return undefined
         })
 }
@@ -349,6 +353,7 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
         body.page = paginationOptions.page
         body.size = paginationOptions.size
     }
+    openLoader()
     var response = await fetch(
         '/values/find', {
             method: 'POST',
@@ -358,6 +363,7 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
             body: JSON.stringify(body)
         }
     )
+    closeLoader()
     return response.json()
 }
 
