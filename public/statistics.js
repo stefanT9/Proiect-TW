@@ -1,8 +1,7 @@
-const dataObj = new Array()
+let dataObj = []
 let position
 let totalGraphs = 0
 let availableFields = []
-const chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
 
 const lineGraphElement = document.createElement('option')
 lineGraphElement.value = 'line'
@@ -92,14 +91,15 @@ function buildLineGraph(context2D, dataset, label) {
         type: 'line',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],           
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using line chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -129,14 +129,15 @@ function buildScatterGraph(context2D, dataset, label) {
     new Chart(context2D, {
         type: 'scatter',
         data: {
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],           
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using line chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -171,14 +172,15 @@ function buildBarGraph(context2D, dataset, label) {
         type: 'bar',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],           
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using bar chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -215,14 +217,15 @@ function buildRadarGraph(context2D, dataset, label) {
         type: 'radar',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],           
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using radar chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -259,14 +262,15 @@ function buildDoughnutGraph(context2D, dataset, label) {
         type: 'doughnut',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],           
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using pie chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -303,14 +307,15 @@ function buildPieGraph(context2D, dataset, label) {
         type: 'pie',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using doughnut chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -358,7 +363,6 @@ function buildPolarGraph(context2D, dataset, label) {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using polar chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -563,9 +567,6 @@ function addNewChart() {
 
         var graphValues = mapFilterValues[xType][yType](filterValues)
 
-        var xValues //= graphValues["xFieldName"] //['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
-        var dataArray //= graphValues["yFieldName"] //[Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
-
         let chartCanvas
         let flag = false
 
@@ -582,10 +583,9 @@ function addNewChart() {
             dataObj.push(new Array())
             dataObj[dataObj.length - 1].push({
                 label: xLabel + ' ' + yLabel,
-                data: graphValues.map((el) => { return el.y }),
-                backgroundColor: chartsPallete,
-                borderColor: chartsPallete,
-                fill: false
+                data: graphValues.map((el) => { return el.y }),         
+                backgroundColor: randomPallete(graphValues.length),
+                fill: false,
             })
 
             position = dataObj.length
@@ -593,9 +593,8 @@ function addNewChart() {
             dataObj[position - 1].push({
                 label: xLabel + ' ' + yLabel,
                 data: graphValues.map((el) => { return el.y }),
-                backgroundColor: chartsPallete,
-                borderColor: chartsPallete,
-                fill: false
+                backgroundColor: randomPallete(graphValues.length),
+                fill: false,
             })
         }
 
@@ -606,6 +605,19 @@ function addNewChart() {
         position = undefined
         closePopUp()
     })
+}
+function randomPallete(len)
+{
+  let pallete = new Array()
+  for (let i = 0; i<len;i++)
+  {
+    let r = Math.floor(Math.random()*255)
+    let g = Math.floor(Math.random()*255)
+    let b = Math.floor(Math.random()*255)
+    pallete.push(`#${r.toString(16)}${g.toString(16)}${b.toString(16)}`)
+  }
+
+  return pallete
 }
 
 function openPopUp() {
