@@ -122,7 +122,13 @@ module.exports.insert = async (req, res) => {
   console.log("insert")
   res.setHeader('Content-Type', 'application/json')
   var value = req.body
-  http.get(constants.hostUrl+'/columns/internalget', (response)=>{
+  http.get(constants.hostUrl + '/columns/internalget', {
+    headers: {
+      'Authorization': `Bearer ${constants.internalToken}`,
+      'Content-Type': 'application/json',
+      'Content-Length': updateReq.length
+    },
+  }, (response) => {
     var data = ''
     response.on('data', (part) => {
       data += part
@@ -138,21 +144,21 @@ module.exports.insert = async (req, res) => {
             var keyAsString = key
             var keyAsInt = undefined
             var keyAsFloat
-            if(key == null || key == undefined){
+            if (key == null || key == undefined) {
               continue
             }
             if (!isNaN(key)) {
-                keyAsInt = parseInt(key).toString()
-                keyAsFloat = parseFloat(key).toString()
-              }
-            
-            if(Object.keys(columns[i].translate).indexOf(keyAsString)>=0) {
+              keyAsInt = parseInt(key).toString()
+              keyAsFloat = parseFloat(key).toString()
+            }
+
+            if (Object.keys(columns[i].translate).indexOf(keyAsString) >= 0) {
               newValue[columns[i].name] = columns[i].translate[keyAsString]
             }
-            else if(Object.keys(columns[i].translate).indexOf(keyAsInt)>=0) {
+            else if (Object.keys(columns[i].translate).indexOf(keyAsInt) >= 0) {
               newValue[columns[i].name] = columns[i].translate[keyAsInt]
             }
-            else if(Object.keys(columns[i].translate).indexOf(keyAsFloat)>=0) {
+            else if (Object.keys(columns[i].translate).indexOf(keyAsFloat) >= 0) {
               newValue[columns[i].name] = columns[i].translate[keyAsFloat]
             }
             else {
@@ -168,38 +174,40 @@ module.exports.insert = async (req, res) => {
             var update_made = false
             if ((columns[i].max === null) || (num > columns[i].max)) {
               var updateReq = JSON.stringify({
-                name:columns[i].name,
-                max:columns[i].max
+                name: columns[i].name,
+                max: columns[i].max
               })
-              var request = http.request(constants.hostUrl+'/columns/internalupdatemax', {
+              var request = http.request(constants.hostUrl + '/columns/internalupdatemax', {
                 headers: {
+                  'Authorization': `Bearer ${constants.internalToken}`,
                   'Content-Type': 'application/json',
                   'Content-Length': updateReq.length
                 },
                 method: 'POST',
               })
-              request.on('error', (error)=>{})
+              request.on('error', (error) => { })
               request.write(updateReq)
               request.end()
             }
             if ((columns[i].min === null) || (num < columns[i].min)) {
               var updateReq = JSON.stringify({
-                name:columns[i].name,
-                min:columns[i].min
+                name: columns[i].name,
+                min: columns[i].min
               })
-              var request = http.request(constants.hostUrl+'/columns/internalupdatemin', {
+              var request = http.request(constants.hostUrl + '/columns/internalupdatemin', {
                 headers: {
+                  'Authorization': `Bearer ${constants.internalToken}`,
                   'Content-Type': 'application/json',
                   'Content-Length': updateReq.length
                 },
                 method: 'POST',
-                
+
               })
-              request.on('error', (error)=>{})
+              request.on('error', (error) => { })
               request.write(updateReq)
               request.end()
             }
-            
+
             newValue[columns[i].name] = num
           }
         } else {
@@ -227,34 +235,34 @@ module.exports.insert = async (req, res) => {
   })
 }
 
-module.exports.filterResults = async(req, res) => {
-    res.setHeader('Content-Type', 'application/json')
-    try{
-        var pagination = {}
-        if(req.body.page !== undefined && req.body.size !== undefined){
-            if(req.body.page > 0 && req.body.size > 0){
-              pagination["skip"] = (req.body.page - 1) * req.body.size
-              pagination["limit"] = req.body.size
-            }else{
-              pagination = {}
-            }
-        }
-        req.db.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
-            if(err){
-                res.statusCode = 500
-                res.write(JSON.stringify({success:false, message:"Could not fetch data"}))
-                res.end()
-            }else{
-                res.statusCode = 200
-                console.log(values)
-                res.write(JSON.stringify({success:true, message:"Found results", data:values.filter(value => JSON.stringify(value) !== '{}')}))
-                res.end()
-            }
-        })
-    }catch(err){
-        console.log(err)
-        res.statusCode = 500
-        res.write(JSON.stringify({ success: false, message: 'Could not fetch data' }))
-        res.end()
+module.exports.filterResults = async (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+  try {
+    var pagination = {}
+    if (req.body.page !== undefined && req.body.size !== undefined) {
+      if (req.body.page > 0 && req.body.size > 0) {
+        pagination["skip"] = (req.body.page - 1) * req.body.size
+        pagination["limit"] = req.body.size
+      } else {
+        pagination = {}
+      }
     }
+    req.db.Values.find(req.body.filters, req.body.columns.join(" ") + " -_id", pagination, (err, values) => {
+      if (err) {
+        res.statusCode = 500
+        res.write(JSON.stringify({ success: false, message: "Could not fetch data" }))
+        res.end()
+      } else {
+        res.statusCode = 200
+        console.log(values)
+        res.write(JSON.stringify({ success: true, message: "Found results", data: values.filter(value => JSON.stringify(value) !== '{}') }))
+        res.end()
+      }
+    })
+  } catch (err) {
+    console.log(err)
+    res.statusCode = 500
+    res.write(JSON.stringify({ success: false, message: 'Could not fetch data' }))
+    res.end()
+  }
 }

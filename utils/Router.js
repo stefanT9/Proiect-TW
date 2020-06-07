@@ -1,4 +1,4 @@
-const { composeDatabase, collectParameters, isAuth, collectBody } = require('../middlewares/payloadValidation')
+const { internalAuth, composeDatabase, collectParameters, isAuth, collectBody } = require('../middlewares/payloadValidation')
 const anythingButSlashRegex = '([0-9]|[a-z]|[A-Z])+'
 String.prototype.fullMatch = function (regex) {
   try {
@@ -74,7 +74,7 @@ class Router {
         })
         if (url.fullMatch(urlRegex)) {
           req.pathParams = url.match(urlRegex)
-          isAuth(req, res, [composeDatabase, collectParameters, this.getRoutes[routeKey]])
+          isAuth(req, res, [internalAuth,composeDatabase, collectParameters, this.getRoutes[routeKey]])
           return
         }
         else{
@@ -100,7 +100,7 @@ class Router {
         })
         if (url.fullMatch(urlRegex)) {
           req.pathParams = url.match(urlRegex)
-          isAuth(req, res, [collectBody, composeDatabase, collectParameters, this.postRoutes[routeKey]])
+          isAuth(req, res, [internalAuth,collectBody, composeDatabase, collectParameters, this.postRoutes[routeKey]])
           return
         }
       }
@@ -124,7 +124,7 @@ class Router {
         })
         if (url.fullMatch(urlRegex)) {
           req.pathParams = url.match(urlRegex)
-          isAuth(req, res, [collectBody, composeDatabase, collectParameters, this.putRoutes[routeKey]])
+          isAuth(req, res, [internalAuth,collectBody, composeDatabase, collectParameters, this.putRoutes[routeKey]])
           return
         }
       }
@@ -148,7 +148,7 @@ class Router {
         })
         if (url.fullMatch(urlRegex)) {
           req.pathParams = url.match(urlRegex)
-          isAuth(req, res, [collectBody, composeDatabase, collectParameters, this.deleteRoutes[routeKey]])
+          isAuth(req, res, [internalAuth,collectBody, composeDatabase, collectParameters, this.deleteRoutes[routeKey]])
           return
         }
       }

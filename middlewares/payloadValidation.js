@@ -1,8 +1,34 @@
-const { secret } = require('../utils/constants')
+const { secret,internalToken } = require('../utils/constants')
 const jwt = require('jsonwebtoken')
 const url = require('url')
 const DB = require('../models/index')
 
+module.exports.internalAuth = (req,res,next) => {
+  try{
+    if(req.url.includes('/internal'))
+    {
+      if(req.headers.authorization.split('Bearer ')[1] === internalToken )
+      {
+        next[0](req, res, next.slice(1))
+      }
+      else{
+        console.log(e)
+        res.writeHead(403, 'aplication/json')
+        res.write(JSON.stringify({ result: false, message: 'Only internal calls are allowed' }))
+        res.end()
+      }
+    }
+    else{
+      next[0](req, res, next.slice(1))
+    }
+  }
+  catch (e) {
+    console.log(e)
+    res.writeHead(500, 'aplication/json')
+    res.write(JSON.stringify({ result: false, message: 'internal server error' }))
+    res.end()
+  }
+}
 module.exports.isAuth = (req, res, next) => {
   try {
     const url = req.url.split('?')[0]
