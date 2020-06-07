@@ -1,8 +1,7 @@
-const dataObj = new Array()
+let dataObj = []
 let position
 let totalGraphs = 0
 let availableFields = []
-const chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
 
 const lineGraphElement = document.createElement('option')
 lineGraphElement.value = 'line'
@@ -58,10 +57,10 @@ function mapDiscreteDiscrete(filterValues) {
     console.log(labelCountMapping)
     var graphValues = []
     for (var label in labelCountMapping) {
-        graphValues.push({
-            x: label,
-            y: labelCountMapping[label]
-        })
+            graphValues.push({
+                x: label,
+                y: labelCountMapping[label]
+            })
     }
     return graphValues
 }
@@ -92,14 +91,15 @@ function buildLineGraph(context2D, dataset, label) {
         type: 'line',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using line chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -129,14 +129,15 @@ function buildScatterGraph(context2D, dataset, label) {
     new Chart(context2D, {
         type: 'scatter',
         data: {
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using line chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -171,14 +172,15 @@ function buildBarGraph(context2D, dataset, label) {
         type: 'bar',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using bar chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -215,14 +217,15 @@ function buildRadarGraph(context2D, dataset, label) {
         type: 'radar',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using radar chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -259,14 +262,15 @@ function buildDoughnutGraph(context2D, dataset, label) {
         type: 'doughnut',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using pie chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -303,14 +307,15 @@ function buildPieGraph(context2D, dataset, label) {
         type: 'pie',
         data: {
             labels: labels,
-            datasets: dataObj[position - 1]
+            datasets: dataObj[position - 1],
+            backgroundColor: randomPallete(dataset.length),
+            fill: true,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using doughnut chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -358,7 +363,6 @@ function buildPolarGraph(context2D, dataset, label) {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'x on y using polar chart representation',
                 fontColor: '#333'
             },
             scales: {
@@ -441,7 +445,7 @@ function getGraphController(chartCanvas, chartJsElement) {
     exportAsPNG.innerText = 'PNG'
     addMoreData.innerText = 'Add more data'
 
-    deleteButton.onclick = function() {
+    deleteButton.onclick = function () {
         let position = String(this.id).substring(6)
         position = parseInt(position)
         dataObj.splice(position - 1, 1)
@@ -502,7 +506,7 @@ function getGraphController(chartCanvas, chartJsElement) {
         exportAsJPG.href = chartCanvas.toDataURL('image/png')
     }
 
-    addMoreData.onclick = function() {
+    addMoreData.onclick = function () {
         position = String(this.id).substring(3)
         position = parseInt(position)
         openPopUp()
@@ -564,9 +568,6 @@ function addNewChart() {
 
         var graphValues = mapFilterValues[xType][yType](filterValues)
 
-        var xValues //= graphValues["xFieldName"] //['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11']
-        var dataArray //= graphValues["yFieldName"] //[Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300), Math.floor(300 + Math.random() * 300)];
-
         let chartCanvas
         let flag = false
 
@@ -584,9 +585,8 @@ function addNewChart() {
             dataObj[dataObj.length - 1].push({
                 label: xLabel + ' ' + yLabel,
                 data: graphValues.map((el) => { return el.y }),
-                backgroundColor: chartsPallete,
-                borderColor: chartsPallete,
-                fill: false
+                backgroundColor: randomPallete(graphValues.length),
+                fill: false,
             })
 
             position = dataObj.length
@@ -594,19 +594,31 @@ function addNewChart() {
             dataObj[position - 1].push({
                 label: xLabel + ' ' + yLabel,
                 data: graphValues.map((el) => { return el.y }),
-                backgroundColor: chartsPallete,
-                borderColor: chartsPallete,
-                fill: false
+                backgroundColor: randomPallete(graphValues.length),
+                fill: false,
             })
         }
+        
+        graphValues = Array.from(graphValues).filter(val =>val.x.indexOf('undefined') === -1)
 
         chartBuilder[chartType](chartCanvas.getContext('2d'), graphValues, xLabel + ' ' + yLabel)
-            // buildPieGraph(chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
+        // buildPieGraph(chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
 
         if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas))
         position = undefined
         closePopUp()
     })
+}
+function randomPallete(len) {
+    let pallete = new Array()
+    for (let i = 0; i < len; i++) {
+        let r = Math.floor(Math.random() * 255)
+        let g = Math.floor(Math.random() * 255)
+        let b = Math.floor(Math.random() * 255)
+        pallete.push(`#${r.toString(16)}${g.toString(16)}${b.toString(16)}`)
+    }
+
+    return pallete
 }
 
 function openPopUp() {
@@ -658,7 +670,7 @@ function appendDiscreteFilter(question, columnName, options) {
     document.getElementById('popUpForm').appendChild(flipP)
     const discreteFilter = document.createElement('div')
     discreteFilter.id = 'divD' + String(totalDiscrete)
-    flipP.onclick = function() {
+    flipP.onclick = function () {
         if (document.getElementById(discreteFilter.id).style.display == 'none') { document.getElementById(discreteFilter.id).style.display = 'block' } else { document.getElementById(discreteFilter.id).style.display = 'none' }
     }
     discreteFilter.style.display = 'none'
@@ -752,7 +764,7 @@ function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     document.getElementById('popUpForm').appendChild(flipP)
     const continousFilter = document.createElement('div')
     continousFilter.id = 'divC' + String(totalContinous)
-    flipP.onclick = function() {
+    flipP.onclick = function () {
         if (document.getElementById(continousFilter.id).style.display == 'none') { document.getElementById(continousFilter.id).style.display = 'block' } else { document.getElementById(continousFilter.id).style.display = 'none' }
     }
     continousFilter.style.display = 'none'
@@ -819,13 +831,13 @@ function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     }
 
     if (!isDate) {
-        range1.oninput = function() {
+        range1.oninput = function () {
             const str = this.id
             const value = document.getElementById(str).value
             document.getElementById('L' + str).innerText = value
         }
 
-        range2.oninput = function() {
+        range2.oninput = function () {
             const str = this.id
             const value = document.getElementById(str).value
             document.getElementById('L' + str).innerText = value
@@ -1020,7 +1032,7 @@ function switchPagination() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     try {
         fillChartsWithDummyData()
     } catch (e) {

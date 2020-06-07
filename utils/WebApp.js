@@ -33,7 +33,6 @@ class WebApp {
     })
     server.listen(app.port)
     console.log(`running on PORT: ${app.port}`)
-    console.log('http://localhost:3000')
   }
 }
 

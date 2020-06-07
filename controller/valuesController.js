@@ -1,5 +1,6 @@
 var { ObjectId } = require('mongodb')
 const constants = require('../utils/constants')
+const { xssFilter } = require('../utils/values')
 const http = require('http')
 
 module.exports.getAll = async (req, res) => {
@@ -121,7 +122,7 @@ module.exports.putFunction = async (req, res) => {
 module.exports.insert = async (req, res) => {
   console.log("insert")
   res.setHeader('Content-Type', 'application/json')
-  var value = req.body
+  var value = xssFilter(req.body)
   http.get(constants.hostUrl+'/columns/internalget', (response)=>{
     var data = ''
     response.on('data', (part) => {
@@ -232,8 +233,12 @@ module.exports.filterResults = async(req, res) => {
     try{
         var pagination = {}
         if(req.body.page !== undefined && req.body.size !== undefined){
-            pagination["skip"] = req.body.page * req.body.size
-            pagination["limit"] = req.body.size
+            if(req.body.page > 0 && req.body.size > 0){
+              pagination["skip"] = (req.body.page - 1) * req.body.size
+              pagination["limit"] = req.body.size
+            }else{
+              pagination = {}
+            }
         }
         req.db.Values.find(req.body.filters, req.body.columns.join(" ")+" -_id", pagination, (err, values)=>{
             if(err){
@@ -242,7 +247,8 @@ module.exports.filterResults = async(req, res) => {
                 res.end()
             }else{
                 res.statusCode = 200
-                res.write(JSON.stringify({success:true, message:"Found results", data:values}))
+                console.log(values)
+                res.write(JSON.stringify({success:true, message:"Found results", data:values.filter(value => JSON.stringify(value) !== '{}')}))
                 res.end()
             }
         })
