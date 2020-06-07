@@ -1,8 +1,6 @@
-const dataObj = new Array()
 let position
 let totalGraphs = 0
 let availableFields = []
-const chartsPallete = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600']
 
 const lineGraphElement = document.createElement('option')
 lineGraphElement.value = 'line'
@@ -95,6 +93,7 @@ function buildLineGraph (context2D, dataset, label) {
       datasets: [{
         label: label,
         data: dataset,
+        backgroundColor: randomPallete(dataset.length),
         fill: false
       }]
     },
@@ -136,6 +135,7 @@ function buildScatterGraph (context2D, dataset, label) {
       datasets: [{
         label: label,
         data: dataset,
+        backgroundColor: randomPallete(dataset.length),
         fill: false
       }]
     },
@@ -181,7 +181,8 @@ function buildBarGraph (context2D, dataset, label) {
       labels: labels,
       datasets: [{
         label: label,
-        data: dataset,
+        data: dataset, 
+        backgroundColor: randomPallete(dataset.length),
         fill: false
       }]
     },
@@ -230,6 +231,7 @@ function buildRadarGraph (context2D, dataset, label) {
       datasets: [{
         label: label,
         data: values,
+        backgroundColor: randomPallete(dataset.length),
         fill: false
       }]
     },
@@ -278,6 +280,7 @@ function buildDoughnutGraph (context2D, dataset, label) {
       datasets: [{
         label: label,
         data: values,
+        backgroundColor: randomPallete(dataset.length),
         fill: false
       }]
     },
@@ -326,6 +329,7 @@ function buildPieGraph (context2D, dataset, label) {
       datasets: [{
         label: label,
         data: values,
+        backgroundColor: randomPallete(dataset.length),
         fill: false
       }]
     },
@@ -468,7 +472,6 @@ function getGraphController(chartCanvas, chartJsElement) {
     deleteButton.onclick = function() {
         let position = String(this.id).substring(6)
         position = parseInt(position)
-        dataObj.splice(position - 1, 1)
         const wrapper = deleteButton.parentElement.parentElement
         const body = wrapper.parentElement
         body.removeChild(wrapper)
@@ -602,26 +605,7 @@ function addNewChart () {
       chartCanvas = document.getElementById('canvas' + String(position))
     }
 
-    if (position === undefined) {
-      dataObj.push(new Array())
-      dataObj[dataObj.length - 1].push({
-        label: yLabel,
-        data: dataArray,
-        backgroundColor: chartsPallete,
-        borderColor: chartsPallete,
-        fill: false
-      })
-
-      position = dataObj.length
-    } else {
-      dataObj[position - 1].push({
-        label: yLabel,
-        data: dataArray,
-        backgroundColor: chartsPallete,
-        borderColor: chartsPallete,
-        fill: false
-      })
-    }
+    console.log(graphValues)
 
     chartBuilder[chartType](chartCanvas.getContext('2d'), graphValues, xLabel + ' ' + yLabel)
     // buildPieGraph(chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
@@ -630,6 +614,19 @@ function addNewChart () {
     position = undefined
     closePopUp()
   })
+}
+function randomPallete(len)
+{
+  let pallete = new Array()
+  for (let i = 0; i<len;i++)
+  {
+    let r = Math.floor(Math.random()*255)
+    let g = Math.floor(Math.random()*255)
+    let b = Math.floor(Math.random()*255)
+    pallete.push(`#${r.toString(16)}${g.toString(16)}${b.toString(16)}`)
+  }
+
+  return pallete
 }
 
 function openPopUp() {
