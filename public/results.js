@@ -89,6 +89,7 @@ function appendDiscreteFilter(question, columnName, options) {
     const flipP = document.createElement('p')
     flipP.innerText = question
     flipP.className = 'flip'
+    flipP.id = 'pdivD' + String(totalDiscrete)
     document.getElementById('fieldsPopUpForm').appendChild(flipP)
     const discreteFilter = document.createElement('div')
     discreteFilter.id = 'divD' + String(totalDiscrete)
@@ -136,6 +137,7 @@ function appendContinuousFilter(question, columnName, min, max, step, isDate) {
 
     totalContinous = totalContinous + 1
     const flipP = document.createElement('p')
+    flipP.id = 'pdivC' + String(totalContinous)
     flipP.innerText = question
     flipP.className = 'flip'
     document.getElementById('fieldsPopUpForm').appendChild(flipP)
@@ -357,6 +359,74 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
         }
     )
     return response.json()
+}
+
+function hideFilter(idxFilter, typeOfFilter) {
+    if (idxFilter < 1) {
+        return;
+    }
+
+    if (typeOfFilter == 'C') {
+        if (idxFilter > totalContinous) {
+            return;
+        }
+    } else {
+        if (idxFilter > totalDiscrete) {
+            return;
+        }
+    }
+
+    let divId = 'div' + typeOfFilter + String(idxFilter)
+    let pId = 'p' + divId
+
+    document.getElementById(divId).style.display = "none"
+    document.getElementById(pId).style.display = "none"
+}
+
+function showFilter(idxFilter, typeOfFilter) {
+    if (idxFilter < 1) {
+        return;
+    }
+
+    if (typeOfFilter == 'C') {
+        if (idxFilter > totalContinous) {
+            return;
+        }
+    } else {
+        if (idxFilter > totalDiscrete) {
+            return;
+        }
+    }
+
+    let divId = 'div' + typeOfFilter + String(idxFilter)
+    let pId = 'p' + divId
+
+    document.getElementById(divId).style.display = "none"
+    document.getElementById(pId).style.display = "block"
+}
+
+function onChangeSearchFilters() {
+    let toSearch = document.getElementById('searchFilters').value.toLowerCase()
+
+    for (let i = 1; i <= totalContinous; i++) {
+        let textQ = document.getElementById('pdivC' + String(i)).textContent.toLowerCase()
+
+        if (textQ.includes(toSearch) || toSearch.length == 0) {
+            showFilter(i, 'C')
+        } else {
+            hideFilter(i, 'C')
+        }
+    }
+
+    for (let i = 1; i <= totalDiscrete; i++) {
+        let textQ = document.getElementById('pdivD' + String(i)).textContent.toLowerCase()
+
+        if (textQ.includes(toSearch) || toSearch.length == 0) {
+            showFilter(i, 'D')
+        } else {
+            hideFilter(i, 'D')
+        }
+    }
 }
 
 async function addTable() {
