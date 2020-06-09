@@ -688,6 +688,30 @@ function appendDiscreteFilter(question, columnName, options) {
 
     discreteFilter.appendChild(questionText)
 
+    const inputSearch = document.createElement('input')
+    inputSearch.type = "text"
+    inputSearch.id = "search" + String(totalDiscrete)
+    const labelSearch = document.createElement('label')
+    labelSearch.innerText = "Search value: "
+    labelSearch.appendChild(inputSearch)
+    const x = String(totalDiscrete)
+    inputSearch.onchange = function() {
+        let nxt = 1
+
+        while (document.getElementById("cbD" + String(x) + "a" + String(nxt)) != null) {
+            let textA = document.getElementById("cbD" + String(x) + "a" + String(nxt)).textContent.toLowerCase()
+            let toSearch = document.getElementById("search" + String(x)).value.toLowerCase()
+            if (textA.includes(toSearch) || toSearch.length == 0) {
+                showAnswer(x, nxt)
+            } else {
+                hideAnswer(x, nxt)
+            }
+
+            nxt++
+        }
+    }
+    discreteFilter.appendChild(labelSearch)
+
     for (let i = 0; i < options.length; i++) {
         const cb = document.createElement('input')
 
@@ -707,11 +731,36 @@ function appendDiscreteFilter(question, columnName, options) {
         label.appendChild(span)
 
         label.for = cb.name
+        label.id = "cbD" + String(totalDiscrete) + "a" + String(i + 1)
 
         discreteFilter.appendChild(label)
     }
 
     document.getElementById('popUpForm').appendChild(discreteFilter)
+}
+
+function hideAnswer(q, a) {
+    if (q > totalDiscrete || q < 1) {
+        return;
+    }
+
+    if (document.getElementById("cbD" + String(q) + "a" + String(a)) == null) {
+        return;
+    }
+
+    document.getElementById("cbD" + String(q) + "a" + String(a)).style.display = "none"
+}
+
+function showAnswer(q, a) {
+    if (q > totalDiscrete || q < 1) {
+        return;
+    }
+
+    if (document.getElementById("cbD" + String(q) + "a" + String(a)) == null) {
+        return;
+    }
+
+    document.getElementById("cbD" + String(q) + "a" + String(a)).style.display = "block"
 }
 
 function hideFilter(idxFilter, typeOfFilter) {
