@@ -49,7 +49,7 @@ function loadFields() {
     filters.id = 'filtersDiv'
     filters.style.display = "none"
     parent.appendChild(filters)
-    flipP.onclick = function() {
+    flipP.onclick = function () {
         if (document.getElementById(filters.id).style.display == 'none') { document.getElementById(filters.id).style.display = 'block' } else { document.getElementById(filters.id).style.display = 'none' }
     }
     for (const idx in availableFields) {
@@ -97,7 +97,7 @@ function appendDiscreteFilter(question, columnName, options) {
     document.getElementById('fieldsPopUpForm').appendChild(flipP)
     const discreteFilter = document.createElement('div')
     discreteFilter.id = 'divD' + String(totalDiscrete)
-    flipP.onclick = function() {
+    flipP.onclick = function () {
         if (document.getElementById(discreteFilter.id).style.display == 'none') { document.getElementById(discreteFilter.id).style.display = 'block' } else { document.getElementById(discreteFilter.id).style.display = 'none' }
     }
     discreteFilter.style.display = 'none'
@@ -117,7 +117,7 @@ function appendDiscreteFilter(question, columnName, options) {
     labelSearch.innerText = "Search value: "
     labelSearch.appendChild(inputSearch)
     const x = String(totalDiscrete)
-    inputSearch.onchange = function() {
+    inputSearch.onchange = function () {
         let nxt = 1
 
         while (document.getElementById("cbD" + String(x) + "a" + String(nxt)) != null) {
@@ -196,7 +196,7 @@ function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     document.getElementById('fieldsPopUpForm').appendChild(flipP)
     const continousFilter = document.createElement('div')
     continousFilter.id = 'divC' + String(totalContinous)
-    flipP.onclick = function() {
+    flipP.onclick = function () {
         if (document.getElementById(continousFilter.id).style.display == 'none') { document.getElementById(continousFilter.id).style.display = 'block' } else { document.getElementById(continousFilter.id).style.display = 'none' }
     }
     continousFilter.style.display = 'none'
@@ -263,13 +263,13 @@ function appendContinuousFilter(question, columnName, min, max, step, isDate) {
     }
 
     if (!isDate) {
-        range1.oninput = function() {
+        range1.oninput = function () {
             const str = this.id
             const value = document.getElementById(str).value
             document.getElementById('L' + str).innerText = value
         }
 
-        range2.oninput = function() {
+        range2.oninput = function () {
             const str = this.id
             const value = document.getElementById(str).value
             document.getElementById('L' + str).innerText = value
@@ -405,12 +405,12 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
     openLoader()
     var response = await fetch(
         '/values/find', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        }
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }
     )
     closeLoader()
     return response.json()
@@ -544,6 +544,23 @@ function openPopUp() {
     document.getElementById('confirmFieldsSelectionButton').classList.remove('no-click')
     document.getElementById('resultsTableDiv').style.zIndex = -9999
 }
+function openLoginPopUp() {
+    document.getElementById('invisibleBackground').classList.add('grayout')
+    document.getElementById('loginPopUpForm').classList.add('visible')
+    document.body.style.overflow = 'hidden'
+    document.getElementById('confirmFieldsSelectionButton').classList.remove('no-click')
+    document.getElementById('confirmFieldsSelectionButton').classList.remove('no-click')
+    document.getElementById('resultsTableDiv').style.zIndex = -9999
+}
+
+function closeLoginPopUp() {
+    document.getElementById('resultsTableDiv').style.zIndex = 0
+    document.getElementById('invisibleBackground').classList.remove('grayout')
+    document.getElementById('loginPopUpForm').classList.remove('visible')
+    document.body.style.overflow = ''
+    document.getElementById('confirmFieldsSelectionButton').classList.add('no-click')
+    document.getElementById('confirmFieldsSelectionButton').classList.add('no-click')
+}
 
 function closePopUp() {
     document.getElementById('resultsTableDiv').style.zIndex = 0
@@ -552,14 +569,41 @@ function closePopUp() {
     document.body.style.overflow = ''
     document.getElementById('confirmFieldsSelectionButton').classList.add('no-click')
 }
+async function submitLoginForm() {
 
+    const email = document.getElementById('usernameField').value
+    const password = document.getElementById('passwordField').value
+
+    fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: password })
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if (data.success === true) {
+                document.cookie = `token=${data.token}`;
+                closeLoginPopUp()
+            }
+            else {
+                alert(data.message)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+}
 function exportCsv() {
     if (docsCsv.length == 0) {
         alert("You have to generate a table first")
     } else {
         var csvContent = "data:text/csv;charset=utf-8,";
 
-        docsCsv.forEach(function(rowArray) {
+        docsCsv.forEach(function (rowArray) {
             let row = rowArray.join(",");
             csvContent += row + "\r\n";
         });
@@ -574,7 +618,7 @@ function exportCsv() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     getAvailableFields()
         .then(res => { availableFields = res.columns })
         .then(columns => { loadFields() })

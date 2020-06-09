@@ -25,7 +25,7 @@ async function resourcesForward(req,res)
 }
 
 const app = http.createServer((req, res) =>{
-	if(req.url.startsWith('/users'))
+	if(req.url.startsWith('/users') || req.url.startsWith('/auth'))
 	{
 		usersForward(req, res)
 	}

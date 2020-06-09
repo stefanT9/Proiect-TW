@@ -16,6 +16,21 @@ section h2 {
     width: 20%;
 }
 
+#loginPopUpForm {
+    padding: 4%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background: white;
+    width: auto;
+    height: auto;
+    top: 25%;
+    left: 10%;
+    opacity: 0;
+    z-index: -1;
+}
+
 nav {
     position: sticky;
     top: 0;
@@ -65,14 +80,6 @@ form input {
     height: 40%;
     border-style: solid;
     color: #9C27B0;
-}
-
-.selected-field-wrapprer {
-    color: green;
-}
-
-.deselected-field-wrapper {
-    color: red;
 }
 
 .selected-navigation-button:hover {

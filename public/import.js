@@ -8,23 +8,36 @@ function importColumn(name, details, type, onSuccess, onError, translate = undef
         column.translate = translate
     }
     openLoader()
-    fetch(
-        '/columns', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            keepalive: false,
-            body: JSON.stringify(column)
-        }
-    ).then(function(response) {
-        closeLoader()
-        if (!response.ok) {
-            onError(response.json())
-        } else {
-            onSuccess(response.json())
-        }
-    })
+    let authToken = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('token'))
+    .split('=')[1]
+    
+    if(authToken)
+    {
+        fetch(
+            '/columns', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`, 
+                },
+                keepalive: false,
+                body: JSON.stringify(column)
+            }
+        ).then(function(response) {
+            closeLoader()
+            if (!response.ok) {
+                onError(response.json())
+            } else {
+                onSuccess(response.json())
+            }
+        })
+    }
+    else{
+        alert('you need to be logged in to do this')
+        openLoginPopUp()
+    }
 }
 
 async function importValue(valueObj, onSuccess, onError) {

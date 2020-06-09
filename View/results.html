@@ -32,6 +32,13 @@
     </div>
     <div>
         <main>
+            <div id ="loginPopUpForm">
+                <label>username: <input id="usernameField" type="text"></label>
+                <label>password: <input id="passwordField" type="password"></label>
+                <button id="submitLoginButton" onclick="submitLoginForm()">submit</a>
+                <button id="cancelLoginButton" onclick="closeLoginPopUp()">cancel</a>
+            </div>
+
             <div id="fieldsPopUpForm">
                 <button id="confirmFieldsSelectionButton" class="hidden-button no-click" onclick="addTable()">GENERATE</button>
                 <label>Search filter: <input id="searchFilters" type="text" onchange="onChangeSearchFilters()">
