@@ -413,6 +413,9 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
     }
     )
     closeLoader()
+    if(!response.json().success){
+        createPopup(response.json().message, "Error").showPopup()
+    }
     return response.json()
 }
 
@@ -589,7 +592,8 @@ async function submitLoginForm() {
                 closeLoginPopUp()
             }
             else {
-                alert(data.message)
+                //alert(data.message)
+                createPopup(data.message, "Login error").showPopup()
             }
         })
         .catch(err => {

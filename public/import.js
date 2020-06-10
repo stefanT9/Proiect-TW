@@ -80,14 +80,19 @@ async function importCSVValue(csvContents) {
     var csvLines = csvContents.split('\n')
     var header = parseCSVRow(csvLines[0])
     var valueObj = {}
+    var popup = createPopup("Imported 0 out of "+csvLines.length+" lines", "Importing Data")
+    var totalImported = 0
+    popup.showPopup()
     for (var i = 1; i < csvLines.length; i++) {
         var lineValues = parseCSVRow(csvLines[i])
         for (var j = 0; j < header.length; j++) {
             valueObj[header[j]] = lineValues[j]
         }
-        await importValue(valueObj, function(response) {
+        await importValue(valueObj, (response)=>{
+            totalImported++
+            popup.setPopupText("Imported "+totalImported+" out of "+csvLines.length+" lines")
             console.log(response.message)
-        }, function(response) {
+        }, (response)=>{
             console.log(response.message)
         })
     }

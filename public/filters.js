@@ -19,12 +19,19 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
         }
     )
     closeLoader()
+    //console.log(response)
+    //if(!response.json().success){
+    //    createPopup(response.json().message, "Error").showPopup()
+    //}
     return response.json()
 }
 
 async function getGraphResults(xFieldName, yFieldName, paginationOptions) {
     var dataset = []
     var filteredResults = await getResultsFromFilters(JSON.parse(getFilters()), [xFieldName, yFieldName], paginationOptions)
+    if(!filteredResults.success){
+        createPopup(filteredResults.message, "Error").showPopup()
+    }
     for (var i = 0; i < filteredResults.data.length; i++) {
         dataset.push({
             x: filteredResults.data[i][xFieldName],
