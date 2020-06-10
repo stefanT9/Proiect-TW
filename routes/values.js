@@ -4,6 +4,7 @@ const router = new Router()
 
 router.get('/values', valueController.getAll)
 router.post('/values/', valueController.postFunction)
+router.post('/values', valueController.postFunction)
 router.post('/values/insert', valueController.insert)
 router.post('/values/find', valueController.filterResults)
 
