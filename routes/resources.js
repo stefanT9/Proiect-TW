@@ -3,22 +3,26 @@ const resController = require('../controller/resController')
 
 var router = new Router()
 
-router.get('/', async (req, res) => {
+router.get('/', async(req, res) => {
     res.writeHead(302, { Location: '/index.html' })
     res.end()
 })
 
-router.get('/index', async (req, res) => {
+router.get('/index', async(req, res) => {
     res.writeHead(302, { Location: '/index.html' })
     res.end()
 })
 
-router.get('/statistics', async (req, res) => {
+router.get('/statistics', async(req, res) => {
     res.writeHead(302, { Location: '/statistics.html' })
     res.end()
 })
-router.get('/results', async (req, res) => {
+router.get('/results', async(req, res) => {
     res.writeHead(302, { Location: '/results.html' })
+    res.end()
+})
+router.get('/documentatie', async(req, res) => {
+    res.writeHead(302, { Location: '/documentatie.html' })
     res.end()
 })
 
