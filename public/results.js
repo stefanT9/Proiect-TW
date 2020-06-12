@@ -411,12 +411,12 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
         },
         body: JSON.stringify(body)
     }
-    )
+    ).then(res => res.json())
     closeLoader()
-    if(!response.json().success){
-        createPopup(response.json().message, "Error").showPopup()
+    if(!response.success){
+        createPopup(response.message, "Error").showPopup()
     }
-    return response.json()
+    return response
 }
 
 function hideFilter(idxFilter, typeOfFilter) {
@@ -574,6 +574,9 @@ function closePopUp() {
 }
 async function submitLoginForm() {
 
+    closeLoginPopUp()
+    openLoader()
+
     const email = document.getElementById('usernameField').value
     const password = document.getElementById('passwordField').value
 
@@ -586,10 +589,12 @@ async function submitLoginForm() {
     })
         .then(res => res.json())
         .then(data => {
+            closeLoader()
             console.log(data)
             if (data.success === true) {
                 document.cookie = `token=${data.token}`;
-                closeLoginPopUp()
+                importFile()
+                //closeLoginPopUp()
             }
             else {
                 //alert(data.message)
@@ -597,13 +602,14 @@ async function submitLoginForm() {
             }
         })
         .catch(err => {
+            closeLoader()
             console.log(err)
         })
 
 }
 function exportCsv() {
     if (docsCsv.length == 0) {
-        alert("You have to generate a table first")
+        createPopup("You have to generate a table first", "Error").showPopup()
     } else {
         var csvContent = "data:text/csv;charset=utf-8,";
 
