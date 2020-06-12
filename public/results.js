@@ -60,7 +60,7 @@ function loadFields() {
         cb.name = cb.id
 
         const label = document.createElement('label')
-        label.innerText = availableFields[idx]['name']
+        label.innerText = availableFields[idx]['details']
         label.className = 'container'
         label.appendChild(cb)
 
@@ -510,7 +510,7 @@ async function addTable() {
         if (columnsCb[i].checked == true) {
             columns[cntCol] = String(columnsCb[i].id)
             cntCol++
-            addTableColumn(String(columnsCb[i].id))
+            addTableColumn(String(columnsCb[i].parentElement.innerText))
         }
     }
 
