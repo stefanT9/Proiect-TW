@@ -1,21 +1,21 @@
-start node microservices_deploy.js users 4001
-start node microservices_deploy.js columns 5001
-start node microservices_deploy.js values 6001
-start node microservices_deploy.js resources 7001
-@REM 
-@REM start node microservices_deploy.js users 4002
-@REM start node microservices_deploy.js columns 5002
-@REM start node microservices_deploy.js values 6002
-@REM start node microservices_deploy.js resources 7002
-@REM 
-@REM start node microservices_deploy.js users 4003
-@REM start node microservices_deploy.js columns 6003
-@REM start node microservices_deploy.js values 5003
-@REM start node microservices_deploy.js resources 7003
+start start_microservice.bat users 4001
+start start_microservice.bat columns 5001
+start start_microservice.bat values 6001
+start start_microservice.bat resources 7001
 
-start node load_balancer\\run_load_balancer.js users
-start node load_balancer\\run_load_balancer.js columns
-start node load_balancer\\run_load_balancer.js values
-start node load_balancer\\run_load_balancer.js resources
+start start_microservice.bat users 4002
+start start_microservice.bat columns 5002
+start start_microservice.bat values 6002
+start start_microservice.bat resources 7002
+
+start start_microservice.bat users 4003
+start start_microservice.bat columns 5003
+start start_microservice.bat values 6003
+start start_microservice.bat resources 7003
+
+start start_load_balancers.bat users
+start start_load_balancers.bat columns
+start start_load_balancers.bat values
+start start_load_balancers.bat resources
 
 start node api_gateway\\run_api_gateway.js api_gateway\\services.json

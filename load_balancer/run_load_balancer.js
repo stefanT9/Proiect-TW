@@ -25,31 +25,51 @@ for(i in nodes){
 	})
 }
 
-const server = net.createServer((sock) => {
+function chooseServer(){
 	var node = undefined
+	var index = undefined
 	for(i in serverLoads){
 		if(node === undefined){
 			node = serverLoads[i]
+			index = i
 		}else{
 			if(node.currentLoad < serverLoads[i].currentLoad){
 				node = serverLoads[i]
+				index = i
 			}
 		}
 	}
-	console.log([node.port, node.ip])
 	if(node === undefined){
 		return
 	}
-	node.currentLoad += 1
-	node.connectionLog.push(sock.address())
-	var transitSocket = new net.Socket()
-	transitSocket.connect(node.port, node.ip, () => {
-		transitSocket.pipe(sock)
-		sock.pipe(transitSocket)
-	})
-	transitSocket.on('close', () => {
-		node.currentLoad -= 1
-	})
+	return {
+		node: node,
+		index: index
+	}
+}
+
+const server = net.createServer((sock) => {
+	server = chooseServer()
+	node = server.node
+	index = server.index
+	not_connected = true
+	while(not_connected){
+		try{
+			serverLoads[index].currentLoad += 1
+			serverLoads[index].connectionLog.push(sock.address())
+			var transitSocket = new net.Socket()
+			transitSocket.connect(node.port, node.ip, () => {
+				transitSocket.pipe(sock)
+				sock.pipe(transitSocket)
+			})
+			transitSocket.on('close', () => {
+				serverLoads[index].currentLoad -= 1
+			})
+			not_connected = false
+		}catch(err){
+			continue
+		}
+	}
 }).on('error', (err) => {
 	console.log(err)
 })
