@@ -5,10 +5,10 @@ const http = require('http')
 
 module.exports.getAll = async(req, res) => {
     try {
-        const users = await req.db.Values.find()
+        const values = await req.db.Values.find()
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify({ success: true, users, message: 'Succes!' }))
+        res.write(JSON.stringify({ success: true, values, message: 'Succes!' }))
         res.end()
     } catch (e) {
         console.log(e)
@@ -21,11 +21,19 @@ module.exports.getAll = async(req, res) => {
 module.exports.getFunction = async(req, res) => {
     try {
         const document = await req.db.Values.findOne({ _id: ObjectId(req.params.id) })
-
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify({ success: true, foundDocument: document, message: 'Succes!' }))
-        res.end()
+        if(document)
+        {
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'application/json')
+            res.write(JSON.stringify({ success: true, foundDocument: document, message: 'Succes!' }))
+            res.end()
+        }
+        else{
+            res.statusCode = 404
+            res.setHeader('Content-Type', 'application/json')
+            res.write(JSON.stringify({ success: false, message: 'value not found' }))
+            res.end()
+        }
     } catch (e) {
         console.log(e)
         res.statusCode = 500
@@ -64,11 +72,11 @@ module.exports.postFunction = async(req, res) => {
 
 module.exports.deleteFunction = async(req, res) => {
     try {
-        const user = await req.db.User.findOne({ _id: ObjectId(req.pathParams.id) })
-        if (user === null) {
+        const value = await req.db.Values.findOne({ _id: ObjectId(req.pathParams.id) })
+        if (value === null) {
             res.statusCode = 404
             res.setHeader('Content-Type', 'application/json')
-            res.write(JSON.stringify({ success: false, message: 'User not found' }))
+            res.write(JSON.stringify({ success: false, message: 'value not found' }))
             res.end()
             return
         }
@@ -81,7 +89,7 @@ module.exports.deleteFunction = async(req, res) => {
             } else {
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
-                res.write(JSON.stringify({ success: true, user: req.user, message: 'Succes!' }))
+                res.write(JSON.stringify({ success: true, message: 'Succes!' }))
                 res.end()
             }
         })
@@ -107,7 +115,7 @@ module.exports.putFunction = async(req, res) => {
             } else {
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
-                res.write(JSON.stringify({ success: true, user: updatedDocument, message: 'Succes!' }))
+                res.write(JSON.stringify({ success: true, message: 'Succes!' }))
                 res.end()
             }
         })

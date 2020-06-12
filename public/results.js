@@ -413,9 +413,9 @@ async function getResultsFromFilters(filters, columns, paginationOptions) {
     }
     )
     closeLoader()
-    if(!response.json().success){
-        createPopup(response.json().message, "Error").showPopup()
-    }
+    //if(!response.json().success){
+    //    createPopup(response.json().message, "Error").showPopup()
+    //}
     return response.json()
 }
 
