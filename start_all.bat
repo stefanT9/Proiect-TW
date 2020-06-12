@@ -1,6 +1,6 @@
 start node microservices_deploy.js users 4001
 start node microservices_deploy.js columns 5001
-start node microservices_deploy.js values 6001
+@REM start node microservices_deploy.js values 6001
 start node microservices_deploy.js resources 7001
 @REM 
 @REM start node microservices_deploy.js users 4002

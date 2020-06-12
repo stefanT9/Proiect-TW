@@ -100,7 +100,6 @@ module.exports.putFunction = async (req, res) => {
 module.exports.insert = async (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     var value = xssFilter(req.body)
-    console.log(value)
     http.get(constants.hostUrl + '/columns/internalget', {
         headers: {
             'Authorization': `Bearer ${constants.internalToken}`,
@@ -114,7 +113,6 @@ module.exports.insert = async (req, res) => {
             columns = JSON.parse(data).columns
             var newValue = {}
             for (var i = 0; i < columns.length; i++) {
-                console.log(value)
                 if (value.hasOwnProperty(columns[i].name)) {
                     if (columns[i].type === 'discrete') {
                         var key = value[columns[i].name]
@@ -139,7 +137,9 @@ module.exports.insert = async (req, res) => {
                             newValue[columns[i].name] = columns[i].translate[keyAsFloat]
                         }
                         else {
-
+                            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA")
+                            console.log(req.body[columns[i].name])
+                            console.log("BBBBBBBBBBBBBBBBBBBBBBBBBB")
                             res.statusCode = 400
                             res.write(JSON.stringify({ success: false, message: 'Discrete field ' + columns[i].name + " doesn't have a translation for " + key }))
                             res.end()

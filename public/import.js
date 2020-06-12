@@ -45,7 +45,6 @@ async function importValue(valueObj, onSuccess, onError) {
     .find(row => row.startsWith('token'))
     .split('=')[1]
 
-    console.log('bagamisa pula')
     
     await fetch(
         '/values/administrative/values', {
@@ -72,7 +71,7 @@ function parseCSVRow(csvROW) {
     for (var i = 0; i < parts.length; i++) {
         var value = parts[i].trim()
         if (value.length === 0) {
-            value = ''
+            value = null
         } else if (value[0] === '"' || value[0] === "'") {
             value = value.substring(1, value.length - 1)
         } else {
