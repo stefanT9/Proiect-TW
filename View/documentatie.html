@@ -54,6 +54,7 @@
                 </ol>
             </li>
             <li><a href="#concluzii">Concluzii</a></li>
+            <li><a href="#bibliografie">Bibliografie</a></li>
         </ol>
     </div>
 
@@ -96,7 +97,8 @@
                 <h3>Pagina home</h3>
                 <p>
                     Aceasta pagina are rol de informare a utilizatorilor veniti pe platforma cu privire la scopul platformei.
-                    <br> [img de inserat]
+
+                    <img src="home.jpg">
                 </p>
             </div>
         </section>
@@ -111,7 +113,7 @@
                         <li>Vizualizarea datelor dorite sub forma tabelara</li>
                         <li>Exportarea acestor date in format CSV</li>
                     </ul>
-                    [img de inserat]
+                    <img src="results.jpg">
                 </p>
             </div>
         </section>
@@ -127,7 +129,7 @@
                         <li>Stergerea anumitor grafice create</li>
                         <li>Exportarea acestora in format PNG, JPG sau CSV</li>
                     </ul>
-                    [img de inserat]
+                    <img src="statistics.jpg">
                 </p>
             </div>
         </section>
@@ -135,13 +137,14 @@
         <section id="arhitectura">
             <div>
                 <h2>Arhitectura</h2>
-                <img src="arhitectura.png" style="width: 35%;height: 35%;" />
                 <section id="abordaremicro">
                     <div>
                         <h3>Abordare bazata pe microservicii</h3>
                         <p>
-                            Arhitectura aleasa pentru aceasta platforma a fost cea de spargere in microservicii, astfel functionalitatile total independente apartin unor microservicii diferite.
+                            Arhitectura aleasa pentru aceasta platforma a fost cea de spargere in microservicii, astfel functionalitatile total independente apartin unor microservicii diferite. <br> Astfel, atunci cand API Gateway trimite un request catre
+                            load balancer-ul aferent, acesta va alege Greedy nodul catre care s-au trimis cele mai putine forward-uri de request-uri pana in momentul respectiv.
                         </p>
+                        <img src="arhitectura.jpg" style="width: 35%;height: 35%;" />
                         <section id="users">
                             <div>
                                 <h4>Users</h4>
@@ -199,15 +202,6 @@
                         <p>
                             Stack folosit: HTML5, CSS3, Javascript (Vanilla)
                             <br>Arhitectura fiind bazata pe fat-client, se trimite doar un template de pagina care ulterior este incarcat dinamic.
-                            <br>Un exemplu de astfel de incarcare dinamica este cea a filtrelor, in care pe baza tipului de filtru (continuu sau discret), se va incarca un sablon templatizat.
-                            <br>
-                            <div class="codeDiv">
-                                <code>
-                                    for each column in columns <br>
-                                    &#8195; if column.type is "discrete" then appendDiscreteFilter(column) <br>
-                                    &#8195; else appendContinousFilter(column)
-                                </code>
-                            </div>
                         </p>
                     </div>
                 </section>
@@ -260,7 +254,79 @@
                     <div>
                         <h3>Kanban</h3>
                         <p>
-                            Pentru impartirea taskurilor, am folosit un Kanban Board, astfel fiecare task avea o prioritate setata in functie de cate alte taskuri erau blocate de acesta.
+                            Pentru impartirea taskurilor, am folosit un Kanban Board, astfel fiecare task avea o prioritate setata in functie de cate alte taskuri erau blocate de acesta. Astfel, am impartit taskurile dupa cum urmeaza:
+                            <ul>
+                                <li>
+                                    Stefan Tomsa:
+                                    <ul>
+                                        <li>
+                                            Front-end
+                                            <ol type="i">
+                                                <li>Spinner</li>
+                                                <li>Export csv la paginile Results/Statistics</li>
+                                                <li>Export jpg/png la pagina Statitsics</li>
+                                                <li>Componenta grafica la pagina Statistics</li>
+                                                <li>Design pagina Statistics</li>
+                                            </ol>
+                                        </li>
+                                        <li>
+                                            Back-end
+                                            <ol type="i">
+                                                <li>Construirea unui sistem asemanator Express</li>
+                                                <li>API Gateway</li>
+                                                <li>Auth </li>
+                                                <li>Middlewares and Auth validation layers</li>
+                                            </ol>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Daniel Rusu:
+                                    <ul>
+                                        <li>
+                                            Front-end
+                                            <ol type="i">
+                                                <li>Design pagina Home</li>
+                                                <li>Tabela din pagina Results</li>
+                                                <li>Filtre din paginile Results si Statistics</li>
+                                                <li>Search pe filtre din paginile Results si Statistics</li>
+                                            </ol>
+                                        </li>
+                                        <li>
+                                            Back-end
+                                            <ol type="i">
+                                                <li>Modul de administrare (values, columns si users: controller, router, model)</li>
+                                                <li>Controller resources</li>
+                                                <li>Routare resources</li>
+                                            </ol>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Radu Tudorica:
+                                    <ul>
+                                        <li>
+                                            Front-end
+                                            <ol type="i">
+                                                <li>Navigation bar</li>
+                                                <li>Generare grafice</li>
+                                                <li>Adaugare grafice peste cele existente</li>
+                                                <li>Design pagina Results</li>
+                                            </ol>
+                                        </li>
+                                        <li>
+                                            Back-end
+                                            <ol type="i">
+                                                <li>Introducere date in baza de date</li>
+                                                <li>Deploy</li>
+                                                <li>Loadbalancer pentru microservicii</li>
+                                                <li>Filtrare XSS</li>
+                                                <li>Impartire pe microservicii</li>
+                                            </ol>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </p>
                     </div>
                 </section>
@@ -275,7 +341,28 @@
                 </p>
             </div>
         </section>
+        <section id="bibliografie">
+            <div>
+                <h2> Bibliografie</h2>
+                <p>
+                    Aceasta platforma a fost realizata cu ajutor din partea:
+                    <ul>
+                        <li>https://profs.info.uaic.ro/~busaco/teach/courses/web/</li>
+                        <li>https://profs.info.uaic.ro/~andrei.panu/</li>
+                        <li>https://profs.info.uaic.ro/~busaco/teach/courses/staw/</li>
+                        <li>https://martinfowler.com/articles/break-monolith-into-microservices.html</li>
+                        <li>https://www.w3schools.com/</li>
+                        <li>https://www.chartjs.org/</li>
+                        <li>https://mongoosejs.com/</li>
+                        <li>https://www.npmjs.com/package/bcrypt</li>
+                        <li>https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections</li>
+                        <li>https://www.npmjs.com/package/http-forward</li>
+                        <li>https://www.npmjs.com/package/jsonwebtoken</li>
+                    </ul>
+                </p>
+            </div>
 
+        </section>
 
 </body>
 <footer>

@@ -26,6 +26,8 @@ ol,
 h1,
 img {
     margin-left: 3%;
+    max-width: 50%;
+    max-height: 50%;
 }
 
 a {
