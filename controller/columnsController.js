@@ -67,7 +67,6 @@ module.exports.internalGetColumns = async(req, res) => {
 
 module.exports.insert = async(req, res) => {
     res.setHeader('Content-Type', 'application/json')
-    console.log("insert")
     try {
         var columnName = xssFilter(req.body.name)
         req.db.Columns.findOne({ name: columnName }, (err, column) => {

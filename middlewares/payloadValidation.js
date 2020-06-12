@@ -4,6 +4,7 @@ const url = require('url')
 const DB = require('../models/index')
 
 module.exports.internalAuth = (req,res,next) => {
+  console.log('internalAuth')
   try{
     if(req.url.includes('/internal'))
     {
@@ -30,6 +31,8 @@ module.exports.internalAuth = (req,res,next) => {
 }
 
 module.exports.isAuth = (req, res, next) => {
+  console.log('isAuth')
+
   try {
     const url = req.url.split('?')[0]
     if(req.url.includes('/administrative')) {
@@ -59,6 +62,8 @@ module.exports.isAuth = (req, res, next) => {
 }
 
 module.exports.collectBody = (req, res, next) => {
+  console.log('collect body')
+
   try {
     var bodyData = ''
     req.on('data', (bodyChunk) => {
@@ -90,6 +95,8 @@ module.exports.collectBody = (req, res, next) => {
   }
 }
 module.exports.composeDatabase = (req, res, next) => {
+  console.log('composing database')
+
   try {
     req.db = DB
     next[0](req, res, next.splice(1))
@@ -101,6 +108,7 @@ module.exports.composeDatabase = (req, res, next) => {
   }
 }
 module.exports.collectParameters = (req, res, next) => {
+  console.log('collecting parameters')
   try {
     req.params = url.parse(req.url, true).query
     next[0](req, res, next.slice(1))
@@ -110,9 +118,13 @@ module.exports.collectParameters = (req, res, next) => {
     res.write(JSON.stringify({ result: false, message: 'internal server error' }))
     res.end()
   }
+  console.log('collected parameters')
+  console.log(next[0])
+
 }
 
 module.exports.checkBody = (req, res, next, args) => {
+  console.log('checking body')
   try {
     const payload = req.body
     const schemaToCheck = args[0]

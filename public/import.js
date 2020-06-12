@@ -12,11 +12,10 @@ function importColumn(name, details, type, onSuccess, onError, translate = undef
     .split('; ')
     .find(row => row.startsWith('token'))
     .split('=')[1]
-    
     if(authToken)
     {
         fetch(
-            '/columns', {
+            '/columns/administrative/columns', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,11 +40,19 @@ function importColumn(name, details, type, onSuccess, onError, translate = undef
 }
 
 async function importValue(valueObj, onSuccess, onError) {
+    let authToken = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('token'))
+    .split('=')[1]
+
+    console.log('bagamisa pula')
+    
     await fetch(
         '/values/administrative/values', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`, 
             },
             keepalive: false,
             body: JSON.stringify(valueObj)

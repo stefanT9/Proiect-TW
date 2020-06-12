@@ -56,7 +56,8 @@ class Router {
         this.getRoutes[url] = controller
     }
 
-    route(req, res) {
+    async route(req, res) {
+        console.log(req.method)
         var url = req.url.split('?')[0]
         if (req.method === 'GET') {
             for (const routeKey of Object.keys(this.getRoutes)) {
@@ -84,6 +85,7 @@ class Router {
         }
         if (req.method === 'POST') {
             for (const routeKey of Object.keys(this.postRoutes)) {
+                
                 let urlRegex = ''
                 const pathParams = {}
                 routeKey.split('/').forEach((val, idx) => {
@@ -97,9 +99,14 @@ class Router {
                     }
                 })
                 if (url.fullMatch(urlRegex)) {
+                    console.log(`match on ${urlRegex}`)
                     req.pathParams = url.match(urlRegex).groups
                     isAuth(req, res, [internalAuth, collectBody, composeDatabase, collectParameters, this.postRoutes[routeKey]])
                     return
+                }
+                else
+                {
+                    console.log(`NOT match on ${urlRegex}`)
                 }
             }
             res.statusCode = 404

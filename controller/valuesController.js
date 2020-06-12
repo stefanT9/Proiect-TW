@@ -3,7 +3,7 @@ const constants = require('../utils/constants')
 const { xssFilter } = require('../utils/xssFilter')
 const http = require('http')
 
-module.exports.getAll = async(req, res) => {
+module.exports.getAll = async (req, res) => {
     try {
         const values = await req.db.Values.find()
         res.statusCode = 200
@@ -18,17 +18,16 @@ module.exports.getAll = async(req, res) => {
         res.end()
     }
 }
-module.exports.getFunction = async(req, res) => {
+module.exports.getFunction = async (req, res) => {
     try {
         const document = await req.db.Values.findOne({ _id: ObjectId(req.params.id) })
-        if(document)
-        {
+        if (document) {
             res.statusCode = 200
             res.setHeader('Content-Type', 'application/json')
             res.write(JSON.stringify({ success: true, foundDocument: document, message: 'Succes!' }))
             res.end()
         }
-        else{
+        else {
             res.statusCode = 404
             res.setHeader('Content-Type', 'application/json')
             res.write(JSON.stringify({ success: false, message: 'value not found' }))
@@ -43,7 +42,7 @@ module.exports.getFunction = async(req, res) => {
     }
 }
 
-module.exports.deleteFunction = async(req, res) => {
+module.exports.deleteFunction = async (req, res) => {
     try {
         const value = await req.db.Values.findOne({ _id: ObjectId(req.pathParams.id) })
         if (value === null) {
@@ -74,7 +73,7 @@ module.exports.deleteFunction = async(req, res) => {
     }
 }
 
-module.exports.putFunction = async(req, res) => {
+module.exports.putFunction = async (req, res) => {
     try {
         const document = await req.db.Values.findOne({ _id: ObjectId(req.pathParams.id) })
         req.db.Values.updateOne({ _id: ObjectId(req.pathParams.id) }, req.body.element, (err) => {
@@ -98,16 +97,13 @@ module.exports.putFunction = async(req, res) => {
     }
 }
 
-module.exports.insert = async(req, res) => {
-    console.log("insert")
+module.exports.insert = async (req, res) => {
     res.setHeader('Content-Type', 'application/json')
-
     var value = xssFilter(req.body)
+    console.log(value)
     http.get(constants.hostUrl + '/columns/internalget', {
         headers: {
             'Authorization': `Bearer ${constants.internalToken}`,
-            'Content-Type': 'application/json',
-            'Content-Length': updateReq.length
         }
     }, (response) => {
         var data = ''
@@ -115,10 +111,10 @@ module.exports.insert = async(req, res) => {
             data += part
         })
         response.on('end', () => {
-            console.log(data)
             columns = JSON.parse(data).columns
             var newValue = {}
             for (var i = 0; i < columns.length; i++) {
+                console.log(value)
                 if (value.hasOwnProperty(columns[i].name)) {
                     if (columns[i].type === 'discrete') {
                         var key = value[columns[i].name]
@@ -135,11 +131,14 @@ module.exports.insert = async(req, res) => {
 
                         if (Object.keys(columns[i].translate).indexOf(keyAsString) >= 0) {
                             newValue[columns[i].name] = columns[i].translate[keyAsString]
-                        } else if (Object.keys(columns[i].translate).indexOf(keyAsInt) >= 0) {
+                        }
+                        else if (Object.keys(columns[i].translate).indexOf(keyAsInt) >= 0) {
                             newValue[columns[i].name] = columns[i].translate[keyAsInt]
-                        } else if (Object.keys(columns[i].translate).indexOf(keyAsFloat) >= 0) {
+                        }
+                        else if (Object.keys(columns[i].translate).indexOf(keyAsFloat) >= 0) {
                             newValue[columns[i].name] = columns[i].translate[keyAsFloat]
-                        } else {
+                        }
+                        else {
 
                             res.statusCode = 400
                             res.write(JSON.stringify({ success: false, message: 'Discrete field ' + columns[i].name + " doesn't have a translation for " + key }))
@@ -157,13 +156,14 @@ module.exports.insert = async(req, res) => {
                             })
                             var request = http.request(constants.hostUrl + '/columns/internalupdatemax', {
                                 headers: {
-                                    'Authorization': `Bearer ${constants.internalToken}`,
                                     'Content-Type': 'application/json',
-                                    'Content-Length': updateReq.length
+                                    'Content-Length': updateReq.length,
+                                    'Authorization': `Bearer ${constants.internalToken}`,
+
                                 },
                                 method: 'POST',
                             })
-                            request.on('error', (error) => {})
+                            request.on('error', (error) => { })
                             request.write(updateReq)
                             request.end()
                         }
@@ -174,14 +174,15 @@ module.exports.insert = async(req, res) => {
                             })
                             var request = http.request(constants.hostUrl + '/columns/internalupdatemin', {
                                 headers: {
-                                    'Authorization': `Bearer ${constants.internalToken}`,
                                     'Content-Type': 'application/json',
-                                    'Content-Length': updateReq.length
+                                    'Content-Length': updateReq.length,
+                                    'Authorization': `Bearer ${constants.internalToken}`,
+
                                 },
                                 method: 'POST',
 
                             })
-                            request.on('error', (error) => {})
+                            request.on('error', (error) => { })
                             request.write(updateReq)
                             request.end()
                         }
@@ -213,7 +214,7 @@ module.exports.insert = async(req, res) => {
     })
 }
 
-module.exports.filterResults = async(req, res) => {
+module.exports.filterResults = async (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     try {
         var pagination = {}
@@ -232,7 +233,6 @@ module.exports.filterResults = async(req, res) => {
                 res.end()
             } else {
                 res.statusCode = 200
-                console.log(values)
                 res.write(JSON.stringify({ success: true, message: "Found results", data: values.filter(value => JSON.stringify(value) !== '{}') }))
                 res.end()
             }
