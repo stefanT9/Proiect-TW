@@ -170,24 +170,27 @@ module.exports.getFunction = async(req, res) => {
 module.exports.deleteFunction = async(req, res) => {
     res.setHeader('Content-Type', 'application/json')
     try {
-        const column = await req.db.Columns.find({ _id: ObjectId(req.pathParams.id) })
-        if (column == null) {
+        const column = await req.db.Columns.findOne({ _id: ObjectId(req.pathParams.id) })
+        console.log()
+        if (column === null) {
             res.statusCode = 404
             res.write(JSON.stringify({ success: false, message: 'Column not found' }))
             res.end()
             return
         }
-        req.db.Columns.remove({ _id: ObjectId(req.pathParams.id) }), (err) => {
-            if (err) {
-                res.statusCode = 500
-                res.write(JSON.stringify({ success: false, message: "Internal server error!" }))
-                res.end()
-            } else {
-                res.statusCode = 200
-                res.write(JSON.stringify({ success: true, column, message: "Succes!" }))
-                res.end()
-            }
-        }
+
+        await req.db.Columns.deleteOne({ _id: ObjectId(req.pathParams.id) },
+            (err) => {
+                if (err) {
+                    res.statusCode = 500
+                    res.write(JSON.stringify({ success: false, message: "Internal server error!" }))
+                    res.end()
+                } else {
+                    res.statusCode = 200
+                    res.write(JSON.stringify({ success: true, column, message: "Succes!" }))
+                    res.end()
+                }
+            })
     } catch (e) {
         console.log(e)
         res.statusCode = 500
@@ -199,17 +202,16 @@ module.exports.deleteFunction = async(req, res) => {
 module.exports.updateFunction = async(req, res) => {
     res.setHeader('Content-Type', 'application/json')
     try {
-        const column = await req.db.Columns.find({ _id: ObjectId(req.pathParams.id) })
+        const column = await req.db.Columns.findOne({ _id: ObjectId(req.pathParams.id) })
         if (column == null) {
             res.statusCode = 404
             res.write(JSON.stringify({ success: false, message: 'Column not found' }))
             res.end()
             return
         }
-        const updateColumn = new req.db.Columns(req.body.element)
-        updateColumn._id = document._id
-        updateColumn.save((err) => {
+        req.db.Columns.updateOne({ _id: ObjectId(req.pathParams.id) }, req.body.element, (err) => {
             if (err) {
+                console.log(err)
                 res.statusCode = 500
                 res.write(JSON.stringify({ success: false, message: "Internal server error!" }))
                 res.end()

@@ -72,7 +72,7 @@ module.exports.deleteFunction = async(req, res) => {
             res.end()
             return
         }
-        req.db.Values.remove({ _id: ObjectId(req.pathParams.id) }, (err) => {
+        await req.db.Values.deleteOne({ _id: ObjectId(req.pathParams.id) }, (err) => {
             if (err) {
                 res.statusCode = 500
                 res.setHeader('Content-Type', 'application/json')
@@ -96,9 +96,7 @@ module.exports.deleteFunction = async(req, res) => {
 module.exports.putFunction = async(req, res) => {
     try {
         const document = await req.db.Values.findOne({ _id: ObjectId(req.pathParams.id) })
-        const updatedDocument = new req.db.Values(req.body.element)
-        updatedDocument._id = document._id
-        updatedDocument.save((err) => {
+        req.db.Values.updateOne({ _id: ObjectId(req.pathParams.id) }, req.body.element, (err) => {
             if (err) {
                 res.statusCode = 500
                 res.setHeader('Content-Type', 'application/json')
