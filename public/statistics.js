@@ -404,7 +404,7 @@ function getGraphController(chartCanvas, chartJsElement, xLabel, yLabel, chartTy
     const deleteButton = document.createElement('a')
     const exportAsCSV = document.createElement('a')
     const exportAsJPG = document.createElement('a')
-    const exportAsPNG = document.createElement('a')
+    const exportAsSVG = document.createElement('a')
     const addMoreData = document.createElement('a')
 
     const graphContainer = document.createElement('div')
@@ -414,13 +414,13 @@ function getGraphController(chartCanvas, chartJsElement, xLabel, yLabel, chartTy
     buttonsWrapper.appendChild(deleteButton)
     buttonsWrapper.appendChild(exportAsCSV)
     buttonsWrapper.appendChild(exportAsJPG)
-    buttonsWrapper.appendChild(exportAsPNG)
+    buttonsWrapper.appendChild(exportAsSVG)
     buttonsWrapper.appendChild(addMoreData)
 
     deleteButton.classList.add('controller-button')
     exportAsCSV.classList.add('controller-button')
     exportAsJPG.classList.add('controller-button')
-    exportAsPNG.classList.add('controller-button')
+    exportAsSVG.classList.add('controller-button')
     addMoreData.classList.add('controller-button')
     addMoreData.classList.add('add-button')
     deleteButton.classList.add('delete-button')
@@ -428,7 +428,7 @@ function getGraphController(chartCanvas, chartJsElement, xLabel, yLabel, chartTy
     deleteButton.href = '#'
     exportAsCSV.href = '#'
     exportAsJPG.href = '#'
-    exportAsPNG.href = '#'
+    exportAsSVG.href = '#'
     addMoreData.href = '#'
 
     graphController.appendChild(buttonsWrapper)
@@ -442,7 +442,7 @@ function getGraphController(chartCanvas, chartJsElement, xLabel, yLabel, chartTy
     deleteButton.innerText = 'remove graph'
     exportAsJPG.innerText = 'JPG'
     exportAsCSV.innerText = 'CSV'
-    exportAsPNG.innerText = 'PNG'
+    exportAsSVG.innerText = 'SVG'
     addMoreData.innerText = 'Add more data'
 
     deleteButton.onclick = function() {
@@ -501,9 +501,9 @@ function getGraphController(chartCanvas, chartJsElement, xLabel, yLabel, chartTy
         exportAsJPG.href = chartCanvas.toDataURL('image/jpg')
     }
 
-    exportAsPNG.download = 'grafic.png'
-    exportAsPNG.onclick = () => {
-        exportAsJPG.href = chartCanvas.toDataURL('image/png')
+    exportAsSVG.download = 'grafic.svg'
+    exportAsSVG.onclick = () => {
+        exportAsSVG.href = chartCanvas.toDataURL('image/jpg')
     }
 
     addMoreData.onclick = function() {
@@ -511,24 +511,24 @@ function getGraphController(chartCanvas, chartJsElement, xLabel, yLabel, chartTy
         position = parseInt(position)
         openPopUp()
         document.getElementById("xOfGraph").setAttribute("disabled", "true")
-        for(option of document.getElementById("xOfGraph").getElementsByTagName('option')){
-            if(option.value === xLabel){
+        for (option of document.getElementById("xOfGraph").getElementsByTagName('option')) {
+            if (option.value === xLabel) {
                 option.selected = 'selected'
                 break
             }
         }
-        
+
         document.getElementById("yOfGraph").setAttribute("disabled", "true")
-        for(option of document.getElementById("yOfGraph").getElementsByTagName('option')){
-            if(option.value === yLabel){
+        for (option of document.getElementById("yOfGraph").getElementsByTagName('option')) {
+            if (option.value === yLabel) {
                 option.selected = 'selected'
                 break
             }
         }
 
         document.getElementById("typeOfGraph").setAttribute("disabled", "true")
-        for(option of document.getElementById("typeOfGraph").getElementsByTagName('option')){
-            if(option.value === chartType){
+        for (option of document.getElementById("typeOfGraph").getElementsByTagName('option')) {
+            if (option.value === chartType) {
                 option.selected = 'selected'
                 break
             }
@@ -630,11 +630,11 @@ function addNewChart() {
 
         xDetails = ""
         yDetails = ""
-        for(field of availableFields){
-            if(field.name == xLabel){
+        for (field of availableFields) {
+            if (field.name == xLabel) {
                 xDetails = field.details
             }
-            if(field.name == yLabel){
+            if (field.name == yLabel) {
                 yDetails = field.details
             }
         }
@@ -673,7 +673,7 @@ function openPopUp() {
     document.getElementById('searchFilters').disabled = false
 }
 
-function popupButton(){
+function popupButton() {
     position = undefined
     document.getElementById("xOfGraph").removeAttribute("disabled")
     document.getElementById("yOfGraph").removeAttribute("disabled")
