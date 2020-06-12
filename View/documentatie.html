@@ -98,7 +98,7 @@
                 <p>
                     Aceasta pagina are rol de informare a utilizatorilor veniti pe platforma cu privire la scopul platformei.
 
-                    <img src="home.jpg">
+                    <img src="home.jpg"></img>
                 </p>
             </div>
         </section>
@@ -113,7 +113,7 @@
                         <li>Vizualizarea datelor dorite sub forma tabelara</li>
                         <li>Exportarea acestor date in format CSV</li>
                     </ul>
-                    <img src="results.jpg">
+                    <img src="results.jpg"></img>
                 </p>
             </div>
         </section>
@@ -129,7 +129,7 @@
                         <li>Stergerea anumitor grafice create</li>
                         <li>Exportarea acestora in format PNG, JPG sau CSV</li>
                     </ul>
-                    <img src="statistics.jpg">
+                    <img src="statistics.jpg"></img>
                 </p>
             </div>
         </section>
@@ -141,8 +141,8 @@
                     <div>
                         <h3>Abordare bazata pe microservicii</h3>
                         <p>
-                            Arhitectura aleasa pentru aceasta platforma a fost cea de spargere in microservicii, astfel functionalitatile total independente apartin unor microservicii diferite. <br> Astfel, atunci cand API Gateway trimite un request catre
-                            load balancer-ul aferent, acesta va alege Greedy nodul catre care s-au trimis cele mai putine forward-uri de request-uri pana in momentul respectiv.
+                            Arhitectura aleasa pentru aceasta platforma a fost cea de spargere in microservicii, astfel functionalitatile total independente apartin unor microservicii diferite. <br> Astfel, atunci cand API Gateway primeste un request,
+                            il trimite catre load balancer-ul corespunzator pentru tipul de microservicii corespunzator, ca apoi acesta va alege Greedy nodul care are cele mai putine conexiuni deschise in momentul respectiv.
                         </p>
                         <img src="arhitectura.jpg" style="width: 35%;height: 35%;" />
                         <section id="users">
@@ -160,6 +160,7 @@
                                 <p>
                                     Acest microserviciu se va ocupa de managementul filtrelor/coloanelor ce pot aparea pe platforma.
                                     <br> Acestea pot fi modificate doar daca autentificarea userului s-a realizat cu succes inainte.
+                                    <br> Pentru administrarea datelor se foloseste un CRUD.
                                 </p>
                             </div>
                         </section>
@@ -169,6 +170,7 @@
                                 <p>
                                     Acest microserviciu se va ocupa de managementul valorilor ce apar in datele noastre pentru fiecare coloana.
                                     <br> Acestea pot fi modificate doar daca autentificarea userului s-a realizat cu succes inainte.
+                                    <br> Pentru administrarea datelor se foloseste un CRUD.
                                 </p>
                             </div>
                         </section>
@@ -176,7 +178,7 @@
                             <div>
                                 <h4>Resources</h4>
                                 <p>
-                                    Acest microserviciu se va ocupa de managementul resurselor necesare requesturilor clientilor (resurse HTML, CSS, JS, imagini), orice nu este legat de API.
+                                    Acest microserviciu se va ocupa de managementul resurselor necesare requesturilor clientilor (resurse HTML, CSS, JS, imagini), orice nu este legat de API (functionalitate asemanatoare unui CDN).
                                 </p>
                             </div>
                         </section>
@@ -201,7 +203,7 @@
                         <h3>Front-end</h3>
                         <p>
                             Stack folosit: HTML5, CSS3, Javascript (Vanilla)
-                            <br>Arhitectura fiind bazata pe fat-client, se trimite doar un template de pagina care ulterior este incarcat dinamic.
+                            <br>Arhitectura fiind bazata pe fat-client, se trimite doar o pagina statica care ulterior este incarcat dinamic.
                         </p>
                     </div>
                 </section>
@@ -211,7 +213,7 @@
                         <p>
                             Stack folosit: NodeJs
                             <br> Pentru o eficienta sporita, marea majoritate a functiilor sunt asincrone.
-                            <br> Totodata, acest stack a fost ales datorita dimensiunilor de input si output, iar urma unui research facut de fiecare, am hotarat ca NodeJs este alegerea cea mai buna pentru aceasta platforma.
+                            <br> Totodata, acest stack a fost ales datorita dimensiunilor de input si output, iar in urma unui research facut de fiecare, am hotarat ca NodeJs este alegerea cea mai buna pentru aceasta platforma.
                         </p>
                     </div>
                 </section>
@@ -227,7 +229,8 @@
                                 <li>Colectia Columns</li>
                                 <p> In aceasta colectie sunt stocate date despre fiecare coloana. Fiecare coloana are informatii precum: numele acesteia, tipul (discreta sau continua) etc. </p>
                                 <li>Colectia Values </li>
-                                <p> In aceasta colectie sunt stocate date despre valorile fiecarei coloane. Astfel, fiecare coloana va avea cate un array de valori (de exemplu: coloana CNTRYID va contine ID-urile unor tari)</p>
+                                <p> In aceasta colectie sunt stocate date despre valorile fiecarei coloane. Astfel, fiecare coloana va avea cate un array de valori (de exemplu: coloana CNTRYID va contine echivalentul din colectia de coloane).
+                                </p>
                             </ul>
                         </p>
                     </div>
@@ -366,7 +369,7 @@
 
 </body>
 <footer>
-    <p style="text-align: center;">
+    <p style="text-align: center; width: 100%;">
         (C) Stefan Tomsa, Daniel Rusu, Radu Tudorica (2A1) - Tehnologii Web 2020
     </p>
 </footer>
