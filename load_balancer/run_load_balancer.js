@@ -1,5 +1,6 @@
-const net = require('net')
 const constants = require('../utils/constants')
+const forward = require('http-forward')
+const http = require('http')
 
 try{
 	var name = process.argv[2]
@@ -25,38 +26,11 @@ for(i in nodes){
 	})
 }
 
-const server = net.createServer((sock) => {
-	var node = undefined
-	for(i in serverLoads){
-		if(node === undefined){
-			node = serverLoads[i]
-		}else{
-			if(node.currentLoad < serverLoads[i].currentLoad){
-				node = serverLoads[i]
-			}
-		}
-	}
-	console.log([node.port, node.ip])
-	if(node === undefined){
-		return
-	}
-	node.currentLoad += 1
-	node.connectionLog.push(sock.address())
-	var transitSocket = new net.Socket()
-	transitSocket.connect(node.port, node.ip, () => {
-		transitSocket.pipe(sock)
-		sock.pipe(transitSocket)
-	})
-	transitSocket.on('close', () => {
-		node.currentLoad -= 1
-	})
-}).on('error', (err) => {
-	console.log(err)
+var idx = -1
+const app = http.createServer((req, res) =>{
+	idx = (idx+1) % serverLoads.length
+	node = serverLoads[idx]
+	req.forward = { target: `http://${node.ip}:${node.port}` }
+	forward(req,res)
 })
-
-server.listen({
-	port: listenData.port,
-	host: listenData.ip
-}, () => {
-	console.log('opened load balancer', name, 'on', server.address());
-})
+app.listen(listenData.port)
