@@ -42,7 +42,7 @@ function importColumn(name, details, type, onSuccess, onError, translate = undef
 
 async function importValue(valueObj, onSuccess, onError) {
     await fetch(
-        '/values', {
+        '/values/administrative/values', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

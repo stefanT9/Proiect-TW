@@ -21,7 +21,7 @@ function addTableRow(rowData) {
 }
 
 async function getAvailableFields() {
-    const url = '/columns/administrative/columns'
+    const url = '/columns'
     openLoader()
     return await fetch(url)
         .then(data => {
