@@ -87,7 +87,7 @@ function buildLineGraph(context2D, dataset, label) {
     for (i in dataset) {
         labels.push(dataset[i].x)
     }
-    new Chart(context2D, {
+    return new Chart(context2D, {
         type: 'line',
         data: {
             labels: labels,
@@ -126,7 +126,7 @@ function buildLineGraph(context2D, dataset, label) {
 
 function buildScatterGraph(context2D, dataset, label) {
     console.log(dataset)
-    new Chart(context2D, {
+    return new Chart(context2D, {
         type: 'scatter',
         data: {
             datasets: dataObj[position - 1],
@@ -168,7 +168,7 @@ function buildBarGraph(context2D, dataset, label) {
     for (i in dataset) {
         labels.push(dataset[i].x)
     }
-    new Chart(context2D, {
+    return new Chart(context2D, {
         type: 'bar',
         data: {
             labels: labels,
@@ -213,7 +213,7 @@ function buildRadarGraph(context2D, dataset, label) {
         labels.push(dataset[i].x)
         values.push(dataset[i].y)
     }
-    new Chart(context2D, {
+    return new Chart(context2D, {
         type: 'radar',
         data: {
             labels: labels,
@@ -258,7 +258,7 @@ function buildDoughnutGraph(context2D, dataset, label) {
         labels.push(dataset[i].x)
         values.push(dataset[i].y)
     }
-    new Chart(context2D, {
+    return new Chart(context2D, {
         type: 'doughnut',
         data: {
             labels: labels,
@@ -303,7 +303,7 @@ function buildPieGraph(context2D, dataset, label) {
         labels.push(dataset[i].x)
         values.push(dataset[i].y)
     }
-    new Chart(context2D, {
+    return new Chart(context2D, {
         type: 'pie',
         data: {
             labels: labels,
@@ -348,7 +348,7 @@ function buildPolarGraph(context2D, dataset, label) {
         labels.push(dataset[i].x)
         values.push(dataset[i].y)
     }
-    new Chart(context2D, {
+    return new Chart(context2D, {
         type: 'polarArea',
         data: {
             labels: labels,
@@ -397,7 +397,7 @@ var chartBuilder = {
     scatter: buildScatterGraph
 }
 
-function getGraphController(chartCanvas, chartJsElement) {
+function getGraphController(chartCanvas, chartJsElement, xLabel, yLabel, chartType) {
     const graphController = document.createElement('div')
     const buttonsWrapper = document.createElement('div')
 
@@ -510,6 +510,29 @@ function getGraphController(chartCanvas, chartJsElement) {
         position = String(this.id).substring(3)
         position = parseInt(position)
         openPopUp()
+        document.getElementById("xOfGraph").setAttribute("disabled", "true")
+        for(option of document.getElementById("xOfGraph").getElementsByTagName('option')){
+            if(option.value === xLabel){
+                option.selected = 'selected'
+                break
+            }
+        }
+        
+        document.getElementById("yOfGraph").setAttribute("disabled", "true")
+        for(option of document.getElementById("yOfGraph").getElementsByTagName('option')){
+            if(option.value === yLabel){
+                option.selected = 'selected'
+                break
+            }
+        }
+
+        document.getElementById("typeOfGraph").setAttribute("disabled", "true")
+        for(option of document.getElementById("typeOfGraph").getElementsByTagName('option')){
+            if(option.value === chartType){
+                option.selected = 'selected'
+                break
+            }
+        }
     }
 
     return graphController
@@ -605,10 +628,22 @@ function addNewChart() {
 
         graphValues = Array.from(graphValues).filter(val => val.x.indexOf('undefined') === -1)
 
-        chartBuilder[chartType](chartCanvas.getContext('2d'), graphValues, xLabel + ' ' + yLabel)
+        xDetails = ""
+        yDetails = ""
+        for(field of availableFields){
+            if(field.name == xLabel){
+                xDetails = field.details
+            }
+            if(field.name == yLabel){
+                yDetails = field.details
+            }
+        }
+
+
+        jsChart = chartBuilder[chartType](chartCanvas.getContext('2d'), graphValues, xDetails + ' ' + yDetails)
             // buildPieGraph(chartCanvas.getContext('2d'), graphValues, xLabel+' '+yLabel)
 
-        if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas))
+        if (flag) document.getElementById('graphsSection').appendChild(getGraphController(chartCanvas, jsChart, xLabel, yLabel))
         position = undefined
         closePopUp()
     })
@@ -638,13 +673,21 @@ function openPopUp() {
     document.getElementById('searchFilters').disabled = false
 }
 
+function popupButton(){
+    position = undefined
+    document.getElementById("xOfGraph").removeAttribute("disabled")
+    document.getElementById("yOfGraph").removeAttribute("disabled")
+    console.log("BBBBBBBBBBBBBBB")
+    openPopUp()
+}
+
 function loadFields() {
     const selectors = document.getElementsByTagName('select')
     console.log(availableFields)
     for (const idx in availableFields) {
         const el = document.createElement('option')
         el.value = availableFields[idx].name
-        el.textContent = availableFields[idx].name
+        el.textContent = availableFields[idx].details
 
         selectors[0].appendChild(el)
         selectors[1].appendChild(el.cloneNode(true))
