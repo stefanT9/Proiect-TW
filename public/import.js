@@ -110,5 +110,13 @@ async function readFile(event) {
 }
 
 function importFile() {
-    document.getElementById('readFileId').click()
+    if(document.cookie.split('; ').filter(cookie=>cookie.search("token=") != -1).length === 0){
+        openLoginPopUp()
+    }else{
+        if(document.cookie.split('; ').filter(cookie=>cookie.search("token=") != -1)[0].split("=")[1].length === 0){
+            openLoginPopUp()
+        }else{
+            document.getElementById('readFileId').click()
+        }
+    }
 }
