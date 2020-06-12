@@ -28,11 +28,13 @@ module.exports.internalAuth = (req,res,next) => {
     res.end()
   }
 }
+
 module.exports.isAuth = (req, res, next) => {
   try {
     const url = req.url.split('?')[0]
-    if (url.includes('/crud')) {
+    if(req.url.includes('/administrative')) {
       try {
+        console.log(req.url)
         const token = req.headers.authorization.split('Bearer ')[1]
         var obj = jwt.verify(token, secret)
 

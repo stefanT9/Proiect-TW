@@ -15,15 +15,15 @@ router.get('/auth', async (req, res) => {
   res.end()
 })
 
-router.get('/users', userController.getAll)
-router.post('/users/', userController.postFunction)
+router.get('/users/administrative/users', userController.getAll)
+router.post('/users/administrative/users', userController.postFunction)
 router.post('/auth/login', authController.login)
 router.post('/auth/register', authController.register)
 
 
-router.delete('/users/:id', userController.deleteFunction)
-router.put('/users/:id', userController.putFunction)
-router.get('/users/:id', userController.getFunction)
+router.delete('/users/administrative/users/:id', userController.deleteFunction)
+router.put('/users/administrative/users/:id', userController.putFunction)
+router.get('/users/administrative/users/:id', userController.getFunction)
 
 
 module.exports.usersRouter = router
