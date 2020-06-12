@@ -4,12 +4,12 @@ const router = new Router()
 
 router.post('/values/find', valueController.filterResults)
 
-router.get('/administrative/values', valueController.getAll)
-router.post('/administrative/values/insert', valueController.insert)
+router.get('/values/administrative/values', valueController.getAll)
+router.post('/values/administrative/values/insert', valueController.insert)
 
-router.get('/administrative/values/:id', valueController.getFunction)
-router.post('/administrative/values', valueController.postFunction)
-router.put('/administrative/values/:id', valueController.putFunction)
-router.delete('/administrative/values/:id', valueController.deleteFunction)
+router.get('/values/administrative/values/:id', valueController.getFunction)
+router.post('/values/administrative/values', valueController.postFunction)
+router.put('/values/administrative/values/:id', valueController.putFunction)
+router.delete('/values/administrative/values/:id', valueController.deleteFunction)
 
 module.exports.valuesRouter = router

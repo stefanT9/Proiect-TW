@@ -50,7 +50,7 @@ module.exports.login = async (req, res) => {
 
 module.exports.register = async (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-
+  
   if (!req.body.email) {
     console.log('err')
     res.statusCode = 400
