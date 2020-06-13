@@ -26,11 +26,13 @@ for(i in nodes){
 	})
 }
 
-var idx = -1
+var idx = 0
 const app = http.createServer((req, res) =>{
 	idx = (idx+1) % serverLoads.length
+	
 	node = serverLoads[idx]
 	req.forward = { target: `http://${node.ip}:${node.port}` }
+	console.log(`forwarded to http://${node.ip}:${node.port}`)
 	forward(req,res)
 })
 app.listen(listenData.port)

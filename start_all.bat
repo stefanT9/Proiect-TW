@@ -9,8 +9,8 @@ start node microservices_deploy.js values 6002
 start node microservices_deploy.js resources 7002
 
 start node microservices_deploy.js users 4003
-start node microservices_deploy.js columns 6003
-start node microservices_deploy.js values 5003
+start node microservices_deploy.js columns 5003
+start node microservices_deploy.js values 6003
 start node microservices_deploy.js resources 7003
 
 start node load_balancer\\run_load_balancer.js users
