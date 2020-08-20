@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/stefanT9/Proiect-TW#readme",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "chartjs": "^0.3.24",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.6",
